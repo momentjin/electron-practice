@@ -1,38 +1,43 @@
 <template>
-  <v-app>
-    <v-toolbar app>
-      <v-toolbar-title class="headline text-uppercase">
-        <span>Vuetify</span>
-        <span class="font-weight-light">MATERIAL DESIGN</span>
-      </v-toolbar-title>
-      <v-spacer></v-spacer>
-      <v-btn
-        flat
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
-      >
-        <span class="mr-2">Latest Release</span>
-      </v-btn>
-    </v-toolbar>
-
-    <v-content>
-      <HelloWorld/>
-    </v-content>
-  </v-app>
+  <div class="app-container">
+    <div class="main-container">
+      <left-navigation />
+      <router-view></router-view>
+      <!-- <section class="contents"
+        <header>헤더</header>
+        <main>메인</main>
+      </section> -->
+    </div>
+  </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld'
+import LeftNavigation from "./components/LeftNavigation";
 
 export default {
-  name: 'App',
+  name: "App",
   components: {
-    HelloWorld
+    LeftNavigation
   },
-  data () {
-    return {
-      //
-    }
+  data() {
+    return {};
+  },
+  props: {
+    source: String
   }
-}
+};
 </script>
+
+<style>
+.app-container {
+  margin: 0px;
+  height: 100vh;
+}
+
+.main-container {
+  display: flex;
+  min-width: 300px;
+  min-height: 100%;
+}
+
+</style>

@@ -9,7 +9,6 @@ const onUnauthorized = () => {
 }
 
 const request = (method, url, data) => {
-    debugger;
     return axios({
             method,
             url: DOMAIN + url,
@@ -27,3 +26,8 @@ export const setAuthInHeader = token => {
     axios.defaults.headers.common['Authorization'] = token ? `${token}` : null;
 }
 
+export const coverletter = {
+    fetch(id) {
+        return id ? request('get', `/coverletters/${id}`) : request('get', '/coverletters')
+    }    
+}
