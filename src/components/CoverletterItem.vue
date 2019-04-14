@@ -23,13 +23,6 @@ export default {
     deadline: function() {
       return this.coverletter.deadline ? this.coverletter.deadline : "no deadline";
     }
-  },
-  methods: {
-    ...mapActions(["TOGGLE_DATA"]),
-    onClickCoverletter() {
-      const { id } = this.coverletter;
-      alert(id);
-    }
   }
 };
 </script>
