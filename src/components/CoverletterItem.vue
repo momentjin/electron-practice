@@ -29,17 +29,6 @@ export default {
     onClickCoverletter() {
       const { id } = this.coverletter;
       alert(id);
-    },
-    onClickIsApplication() {
-      const { isApplication } = this.coverletter;
-      const id = this.coverletter.id;
-
-      this.TOGGLE_DATA(id, !isApplication);
-    },
-    onClickIsPass() {
-      const { isPass } = this.coverletter;
-      alert(isPass);
-      // TODO : 상태값 변경 API 호출하기 (isApplication=True일때만)
     }
   }
 };
