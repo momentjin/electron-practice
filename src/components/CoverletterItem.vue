@@ -3,32 +3,40 @@
     <div class="coverletter_section1">
       <span>{{coverletter.companyName}}</span>
       <div>{{coverletter.applicationYear}} {{coverletter.applicationHalf}} {{ coverletter.applicationType}} {{coverletter.jobType}}</div>
-      <div>{{coverletter.isApplication ? '' : `서류마감일시 : ${coverletter.deadline}`}}</div>
+      <div>{{coverletter.isApplication ? '' : `서류마감일시 : ${deadline}`}}</div>
     </div>
     <div class="coverletter_section2">
-      <span @click.stop="onClickIsApplication">{{coverletter.isApplication ? '지원O' : '지원X' }}</span>
+      <span>{{coverletter.isApplication ? '지원O' : '지원X' }}</span>
+      &nbsp;
       <span
-        @click.stop="onClickIsPass"
       >{{coverletter.isApplication ? coverletter.isPass ? '합격' : '불합격' : '' }}</span>
     </div>
   </div>
 </template>
 
 <script>
-export default {
-  // TODO : props 데이터 필수값 및 기본값 셋팅하기
+import { mapActions } from "vuex";
+
+export default {  
   props: ["coverletter"],
+  computed: {
+    deadline: function() {
+      return this.coverletter.deadline ? this.coverletter.deadline : "no deadline";
+    }
+  },
   methods: {
+    ...mapActions(["TOGGLE_DATA"]),
     onClickCoverletter() {
       const { id } = this.coverletter;
       alert(id);
     },
     onClickIsApplication() {
       const { isApplication } = this.coverletter;
-      alert(isApplication);
-      // TODO : 상태값 변경 API 호출하기
+      const id = this.coverletter.id;
+
+      this.TOGGLE_DATA(id, !isApplication);
     },
-    onClickIsPass(e) {
+    onClickIsPass() {
       const { isPass } = this.coverletter;
       alert(isPass);
       // TODO : 상태값 변경 API 호출하기 (isApplication=True일때만)
@@ -61,5 +69,4 @@ export default {
   align-self: center;
   margin-left: auto;
 }
-
 </style>

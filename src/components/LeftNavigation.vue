@@ -13,7 +13,6 @@ export default {
   data() {
     return {
       menus: [
-        // { title: "Home", icon: "dashboard" },
         { title: "Coverletter", icon: "folder" }
       ]
     };
@@ -21,8 +20,6 @@ export default {
 
   methods: {
     onChangeView(e) {
-      debugger;
-      // TODO : li에만 이벤트가 전달될 수 있도록 이벤트 막기
       const menuName = e.target.title.toLowerCase();
       this.$router.push(`/${menuName}`);
     }
