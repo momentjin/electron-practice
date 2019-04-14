@@ -20,7 +20,7 @@ const state = {
             "jobType": "web developer",
             "isApplication": false,
             "isPass": false,
-            "deadline": "2019-01-28T23:00:00"
+            "deadline": null
         }
 
     ],
