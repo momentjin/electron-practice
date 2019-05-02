@@ -8,20 +8,26 @@
     <div class="coverletter_section2">
       <span>{{coverletter.isApplication ? '지원O' : '지원X' }}</span>
       &nbsp;
-      <span
-      >{{coverletter.isApplication ? coverletter.isPass ? '합격' : '불합격' : '' }}</span>
+      <span>{{coverletter.isApplication ? coverletter.isPass ? '합격' : '불합격' : '' }}</span>
     </div>
   </div>
 </template>
 
 <script>
-import { mapActions } from "vuex";
+// import electron from 'electron'
 
-export default {  
+export default {
   props: ["coverletter"],
   computed: {
     deadline: function() {
-      return this.coverletter.deadline ? this.coverletter.deadline : "no deadline";
+      return this.coverletter.deadline
+        ? this.coverletter.deadline
+        : "no deadline";
+    }
+  },
+  methods: {
+    onClickCoverletter() {
+      this.$router.push(`/coverletters/${this.coverletter.id}`);
     }
   }
 };
@@ -37,6 +43,7 @@ export default {
   border: 1px solid black;
   flex-grow: 1;
   margin: 1px;
+  overflow: hidden;
 }
 
 .coverletter_section1 {
