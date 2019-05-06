@@ -2,11 +2,7 @@
   <div class="app-container">
     <div class="main-container">
       <left-navigation />
-      <router-view></router-view>
-      <!-- <section class="contents"
-        <header>헤더</header>
-        <main>메인</main>
-      </section> -->
+      <router-view />
     </div>
   </div>
 </template>
@@ -18,7 +14,7 @@ export default {
   name: "App",
   components: {
     LeftNavigation
-  },
+  },  
   data() {
     return {};
   },

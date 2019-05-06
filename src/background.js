@@ -12,18 +12,28 @@ const isDevelopment = process.env.NODE_ENV !== 'production'
 let win
 
 // Standard scheme must be registered before the app is ready
-protocol.registerStandardSchemes(['app'], { secure: true })
-function createWindow () {
+protocol.registerStandardSchemes(['app'], {
+  secure: true
+})
+
+function createWindow() {
   // Create the browser window.
-  win = new BrowserWindow({ 
-      width: 800, height: 600, minHeight: 700, minWidth: 500
-    })
+  win = new BrowserWindow({
+    width: 800,
+    height: 600,
+    minHeight: 700,
+    minWidth: 500
+  })
+
+  // Hide the menu bar
+  win.setMenu(null);
 
   if (process.env.WEBPACK_DEV_SERVER_URL) {
     // Load the url of the dev server if in development mode
     win.loadURL(process.env.WEBPACK_DEV_SERVER_URL)
     if (!process.env.IS_TEST) win.webContents.openDevTools()
-  } else {
+  } 
+  else {
     createProtocol('app')
     // Load the index.html when not in development
     win.loadURL('app://./index.html')

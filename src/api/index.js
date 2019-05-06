@@ -30,12 +30,18 @@ export const setAuthInHeader = token => {
 
 export const coverletter = {
     fetch(id) {
+        debugger;
         return id ? request('get', `/coverletters/${id}`) : request('get', '/coverletters')
     },
-    updateToggleData(id, data) {
-        return request('put', `/coverletters/${id}`, data)
-    }
+    save(data) {
+        debugger;
+        return request('post', '/coverletters/', data)
+    },
+    update(data) {
+        debugger;
+        return request('put', `/coverletters/${data.id}`, data)
+    }    
 }
 
 // test
-setAuthInHeader('JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJuYW1lIjoidGVzdE5tIiwiaWQiOiJ0ZXN0SWQiLCJleHAiOjE1NTU4Mjg4NjF9.0PhfnCsg5-SWMpw4BmcF2EhH3wXqeG8qjv0iPW5Dm8Z_7bNHCK7qkZYrCJ0p6sm1F4uh_QUmGRdmPqQeoL_PDw');
+setAuthInHeader('JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJuYW1lIjoi7KeE7J6s7Ja4IiwiaWQiOiJzX3dsc3dvZGpzQG5hdmVyLmNvbSIsImV4cCI6MTU1NzkxNjU2OH0.HVtwzPegAUimTF-VhLx4E8H_y8oFSVfSyNAN3DYlYZkTkfGaWuVX5RclEM7ycfhePmj2z7x6iBpCx9F-RAo7Rg');

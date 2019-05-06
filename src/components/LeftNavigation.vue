@@ -13,7 +13,7 @@ export default {
   data() {
     return {
       menus: [
-        { title: "Coverletter", icon: "folder" }
+        { title: "Coverletters", icon: "folder" }
       ]
     };
   },
