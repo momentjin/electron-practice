@@ -2,13 +2,12 @@
   <div class="coverletter_container" @click.stop="onClickCoverletter">
     <div class="coverletter_section1">
       <span>{{coverletter.companyName}}</span>
-      <div>{{coverletter.applicationYear}} {{coverletter.applicationHalf}} {{ coverletter.applicationType}} {{coverletter.jobType}}</div>
-      <div>{{coverletter.isApplication ? '' : `서류마감일시 : ${deadline}`}}</div>
+      <div>{{coverletter.applicationYear}} | {{applicationHalf}} | {{applicationType}} | {{coverletter.jobType}}</div>
+      <div v-if="deadline"> {{deadline}} </div>
     </div>
     <div class="coverletter_section2">
-      <span>{{coverletter.isApplication ? '지원O' : '지원X' }}</span>
-      &nbsp;
-      <span>{{coverletter.isApplication ? coverletter.isPass ? '합격' : '불합격' : '' }}</span>
+      <span v-if="isPass"> {{isPass}} </span> 
+      <span v-else> {{isApplication}} </span>
     </div>
   </div>
 </template>
@@ -19,14 +18,48 @@
 export default {
   props: ["coverletter"],
   computed: {
+    applicationHalf: function() {
+      switch (this.coverletter.applicationHalf) {
+        case 0:
+          return '상반기';
+        case 1:
+          return '하반기';
+        default:
+          return '기타';
+      }
+    },
+    applicationType: function() {
+      switch (this.coverletter.applicationType) {
+        case 0:
+          return "인턴";
+        case 1:
+          return "신입";
+        case 2:
+          return "경력";
+        default:
+          return '기타';
+      }
+    },
+    isApplication: function() {
+      return this.coverletter.application ? '지원 완료' : '미지원';
+    },
+    isPass: function() {
+      if (!this.coverletter.application)
+        return;
+      
+      return this.coverletter.pass ? '합격' : '불합격';
+    },
     deadline: function() {
-      return this.coverletter.deadline
-        ? this.coverletter.deadline
-        : "no deadline";
+      // 미지원이거나 마감일 데이터가 없는 경우 
+      if (!this.coverletter.application || !this.coverletter.deadline) return;
+
+      const deadline = this.$moment(this.coverletter.deadline).format("YYYY년 MM월 DD일 HH시");
+      return `서류 마감 : ${deadline}`
     }
   },
   methods: {
     onClickCoverletter() {
+      // todo : 화면변경이 아닌, 새창 띄우기
       this.$router.push(`/coverletters/${this.coverletter.id}`);
     }
   }

@@ -32,8 +32,16 @@ export const coverletter = {
     fetch(id) {
         debugger;
         return id ? request('get', `/coverletters/${id}`) : request('get', '/coverletters')
+    },
+    save(data) {
+        debugger;
+        return request('post', '/coverletters/', data)
+    },
+    update(data) {
+        debugger;
+        return request('put', `/coverletters/${data.id}`, data)
     }    
 }
 
 // test
-setAuthInHeader('JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJuYW1lIjoidGVzdE5tIiwiaWQiOiJ0ZXN0SWQiLCJleHAiOjE1NTcyMDYzMzJ9.WmGt2wzguFSCSOaPO5kmgGYYA8EBYLLINGy331XaoN1jNh9r6ay6IMa41yHUHbtmlbCpJSPytiNq3ezavw7nHA');
+setAuthInHeader('JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJuYW1lIjoi7KeE7J6s7Ja4IiwiaWQiOiJzX3dsc3dvZGpzQG5hdmVyLmNvbSIsImV4cCI6MTU1NzkxNjU2OH0.HVtwzPegAUimTF-VhLx4E8H_y8oFSVfSyNAN3DYlYZkTkfGaWuVX5RclEM7ycfhePmj2z7x6iBpCx9F-RAo7Rg');

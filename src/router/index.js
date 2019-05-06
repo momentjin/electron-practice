@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Coverletters from '../views/Coverletters.vue'
+import CoverletterList from '../views/CoverletterList.vue'
 import CoverletterView from '../views/CoverletterView.vue'
 
 Vue.use(Router)
@@ -11,13 +11,11 @@ export default new Router({
 	routes: [
 		{
 			path: '/coverletters/:cid',
-			name: 'coverletter_view',
 			component: CoverletterView,
 		},
 		{
 			path: '/coverletters',
-			name: 'coverletters',
-			component: Coverletters,
+			component: CoverletterList,
 		},
 	],
 });

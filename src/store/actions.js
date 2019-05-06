@@ -7,7 +7,20 @@ const actions = {
   },
   FETCH_COVERLETTER({ commit }, id) {
     return api.coverletter.fetch(id)
-      .then(data => commit('SET_COVERLETTER', data));
+      .then(data => {
+        debugger;
+        commit('SET_COVERLETTER', data)
+      });
+  },
+  SAVE_COVERLETTER({ commit }, data) {
+    return api.coverletter.save(data)
+  },
+  UPDATE_COVERLETTER({ commit }, data) {
+    debugger;
+    return api.coverletter.update(data).then(response => {
+      debugger;
+      return response
+    });
   }
 }
 
