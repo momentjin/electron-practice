@@ -30,16 +30,16 @@ export const setAuthInHeader = token => {
 
 export const coverletter = {
     fetch(id) {
-        debugger;
         return id ? request('get', `/coverletters/${id}`) : request('get', '/coverletters')
     },
     save(data) {
-        debugger;
         return request('post', '/coverletters/', data)
     },
     update(data) {
-        debugger;
         return request('put', `/coverletters/${data.id}`, data)
+    },
+    delete(id) {
+        return request('delete', `/coverletters/${id}`)
     }    
 }
 

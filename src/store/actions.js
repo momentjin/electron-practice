@@ -21,6 +21,9 @@ const actions = {
       debugger;
       return response
     });
+  },
+  DELETE_COVERLETTER({ commit }, id) {
+    return api.coverletter.delete(id);
   }
 }
 
