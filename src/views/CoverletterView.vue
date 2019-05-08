@@ -28,7 +28,7 @@
 
     <!-- 버튼 모음 -->
     <button @click="saveCoverletter"> 저장 ㅋ</button>
-
+    <button @click="deleteCoverletter"> 삭제 </button>
   </div>
 </template>
 
@@ -75,14 +75,16 @@ export default {
     }
   },
   methods: {
-    ...mapActions(["FETCH_COVERLETTER", "UPDATE_COVERLETTER"]),
+    ...mapActions(["FETCH_COVERLETTER", "UPDATE_COVERLETTER", "DELETE_COVERLETTER"]),
     getCoverletter() {
       const coverletterId = this.$route.params.cid;
-      debugger;
-      this.FETCH_COVERLETTER(coverletterId);
+      this.FETCH_COVERLETTER(coverletterId)
+        .catch(e => {
+          alert(e.data.message);
+          this.$router.push('/coverletters');
+        });
     },
     updateQuestion(data) {
-      debugger;
       this.$store.commit("SET_QUESTION", {
         id: data.id,
         title: data.title ? data.title.target.value : null,
@@ -90,10 +92,17 @@ export default {
       })
     },
     saveCoverletter() {
-      debugger;
       this.UPDATE_COVERLETTER(this.coverletter)
-        .then(_=> this.$router.push('/coverletters'))
-        .catch(e => alert('오류'));
+        .then(() => this.$router.push('/coverletters'));
+    },
+    deleteCoverletter() {
+      if (!confirm("정말 삭제하시겠습니까?"))
+        return;
+
+      const coverletterId = this.$route.params.cid;
+
+      this.DELETE_COVERLETTER(coverletterId)
+        .then(() => this.$router.push('/coverletters'));
     }
   }
 };
