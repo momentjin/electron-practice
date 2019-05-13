@@ -2,7 +2,7 @@
   <div class="c-view">
     <div class="c-header">
       <h2>자기소개서</h2>
-      <v-icon class="func"> playlist_add </v-icon>
+      <v-icon class="func" @click="onClickAddBtn"> playlist_add </v-icon>
     </div>
     <div class="search">
       <input type="text" placeholder="자기소개서 검색" >
@@ -18,6 +18,11 @@ import CoverletterList from "../components/CoverletterList.vue";
 export default {
   components: {
     CoverletterList
+  },
+  methods: {
+    onClickAddBtn() {
+      this.$router.push('/coverletters/new');
+    }
   }
 };
 </script>
@@ -28,7 +33,6 @@ export default {
   flex-grow: 1;
   margin: 1px;
 }
-
 
 .search {
   align-items: center;
@@ -43,6 +47,5 @@ export default {
 .func {
   margin-left: auto;
 }
-
 </style>
 

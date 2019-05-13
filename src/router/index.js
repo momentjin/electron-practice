@@ -14,6 +14,10 @@ export default new Router({
 			component: CoverletterView,
 		},
 		{
+			path: 'coverletters/new',
+			component: CoverletterView,
+		},
+		{
 			path: '/coverletters',
 			component: CoverletterList,
 		},
