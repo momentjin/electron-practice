@@ -1,7 +1,7 @@
 <template>
   <div class="my-container">
     <coverletter-item v-for="item in coverletters" :key="item.id" :coverletter="item" />
-    <div v-if="!coverletters.length">여기를 눌러서 자기소개서를 작성해보세요!</div>
+    <div v-if="!coverletters.length" @click="this.$router.push('/coverletters/new')">여기를 눌러서 자기소개서를 작성해보세요!</div>
   </div>
 </template>
 

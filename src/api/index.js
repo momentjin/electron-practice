@@ -32,7 +32,8 @@ export const coverletter = {
     fetch(id) {
         return id ? request('get', `/coverletters/${id}`) : request('get', '/coverletters')
     },
-    save(data) {
+    create(data) {
+        debugger;
         return request('post', '/coverletters/', data)
     },
     update(data) {

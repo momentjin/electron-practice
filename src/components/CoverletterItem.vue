@@ -2,7 +2,7 @@
   <div class="coverletter_container" @click.stop="onClickCoverletter">
     <div class="coverletter_section1">
       <span>{{coverletter.companyName}}</span>
-      <div>{{coverletter.applicationYear}} | {{applicationHalf}} | {{applicationType}} | {{coverletter.jobType}}</div>
+      <div>{{coverletter.applicationYear}} &nbsp; {{applicationHalf}} | {{applicationType}} | {{coverletter.jobType}}</div>
       <div v-if="deadline"> {{deadline}} </div>
     </div>
     <div class="coverletter_section2">

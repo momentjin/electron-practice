@@ -1,7 +1,7 @@
 <template>
-  <div>
-    <!-- 자기소개서 지원 정보 (회사명, 제출, 합격 여부 등) -->
-    <!-- 마찬가지로 수정할 수 있어야 함. -->
+  <div v-if="loading"> 로딩 중입니다. </div>
+  <div v-else>
+    <!-- 자기소개서 지원 정보 -->
     <div class="coverletter_info">
       <v-text-field v-model="companyName" label="기업명" required/>
       <v-text-field v-model="applicationYear" label="지원연도" required />
@@ -26,17 +26,32 @@
       </div>
     </div>
 
-    <!-- 버튼 모음 -->
-    <button @click="saveCoverletter"> 저장 ㅋ</button>
+    <!-- 버튼 -->
+    <button @click="edit ? updateCoverletter() : createCoverletter()"> {{edit ? '수정' : '저장'}} </button> &nbsp; 
     <button @click="deleteCoverletter"> 삭제 </button>
   </div>
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
+import { mapState, mapActions, mapMutations } from "vuex";
 
 export default {
+  data() {
+    return {
+      loading: false,
+      edit: false
+    }
+  },
   created() {
+    // 신규일 때
+    if (this.$route.params.cid == 'new') {
+      this.edit = false;
+      this.INIT_COVERLETTER();
+      return;
+    }
+
+    // 디테일 조회일 때
+    this.edit = true;
     this.getCoverletter();
   },
   computed: {
@@ -75,14 +90,17 @@ export default {
     }
   },
   methods: {
-    ...mapActions(["FETCH_COVERLETTER", "UPDATE_COVERLETTER", "DELETE_COVERLETTER"]),
+    ...mapMutations(["INIT_COVERLETTER"]),
+    ...mapActions(["FETCH_COVERLETTER", "CREATE_COVERLETTER", "UPDATE_COVERLETTER", "DELETE_COVERLETTER"]),
     getCoverletter() {
       const coverletterId = this.$route.params.cid;
+      this.loading = true;
       this.FETCH_COVERLETTER(coverletterId)
         .catch(e => {
-          alert(e.data.message);
+          alert(e.data.message || 'server errror!');
           this.$router.push('/coverletters');
-        });
+        })
+        .finally(()=> this.loading = false);
     },
     updateQuestion(data) {
       this.$store.commit("SET_QUESTION", {
@@ -91,9 +109,23 @@ export default {
         contents: data.contents
       })
     },
-    saveCoverletter() {
+    updateCoverletter() {
       this.UPDATE_COVERLETTER(this.coverletter)
-        .then(() => this.$router.push('/coverletters'));
+        .then(() => {
+          alert('자기소개서가 수정되었습니다.')
+          this.$router.push('/coverletters')
+        })
+        .catch((e) => {
+          alert(e.data.message);
+        });
+    },
+    createCoverletter() {
+      this.CREATE_COVERLETTER(this.coverletter)
+        .then(()=> {
+          alert('자기소개서가 저장되었습니다.');
+          this.$router.push('/coverletters');
+        })
+        .catch(()=>alert('오류'));
     },
     deleteCoverletter() {
       if (!confirm("정말 삭제하시겠습니까?"))
