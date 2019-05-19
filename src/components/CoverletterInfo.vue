@@ -1,7 +1,7 @@
 <template>
   <div class="view_wrapper coverletter_info">
     <h2>{{ companyName }} 자기소개서</h2>
-    <v-text-field v-model="companyName" label="기업명" :rules="[v => !!value || '기업명을 입력해주세요']"/>
+    <v-text-field v-model="companyName" label="기업명" :rules="[v => !!v || '기업명을 입력해주세요']"/>
     <v-text-field v-model="applicationYear" label="지원연도" :rules="applicationYearRules"/>
     <v-select
       v-model="applicationType"
