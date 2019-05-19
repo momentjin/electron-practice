@@ -12,7 +12,7 @@
 
 <script>
 export default {
-  props: ["question", "removeQuestion", "idx"],
+  props: ["question", "removeQuestion", "idx", "coverletterId"],
   computed: {
     title: {
       get() {
@@ -39,7 +39,7 @@ export default {
       debugger;
 
       this.$store.commit("SET_QUESTION", {
-        cid: this.$route.params.cid,
+        cid: this.coverletterId,
         pid: this.idx,
         title: data.title || this.title,
         contents: data.contents || this.contents

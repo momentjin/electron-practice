@@ -49,8 +49,8 @@ export default {
       ],
       isApplications: [
         { key: -1, value: "대기" },
-        { key: true, value: "미지원" },
-        { key: false, value: "지원완료" }
+        { key: false, value: "미지원" },
+        { key: true, value: "지원완료" }
       ],
       isPasses: [
         { key: -1, value: "대기" },
@@ -59,15 +59,16 @@ export default {
       ]
     };
   },
-  methods: {},
   computed: {
     companyName: {
       get() {
-        debugger;
         return this.coverletter.companyName;
       },
       set(value) {
-        return this.$store.commit("SET_COMPANY_NAME", value);
+        return this.$store.commit("SET_COMPANY_NAME", {
+          cid: this.coverletter.id,
+          value
+        });
       }
     },
     applicationYear: {
@@ -75,7 +76,10 @@ export default {
         return this.coverletter.applicationYear;
       },
       set(value) {
-        this.$store.commit("SET_APPLICATION_YEAR", value);
+        this.$store.commit("SET_APPLICATION_YEAR", {
+          cid: this.coverletter.id,
+          value
+        });
       }
     },
     applicationType: {
@@ -83,7 +87,10 @@ export default {
         return this.coverletter.applicationType;
       },
       set(value) {
-        this.$store.commit("SET_APPLICATION_TYPE", value);
+        this.$store.commit("SET_APPLICATION_TYPE", {
+          cid: this.coverletter.id,
+          value
+        });
       }
     },
     applicationHalf: {
@@ -91,7 +98,10 @@ export default {
         return this.coverletter.applicationHalf;
       },
       set(value) {
-        this.$store.commit("SET_APPLICATION_HALF", value);
+        this.$store.commit("SET_APPLICATION_HALF", {
+          cid: this.coverletter.id,
+          value
+        });
       }
     },
     isApplication: {
@@ -99,7 +109,10 @@ export default {
         return this.coverletter.application;
       },
       set(value) {
-        this.$store.commit("SET_IS_APPLICATION", value);
+        this.$store.commit("SET_IS_APPLICATION", {
+          cid: this.coverletter.id,
+          value
+        });
       }
     },
     isPass: {
@@ -107,7 +120,7 @@ export default {
         return this.coverletter.pass;
       },
       set(value) {
-        this.$store.commit("SET_IS_PASS", value);
+        this.$store.commit("SET_IS_PASS", { cid: this.coverletter.id, value });
       }
     },
     jobType: {
@@ -115,7 +128,7 @@ export default {
         return this.coverletter.jobType;
       },
       set(value) {
-        this.$store.commit("SET_JOB_TYPE", value);
+        this.$store.commit("SET_JOB_TYPE", { cid: this.coverletter.id, value });
       }
     },
     deadline: {
@@ -123,7 +136,7 @@ export default {
         return this.coverletter.deadline;
       },
       set(value) {
-        this.$store.commit("SET_DEADLINE", value);
+        this.$store.commit("SET_DEADLINE", { cid: this.coverletter.id, value });
       }
     }
   }

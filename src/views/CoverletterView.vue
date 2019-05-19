@@ -2,14 +2,14 @@
   <div v-if="loading">로딩 중입니다.</div>
   <div v-else>
     <coverletter-info :coverletter="coverletter"/>
-    <question-list :questions="coverletter.questions"/>
+    <question-list :questions="coverletter.questions" :coverletterId="coverletter.id"/>
     <v-btn @click="deleteCoverletter"> 삭제 </v-btn>
     <v-btn @click="edit ? updateCoverletter() : createCoverletter()" color="secondary"> 저장 </v-btn>
   </div>
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
+import { mapActions, mapGetters, mapMutations } from "vuex";
 import CoverletterInfo from '../components/CoverletterInfo.vue';
 import QuestionList from '../components/QuestionList.vue';
 
@@ -24,6 +24,7 @@ export default {
   created() {
      if (this.$route.params.cid == 'new') {
       this.edit = false;
+      this.INIT_COVERLETTER();
       return;
     }
 
@@ -33,11 +34,13 @@ export default {
   computed: {
     ...mapGetters(["findCoverletterById"]),
     coverletter() {
-      debugger;
-      return this.findCoverletterById(this.$route.params.cid);
+      return this.findCoverletterById(this.edit ? this.$route.params.cid : 0);
     }
   },
   methods: {
+    ...mapMutations([
+      "INIT_COVERLETTER"
+    ]),
     ...mapActions([
       "FETCH_COVERLETTER",
       "CREATE_COVERLETTER",
@@ -59,13 +62,12 @@ export default {
         .finally(() => (this.loading = false));
     },
     createCoverletter() {
-      debugger;
-      // this.CREATE_COVERLETTER(this.coverletter)
-      //   .then(() => {
-      //     alert("자기소개서가 저장되었습니다.");
-      //     this.$router.push("/coverletters");
-      //   })
-      //   .catch(() => alert("오류"));
+      this.CREATE_COVERLETTER(this.coverletter)
+        .then(() => {
+          alert("자기소개서가 저장되었습니다.");
+          this.$router.push("/coverletters");
+        })
+        .catch(() => alert("오류"));
     },
     updateCoverletter() {
       debugger;
