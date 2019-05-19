@@ -1,10 +1,20 @@
 <template>
-  <div class="app-container">
-    <div class="main-container">
-      <left-navigation />
-      <router-view />
+  <v-app>
+    <div class="app-container">
+      <div class="main-container">
+        <nav>
+          <left-navigation/>
+        </nav>
+        <v-content>
+          <v-container fluid class="pa-0">
+            <main>
+              <router-view/>
+            </main>
+          </v-container>
+        </v-content>
+      </div>
     </div>
-  </div>
+  </v-app>
 </template>
 
 <script>
@@ -14,7 +24,7 @@ export default {
   name: "App",
   components: {
     LeftNavigation
-  },  
+  },
   data() {
     return {};
   },
@@ -36,4 +46,7 @@ export default {
   min-height: 100%;
 }
 
+main {
+  flex-grow: 1;
+}
 </style>

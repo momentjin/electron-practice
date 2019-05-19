@@ -1,11 +1,11 @@
 <template>
   <div class="coverletter_container" @click.stop="onClickCoverletter">
-    <div class="coverletter_section1">
+    <div class="coverletter_wrapper coverletter_title">
       <span>{{coverletter.companyName}}</span>
-      <div>{{coverletter.applicationYear}} &nbsp; {{applicationHalf}} | {{applicationType}} | {{coverletter.jobType}}</div>
+      <div>{{coverletter.applicationYear}} | {{applicationHalf}} | {{applicationType}} | {{coverletter.jobType}}</div>
       <div v-if="deadline"> {{deadline}} </div>
     </div>
-    <div class="coverletter_section2">
+    <div class="coverletter_wrapper coverletter_etc">
       <span v-if="isPass"> {{isPass}} </span> 
       <span v-else> {{isApplication}} </span>
     </div>
@@ -79,13 +79,12 @@ export default {
   overflow: hidden;
 }
 
-.coverletter_section1 {
+.coverletter_wrapper {
   margin: 1px;
   border: 1px solid black;
-  /* font-size: 20px; */
 }
 
-.coverletter_section2 {
+.coverletter_etc {
   margin: 1px;
   border: 1px solid black;
   align-self: center;
