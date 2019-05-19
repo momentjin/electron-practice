@@ -1,7 +1,8 @@
 const state = {
     token: null,
     coverletters: [],
-    coverletter: []
+    coverletter: [],
+    coverletterNewIndex: -1
 };
 
 export default state;

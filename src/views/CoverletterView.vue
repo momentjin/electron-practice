@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters, mapMutations } from "vuex";
+import { mapActions, mapGetters, mapMutations, mapState } from "vuex";
 import CoverletterInfo from '../components/CoverletterInfo.vue';
 import QuestionList from '../components/QuestionList.vue';
 
@@ -32,9 +32,10 @@ export default {
     this.getCoverletter();
   },
   computed: {
+    ...mapState(["coverletterNewIndex"]),
     ...mapGetters(["findCoverletterById"]),
     coverletter() {
-      return this.findCoverletterById(this.edit ? this.$route.params.cid : 0);
+      return this.findCoverletterById(this.edit ? this.$route.params.cid : this.coverletterNewIndex);
     }
   },
   methods: {

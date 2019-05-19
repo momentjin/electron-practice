@@ -30,7 +30,7 @@ const mutations = {
         getCoverletter(state, cid).deadline = value;
     },
     SET_QUESTION(state, { cid, pid, title, contents }) {
-        const coverletter = state.coverletter.find(c => c.id == cid);
+        const coverletter = getCoverletter(state, cid);
         if (!coverletter)
             throw `could not found coverletter (${cid})`;
 
@@ -42,11 +42,14 @@ const mutations = {
         if (contents) findQuestion.contents = contents;
     },
     DELETE_QUESTION(state, { cid, qid }) {
-        state.coverletter.find(c => c.id == cid).questions = state.coverletter.find(c => c.id == cid).questions.filter((q, index) => index != qid);
+        const coverletter = getCoverletter(state, cid);
+        coverletter.questions = coverletter.questions.filter((q, index) => index != qid);
     },
     INIT_COVERLETTER(state) {
-        state.coverletter.push({
-            id: 0,
+        state.coverletterNewIndex -= 1;
+
+        const newCoverletterTemplate = {
+            id: state.coverletterNewIndex,
             companyName: '',
             applicationYear: 2019,
             applicationHalf: 0,
@@ -56,7 +59,9 @@ const mutations = {
             application: false,
             pass: false,
             questions: []
-        });
+        };
+
+        state.coverletter.push(newCoverletterTemplate);
     },
     ADD_QUESTION_FORM(state, { cid }) {
         state.coverletter.find(c => c.id == cid).questions.push(
