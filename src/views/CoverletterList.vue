@@ -7,7 +7,6 @@
     <div class="search">
       <input type="text" placeholder="자기소개서 검색" >
     </div>
-    <!-- TODO : Search 컴포넌트 추가 -->
     <coverletter-list/>
   </div>
 </template>
@@ -30,7 +29,6 @@ export default {
 <style>
 .c-view {
   border:1px solid black;
-  flex-grow: 1;
   margin: 1px;
 }
 

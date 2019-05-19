@@ -29,7 +29,7 @@ export default {
 
 <style>
 nav {
-  margin: 1px;
+  /* margin: 1px; */
   border: 1px solid black;
   display: flex;
   justify-content: center;

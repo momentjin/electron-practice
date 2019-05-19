@@ -3,57 +3,78 @@ const mutations = {
         state.coverletters = coverletters;
     },
     SET_COVERLETTER(state, coverletter) {
-        state.coverletter = coverletter;
+        state.coverletter.push(coverletter);
     },
-    SET_COMPANY_NAME(state, value) {
-        state.coverletter.companyName = value;
+    SET_COMPANY_NAME(state, { cid, value }) {
+        getCoverletter(state, cid).companyName = value;
     },
-    SET_APPLICATION_YEAR(state, value) {
-        state.coverletter.applicationYear = value;
+    SET_APPLICATION_YEAR(state, { cid, value }) {
+        getCoverletter(state, cid).applicationYear = value;
     },
-    SET_APPLICATION_TYPE(state, value) {
-        state.coverletter.applicationType = value;
+    SET_APPLICATION_TYPE(state, { cid, value }) {
+        getCoverletter(state, cid).applicationType = value;
     },
-    SET_APPLICATION_HALF(state, value) {
-        state.coverletter.applicationHalf = value;
+    SET_APPLICATION_HALF(state, { cid, value }) {
+        getCoverletter(state, cid).applicationHalf = value;
     },
-    SET_IS_APPLICATION(state, value) {
-        state.coverletter.application = value;
+    SET_IS_APPLICATION(state, { cid, value }) {
+        getCoverletter(state, cid).application = value;
     },
-    SET_IS_PASS(state, value) {
-        state.coverletter.pass = value;
+    SET_IS_PASS(state, { cid, value }) {
+        getCoverletter(state, cid).pass = value;
     },
-    SET_JOB_TYPE(state, value) {
-        state.coverletter.jobType = value;
+    SET_JOB_TYPE(state, { cid, value }) {
+        getCoverletter(state, cid).jobType = value;
     },
-    SET_DEADLINE(state, value) {
-        state.coverletter.deadline = value;
+    SET_DEADLINE(state, { cid, value }) {
+        getCoverletter(state, cid).deadline = value;
     },
-    SET_QUESTION(state, {id, title, contents}) {
-      debugger;
-        var findQuestion = state.coverletter.questions.find(q=>q.id == id)
-        if (!findQuestion)
-            throw 'not found question id : ' + id;
+    SET_QUESTION(state, { cid, pid, title, contents }) {
+        const coverletter = getCoverletter(state, cid);
+        if (!coverletter)
+            throw `could not found coverletter (${cid})`;
 
-        if (title)
-            findQuestion.title = title;
-        if (contents)
-            findQuestion.contents = contents;
+        var findQuestion = coverletter.questions.find((q, index) => index == pid)
+        if (!findQuestion)
+            throw `could not found question (${pid})`;
+
+        if (title) findQuestion.title = title;
+        if (contents) findQuestion.contents = contents;
+    },
+    DELETE_QUESTION(state, { cid, qid }) {
+        const coverletter = getCoverletter(state, cid);
+        coverletter.questions = coverletter.questions.filter((q, index) => index != qid);
     },
     INIT_COVERLETTER(state) {
-        state.coverletter = {
-            "id": 0,
-            "companyName": "",
-            "applicationYear": new Date().getFullYear(),
-            "applicationType": 0,
-            "applicationHalf": 0,
-            "application": false,
-            "pass": false,
-            "jobType": "",
-            "deadline": "",
-            "questions": []
+        state.coverletterNewIndex -= 1;
+
+        const newCoverletterTemplate = {
+            id: state.coverletterNewIndex,
+            companyName: '',
+            applicationYear: 2019,
+            applicationHalf: 0,
+            applicationType: 0,
+            jobType: '',
+            deadline: '',
+            application: false,
+            pass: false,
+            questions: []
         };
+
+        state.coverletter.push(newCoverletterTemplate);
+    },
+    ADD_QUESTION_FORM(state, { cid }) {
+        state.coverletter.find(c => c.id == cid).questions.push(
+            { title: "", contents: "", hashtags: [] }
+        );
     }
+};
+
+function getCoverletter(state, cid) {
+    const findCoverletter = state.coverletter.find(c => c.id == cid);
+    if (!findCoverletter) throw `could not found coverletter ${cid}`;
+
+    return findCoverletter;
 }
 
 export default mutations;
