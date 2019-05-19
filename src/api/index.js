@@ -33,7 +33,6 @@ export const coverletter = {
         return id ? request('get', `/coverletters/${id}`) : request('get', '/coverletters')
     },
     create(data) {
-        debugger;
         return request('post', '/coverletters/', data)
     },
     update(data) {

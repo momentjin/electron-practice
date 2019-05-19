@@ -36,8 +36,6 @@ export default {
       this.removeQuestion(this.idx);
     },
     updateQuestion(data) {
-      debugger;
-
       this.$store.commit("SET_QUESTION", {
         cid: this.coverletterId,
         pid: this.idx,
