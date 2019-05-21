@@ -17,6 +17,10 @@ const actions = {
   },
   DELETE_COVERLETTER(_, id) {
     return api.coverletter.delete(id);
+  },
+  FETCH_HASHTAGS({ commit }) {
+    return api.hashtag.fetch()
+      .then(data => commit('SET_HASHTAGS', data));
   }
 }
 

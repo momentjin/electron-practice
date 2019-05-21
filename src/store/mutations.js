@@ -67,6 +67,9 @@ const mutations = {
         state.coverletter.find(c => c.id == cid).questions.push(
             { title: "", contents: "", hashtags: [] }
         );
+    },
+    SET_HASHTAGS(state, hashtags) {
+        state.hashtags = hashtags;
     }
 };
 

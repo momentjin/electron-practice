@@ -19,6 +19,7 @@
 
 <script>
 import LeftNavigation from "./components/LeftNavigation";
+import { mapActions } from 'vuex';
 
 export default {
   name: "App",
@@ -28,8 +29,14 @@ export default {
   data() {
     return {};
   },
+  created() {
+    this.FETCH_HASHTAGS();
+  },
   props: {
     source: String
+  },
+  methods: {
+    ...mapActions(["FETCH_HASHTAGS"]),
   }
 };
 </script>

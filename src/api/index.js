@@ -43,5 +43,11 @@ export const coverletter = {
     }    
 }
 
+export const hashtag = {
+    fetch() {
+        return request('get', `/hashtags`)
+    }
+}
+
 // test
 setAuthInHeader('JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJuYW1lIjoi7KeE7J6s7Ja4IiwiaWQiOiJzX3dsc3dvZGpzQG5hdmVyLmNvbSIsImV4cCI6MTU1ODg4MDExMn0.KpmFcABYhThBOsH7GwVpMymDyRFh-uv8DZbqdCn46NEla84XycaB33UuR3yOkzZCz5s3RwKKZCwFB0hZC7clAw');
