@@ -70,6 +70,11 @@ const mutations = {
     },
     SET_HASHTAGS(state, hashtags) {
         state.hashtags = hashtags;
+    },
+    SET_HASHTAGS_IN_QUESTION(state, {cid, qid, hashtags}) {
+        const coverletter = getCoverletter(state, cid);
+        const question = coverletter.questions.find((q,index)=>index == qid);
+        question.hashtags = hashtags;
     }
 };
 
