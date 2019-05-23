@@ -3,29 +3,27 @@
     <div class="coverletter_wrapper coverletter_title">
       <span>{{coverletter.companyName}}</span>
       <div>{{coverletter.applicationYear}} | {{applicationHalf}} | {{applicationType}} | {{coverletter.jobType}}</div>
-      <div v-if="deadline"> {{deadline}} </div>
+      <div v-if="deadline">{{deadline}}</div>
     </div>
     <div class="coverletter_wrapper coverletter_etc">
-      <span v-if="isPass"> {{isPass}} </span> 
-      <span v-else> {{isApplication}} </span>
+      <span v-if="isPass">{{isPass}}</span>
+      <span v-else>{{isApplication}}</span>
     </div>
   </div>
 </template>
 
 <script>
-// import electron from 'electron'
-
 export default {
   props: ["coverletter"],
   computed: {
     applicationHalf: function() {
       switch (this.coverletter.applicationHalf) {
         case 0:
-          return '상반기';
+          return "상반기";
         case 1:
-          return '하반기';
+          return "하반기";
         default:
-          return '기타';
+          return "기타";
       }
     },
     applicationType: function() {
@@ -37,30 +35,34 @@ export default {
         case 2:
           return "경력";
         default:
-          return '기타';
+          return "기타";
       }
     },
     isApplication: function() {
-      return this.coverletter.application ? '지원 완료' : '미지원';
+      return this.coverletter.application ? "지원 완료" : "미지원";
     },
     isPass: function() {
-      if (!this.coverletter.application)
-        return;
-      
-      return this.coverletter.pass ? '합격' : '불합격';
+      if (!this.coverletter.application) return;
+
+      return this.coverletter.pass ? "합격" : "불합격";
     },
     deadline: function() {
-      // 미지원이거나 마감일 데이터가 없는 경우 
+      // 미지원이거나 마감일 데이터가 없는 경우
       if (!this.coverletter.application || !this.coverletter.deadline) return;
 
-      const deadline = this.$moment(this.coverletter.deadline).format("YYYY년 MM월 DD일 HH시");
-      return `서류 마감 : ${deadline}`
+      const deadline = this.$moment(this.coverletter.deadline).format(
+        "YYYY년 MM월 DD일 HH시"
+      );
+      return `서류 마감 : ${deadline}`;
     }
   },
   methods: {
     onClickCoverletter() {
-      // todo : 화면변경이 아닌, 새창 띄우기
-      this.$router.push(`/coverletters/${this.coverletter.id}`);
+      const url = `/coverletters/${this.coverletter.id}`;
+      const windowName = `coverletter${this.coverletter.id}`;
+      const windowOptions = 'width=500,height=700';
+
+      window.open(url, windowName, windowOptions);
     }
   }
 };
