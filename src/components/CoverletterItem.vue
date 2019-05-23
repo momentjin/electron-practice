@@ -50,8 +50,8 @@ export default {
       return this.coverletter.pass ? '합격' : '불합격';
     },
     deadline: function() {
-      // 미지원이거나 마감일 데이터가 없는 경우 
-      if (!this.coverletter.application || !this.coverletter.deadline) return;
+      // 지원했거나 마감일 데이터가 없는 경우 
+      if (this.coverletter.application || !this.coverletter.deadline) return;
 
       const deadline = this.$moment(this.coverletter.deadline).format("YYYY년 MM월 DD일 HH시");
       return `서류 마감 : ${deadline}`

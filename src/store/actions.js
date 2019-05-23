@@ -1,9 +1,10 @@
 import * as api from '../api'
 
 const actions = {
-  FETCH_COVERLETTERS({ commit }) {
+  FETCH_COVERLETTERS({ dispatch, commit }) {
     return api.coverletter.fetch()
-      .then(data => commit('SET_COVERLETTERS', data.coverletters));
+      .then(data => commit('SET_COVERLETTERS', data.coverletters))
+      .then(() => dispatch('FETCH_HASHTAGS'));
   },
   FETCH_COVERLETTER({ commit }, id) {
     return api.coverletter.fetch(id)

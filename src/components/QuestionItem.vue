@@ -1,6 +1,6 @@
 <template>
   <div>
-    <!-- 여기는 본인이 갖고 있는 모든 해시태그여야 함ㄴ -->
+    <!-- TODO : 읽기모드일 때는 단순히 chip만 보여주기 -->
     <div>
       <v-combobox
         v-model="selectedHashtags"
@@ -17,8 +17,8 @@
       <a href="#" @click.prevent="removeQuestion1">X</a>
     </div>
     <div class="question-item down">
-      <v-text-field v-model="title" label="문항 제목" required/>
-      <v-textarea v-model="contents" label="문항 내용" v-bind:auto-grow="true" row-height="5"></v-textarea>
+      <v-text-field v-model="title" label="문항 제목" :rules="[v => !!v || '문항 제목을 입력해주세요']"/>
+      <v-textarea v-model="contents" label="문항 내용" v-bind:auto-grow="true" row-height="5" :rules="[v => !!v || '문항 내용을 입력해주세요.']"></v-textarea>
     </div>
   </div>
 </template>
@@ -40,7 +40,11 @@ export default {
         return this.question.hashtags;
       },
       set(hashtags) {
-        this.SET_HASHTAGS_IN_QUESTION({cid: this.coverletterId, qid: this.idx, hashtags});
+        this.SET_HASHTAGS_IN_QUESTION({
+          cid: this.coverletterId,
+          qid: this.idx,
+          hashtags
+        });
       }
     },
     title: {
