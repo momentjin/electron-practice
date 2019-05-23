@@ -2,7 +2,8 @@
   <v-app>
     <div class="app-container">
       <div class="main-container">
-        <nav>
+        <!-- 팝업일 때 메뉴 노출 X -->
+        <nav v-if="isPopup"> 
           <left-navigation/>
         </nav>
         <v-content>
@@ -25,8 +26,10 @@ export default {
   components: {
     LeftNavigation
   },
-  data() {
-    return {};
+  computed: {
+    isPopup() {
+      return !opener;
+    }
   },
   props: {
     source: String
