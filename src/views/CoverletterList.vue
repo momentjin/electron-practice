@@ -20,7 +20,11 @@ export default {
   },
   methods: {
     onClickAddBtn() {
-      this.$router.push('/coverletters/new');
+      const url = `/coverletters/new`;
+      const windowName = `coverletternew`;
+      const windowOptions = 'width=500,height=700';
+
+      window.open(url, windowName, windowOptions);
     }
   }
 };
