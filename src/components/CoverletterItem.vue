@@ -13,6 +13,7 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
 export default {
   props: ["coverletter"],
   computed: {
@@ -57,12 +58,26 @@ export default {
     }
   },
   methods: {
+    ...mapActions(['FETCH_COVERLETTERS']),
     onClickCoverletter() {
-      const url = `/coverletters/${this.coverletter.id}`;
-      const windowName = `coverletter${this.coverletter.id}`;
-      const windowOptions = 'width=500,height=700';
+      let routeData = this.$router.resolve({
+        name: "coverletterDetail",
+        params: { cid: this.coverletter.id }
+      });
 
-      window.open(url, windowName, windowOptions);
+      const popup = window.open(
+        routeData.href,
+        `coverletter${this.coverletter.id}`,
+        "width=500,height=700"
+      );
+
+      const self = this;
+
+      popup.onload = function() {
+        popup.onbeforeunload = function() {
+          self.FETCH_COVERLETTERS();
+        };
+      };
     }
   }
 };
