@@ -15,13 +15,18 @@
 import CoverletterList from "../components/CoverletterList.vue";
 
 export default {
+  data() {
+    return {
+      newPopupCount: 0
+    }
+  },
   components: {
     CoverletterList
   },
   methods: {
     onClickAddBtn() {
       const url = `/coverletters/new`;
-      const windowName = `coverletternew`;
+      const windowName = `coverletter_new_${this.newPopupCount}`;
       const windowOptions = 'width=500,height=700';
 
       window.open(url, windowName, windowOptions);
