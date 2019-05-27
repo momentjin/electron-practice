@@ -21,12 +21,8 @@ export default {
   props: ["questions", "coverletterId"],
   data() {
     return {
-      // questions: [],
       maxQuestionNum: 6
     };
-  },
-  created() {
-    // this.questions = this.questionsProp;
   },
   methods: {
     ...mapMutations(["DELETE_QUESTION", "ADD_QUESTION_FORM"]),
@@ -37,7 +33,6 @@ export default {
       }
 
       this.ADD_QUESTION_FORM({ cid: this.coverletterId });
-      // this.questions.push({ title: "", contents: "", hashtags: [] });
     },
     removeQuestion(questionId) {
       this.DELETE_QUESTION({ cid: this.coverletterId, qid: questionId });

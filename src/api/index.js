@@ -43,6 +43,12 @@ export const coverletter = {
     }    
 }
 
+export const question = {
+    fetchByhashtags(hashtag) {
+        return request('get', `/questions?hashtag=${hashtag}`)
+    }
+}
+
 export const hashtag = {
     fetch() {
         return request('get', `/hashtags`)
@@ -50,4 +56,4 @@ export const hashtag = {
 }
 
 // test
-setAuthInHeader('JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJuYW1lIjoi7KeE7J6s7Ja4IiwiaWQiOiJzX3dsc3dvZGpzQG5hdmVyLmNvbSIsImV4cCI6MTU1ODg4MDExMn0.KpmFcABYhThBOsH7GwVpMymDyRFh-uv8DZbqdCn46NEla84XycaB33UuR3yOkzZCz5s3RwKKZCwFB0hZC7clAw');
+setAuthInHeader('JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJuYW1lIjoi7KeE7J6s7Ja4IiwiaWQiOiJzX3dsc3dvZGpzQG5hdmVyLmNvbSIsImV4cCI6MTU1OTc0NjU0NX0.oMYb3Jl44ouz8GdNUA3T7m1xBlXQ3Z-v33yBHWF_9K2pKyrmQVWvMyKM7gScWfC3dRF8qa6YJUpbiq-ZlV4E6A');

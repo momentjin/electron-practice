@@ -1,6 +1,10 @@
 <template>
   <div>
     <!-- TODO : 읽기모드일 때는 단순히 chip만 보여주기 -->
+    <!-- 
+      위 todo에 대해 다음 코드를 참고하기. 
+      - https://next.vuetifyjs.com/ko/components/combobox#multiple-combobox 
+    -->
     <div>
       <v-combobox
         v-model="selectedHashtags"
@@ -11,26 +15,36 @@
         persistent-hint
         small-chips
         item-text="value"
-      ></v-combobox>
+      >
+        <template v-slot:selection="data">
+          <v-chip :key="JSON.stringify(data.item)" @click="onClickHashtag">{{ data.item }}</v-chip>
+        </template>
+      </v-combobox>
     </div>
     <div class="question-item text-xs-right">
-      <a href="#" @click.prevent="removeQuestion1">X</a>
+      <a href="#" @click.prevent="executeRemoveQuestion">X</a>
     </div>
     <div class="question-item down">
       <v-text-field v-model="title" label="문항 제목" :rules="[v => !!v || '문항 제목을 입력해주세요']"/>
-      <v-textarea v-model="contents" label="문항 내용" v-bind:auto-grow="true" row-height="5" :rules="[v => !!v || '문항 내용을 입력해주세요.']"></v-textarea>
+      <v-textarea
+        v-model="contents"
+        label="문항 내용"
+        v-bind:auto-grow="true"
+        row-height="5"
+        :rules="[v => !!v || '문항 내용을 입력해주세요.']"
+      ></v-textarea>
     </div>
   </div>
 </template>
 
 <script>
-import { mapState, mapMutations } from "vuex";
+import { mapState, mapMutations, mapActions } from "vuex";
 
 export default {
   props: ["question", "removeQuestion", "idx", "coverletterId"],
   data() {
     return {
-      search: null // 이걸 computed로 넘겨서,, hashtag가 추가될 때 id를 0 설정해서 객체로 넘기면?!
+      search: null
     };
   },
   computed: {
@@ -65,8 +79,9 @@ export default {
     }
   },
   methods: {
+    ...mapActions(["FETCH_QUESTIONS_BY_HASHTAG"]),
     ...mapMutations(["SET_HASHTAGS_IN_QUESTION"]),
-    removeQuestion1() {
+    executeRemoveQuestion() {
       this.removeQuestion(this.idx);
     },
     updateQuestion(data) {
@@ -76,6 +91,9 @@ export default {
         title: data.title || this.title,
         contents: data.contents || this.contents
       });
+    },
+    onClickHashtag(e) {
+      // this.FETCH_QUESTIONS_BY_HASHTAG(e.target.innerText);
     }
   }
 };

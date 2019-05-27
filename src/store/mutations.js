@@ -68,6 +68,9 @@ const mutations = {
             { title: "", contents: "", hashtags: [] }
         );
     },
+    SET_QUESTIONS(state, questions) {
+        state.questions = questions;
+    },
     SET_HASHTAGS(state, hashtags) {
         state.hashtags = hashtags;
     },

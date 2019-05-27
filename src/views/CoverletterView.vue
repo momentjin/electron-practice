@@ -22,6 +22,7 @@ export default {
       loading: false,
       edit: false,
       valid: true,
+      editMode: false,
     };
   },
   created() {
@@ -68,7 +69,7 @@ export default {
         .finally(() => (this.loading = false));
     },
     saveCoverletter() {
-      if(!this.$refs.form.validate()) return;
+      if (!this.$refs.form.validate()) return;
 
       if (this.edit) {
         this.updateCoverletter();
@@ -99,9 +100,7 @@ export default {
       if (!confirm("정말 삭제하시겠습니까?")) return;
 
       this.DELETE_COVERLETTER(this.coverletter.id)
-        .then(() =>
-          this.$router.push("/coverletters")
-        )
+        .then(() => this.$router.push("/coverletters"))
         .catch(e => {
           alert(e.data.message);
         });

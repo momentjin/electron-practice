@@ -3,6 +3,7 @@ const state = {
     coverletters: [],
     coverletter: [],
     coverletterNewIndex: -1,
+    questions: [],
     hashtags: [],
 };
 
