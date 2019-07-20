@@ -91,9 +91,6 @@ export default {
         title: data.title || this.title,
         contents: data.contents || this.contents
       });
-    },
-    onClickHashtag(e) {
-      // this.FETCH_QUESTIONS_BY_HASHTAG(e.target.innerText);
     }
   }
 };

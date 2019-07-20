@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import QuestionItem from "../components/QuestionItem";
+import QuestionItem from "./QuestionItem";
 import { mapMutations } from "vuex";
 
 export default {

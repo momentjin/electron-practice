@@ -1,37 +1,66 @@
+
 <template>
   <div class="view_wrapper coverletter_info">
-    <h2>{{ companyName }} 자기소개서</h2>
-    <v-text-field v-model="companyName" label="기업명" :rules="[v => !!v || '기업명을 입력해주세요']"/>
-    <v-text-field v-model="applicationYear" label="지원연도" :rules="applicationYearRules"/>
-    <v-select
-      v-model="applicationType"
-      :items="applicationTypes"
-      item-value="key"
-      item-text="value"
-      label="지원종류"
-    ></v-select>
-    <v-select
-      v-model="applicationHalf"
-      :items="applicationHalfs"
-      item-value="key"
-      item-text="value"
-      label="지원분기"
-    ></v-select>
-    <v-text-field v-model="jobType" label="직무"/>
-    <v-text-field
-      v-model="deadline"
-      label="마감일"
-      placeholder="예시) 2019-05-19 18:00"
-      :rules="deadlineRules"
-    />
-    <v-select
-      v-model="isApplication"
-      :items="isApplications"
-      item-value="key"
-      item-text="value"
-      label="지원여부"
-    ></v-select>
-    <v-select v-model="isPass" :items="isPasses" label="합격여부" item-value="key" item-text="value"></v-select>
+    <v-card>
+      <v-toolbar card color="blue-grey" dark>
+        <v-toolbar-title>자기소개서 지원정보</v-toolbar-title>
+      </v-toolbar>
+      <v-layout row>
+        <v-flex grow pa-1>
+          <v-text-field v-model="companyName" label="기업명" :rules="[v => !!v || '기업명을 입력해주세요']" />
+        </v-flex>
+      </v-layout>
+      <v-layout row>
+        <v-flex shrink pa-1>
+          <v-text-field v-model="applicationYear" label="지원연도" :rules="applicationYearRules" />
+        </v-flex>
+        <v-flex shrink pa-1>
+          <v-select
+            v-model="applicationType"
+            :items="applicationTypes"
+            item-value="key"
+            item-text="value"
+            label="지원종류"
+          ></v-select>
+        </v-flex>
+        <v-flex shrink pa-1>
+          <v-select
+            v-model="applicationHalf"
+            :items="applicationHalfs"
+            item-value="key"
+            item-text="value"
+            label="지원분기"
+          ></v-select>
+        </v-flex>
+      </v-layout>
+      <v-text-field v-model="jobType" label="직무" />
+      <v-text-field
+        v-model="deadline"
+        label="서류 마감일"
+        placeholder="예시) 2019-05-19 18:00"
+        :rules="deadlineRules"
+      />
+      <v-layout row>
+        <v-flex shrink pa-1>
+          <v-select
+            v-model="isApplication"
+            :items="isApplications"
+            item-value="key"
+            item-text="value"
+            label="지원여부"
+          ></v-select>
+        </v-flex>
+        <v-flex shrink pa-1>
+          <v-select
+            v-model="isPass"
+            :items="isPasses"
+            label="합격여부"
+            item-value="key"
+            item-text="value"
+          ></v-select>
+        </v-flex>
+      </v-layout>
+    </v-card>
   </div>
 </template>
 
@@ -63,7 +92,9 @@ export default {
         { key: false, value: "불합격" }
       ],
       applicationYearRules: [
-        v => Number(v) >= 2017 && Number(v) <= 2019 || '2017 ~ 2019 사이의 값을 입력해주세요.'
+        v =>
+          (Number(v) >= 2017 && Number(v) <= 2019) ||
+          "2017 ~ 2019 사이의 값을 입력해주세요."
       ],
       deadlineRules: [
         v => {
