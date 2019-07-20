@@ -67,6 +67,17 @@ const mutations = {
         state.coverletter.find(c => c.id == cid).questions.push(
             { title: "", contents: "", hashtags: [] }
         );
+    },
+    SET_QUESTIONS(state, questions) {
+        state.questions = questions;
+    },
+    SET_HASHTAGS(state, hashtags) {
+        state.hashtags = hashtags;
+    },
+    SET_HASHTAGS_IN_QUESTION(state, {cid, qid, hashtags}) {
+        const coverletter = getCoverletter(state, cid);
+        const question = coverletter.questions.find((q,index)=>index == qid);
+        question.hashtags = hashtags;
     }
 };
 

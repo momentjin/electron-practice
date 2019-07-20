@@ -11,12 +11,10 @@ export default new Router({
 	routes: [
 		{
 			path: '/coverletters/:cid',
-			name: 'coverletterDetail',
 			component: CoverletterView,
 		},
 		{
 			path: 'coverletters/new',
-			name: 'coverletterNew',
 			component: CoverletterView,
 		},
 		{

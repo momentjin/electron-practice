@@ -2,8 +2,7 @@
   <v-app>
     <div class="app-container">
       <div class="main-container">
-        <!-- 팝업일 때 메뉴 노출 X -->
-        <nav v-if="isPopup"> 
+        <nav>
           <left-navigation/>
         </nav>
         <v-content>
@@ -20,19 +19,24 @@
 
 <script>
 import LeftNavigation from "./components/LeftNavigation";
+import { mapActions } from 'vuex';
 
 export default {
   name: "App",
   components: {
     LeftNavigation
   },
-  computed: {
-    isPopup() {
-      return !opener;
-    }
+  data() {
+    return {};
+  },
+  created() {
+    this.FETCH_HASHTAGS();
   },
   props: {
     source: String
+  },
+  methods: {
+    ...mapActions(["FETCH_HASHTAGS"]),
   }
 };
 </script>

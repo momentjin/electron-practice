@@ -7,7 +7,7 @@
 
 <script>
 import { mapState, mapActions } from "vuex";
-import CoverletterItem from "./CoverletterItem";
+import CoverletterItem from "./CoverletterItem.vue";
 
 export default {
   components: { CoverletterItem },

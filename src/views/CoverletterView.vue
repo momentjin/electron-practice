@@ -21,7 +21,8 @@ export default {
     return {
       loading: false,
       edit: false,
-      valid: true
+      valid: true,
+      editMode: false,
     };
   },
   created() {
@@ -81,7 +82,7 @@ export default {
       this.CREATE_COVERLETTER(this.coverletter)
         .then(() => {
           alert("자기소개서가 저장되었습니다.");
-          window.close();
+          this.$router.push("/coverletters");
         })
         .catch(() => alert("오류"));
     },
@@ -89,7 +90,7 @@ export default {
       this.UPDATE_COVERLETTER(this.coverletter)
         .then(() => {
           alert("자기소개서가 수정되었습니다.");
-          window.close();
+          this.$router.push("/coverletters");
         })
         .catch(e => {
           alert(e.data.message);
@@ -99,10 +100,7 @@ export default {
       if (!confirm("정말 삭제하시겠습니까?")) return;
 
       this.DELETE_COVERLETTER(this.coverletter.id)
-        .then(() => {
-          alert("자기소개서가 삭제되었습니다.");
-          window.close();
-        })
+        .then(() => this.$router.push("/coverletters"))
         .catch(e => {
           alert(e.data.message);
         });
