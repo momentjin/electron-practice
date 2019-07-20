@@ -16,6 +16,9 @@ const request = (method, url, data) => {
         })
         .then(result => result.data)
         .catch(result => {
+
+            debugger;
+
             const {
                 status
             } = result.response;
@@ -56,4 +59,4 @@ export const hashtag = {
 }
 
 // test
-setAuthInHeader('JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJuYW1lIjoi7KeE7J6s7Ja4IiwiaWQiOiJzX3dsc3dvZGpzQG5hdmVyLmNvbSIsImV4cCI6MTU1OTc0NjU0NX0.oMYb3Jl44ouz8GdNUA3T7m1xBlXQ3Z-v33yBHWF_9K2pKyrmQVWvMyKM7gScWfC3dRF8qa6YJUpbiq-ZlV4E6A');
+setAuthInHeader('JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJuYW1lIjoi7KeE7J6s7Ja4IiwiaWQiOiJzX3dsc3dvZGpzQG5hdmVyLmNvbSIsImV4cCI6MTU2NDQ4OTI2MH0.znhHVtkKmjQeAPlonMChBBlCoGwrBjJJjGI_jxip86GUAbkCbUQ8ooT8n5MPhiTps9O5eSEpyPjVbbMAP7Os7A');
