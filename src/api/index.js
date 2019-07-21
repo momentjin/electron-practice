@@ -60,13 +60,13 @@ export const hashtag = {
 
 export const member = {
     getMemberInfo() {
-        return request('get', 'members/me')
+        return request('get', '/members/me')
     },
     signUp(data) {
-        return request('post', 'members/signup', data)
+        return request('post', '/members/signup', data)
     },
     signIn(data) {
-        return request('post', 'login', data)
+        return request('post', '/login', data)
     }
 }
 

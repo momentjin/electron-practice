@@ -1,3 +1,5 @@
+import * as api from '../api'
+
 const mutations = {
     SET_COVERLETTERS(state, coverletters) {
         state.coverletters = coverletters;
@@ -79,11 +81,19 @@ const mutations = {
         const question = coverletter.questions.find((q,index)=>index == qid);
         question.hashtags = hashtags;
     },
-    SET_MEMBER_INFO(memberInfo) {
-        state.memberInfo = memberInfo;ㅁㅃ
+    SET_MEMBER_INFO(state, memberInfo) {
+        state.memberInfo = memberInfo;
     },
     SET_TOKEN(state, token) {
+        if (!token) return;
         state.token = token;
+        localStorage.setItem('token', token);
+        api.setAuthInHeader(token);
+    },
+    LOG_OUT(state) {
+        state.token = null;
+        delete localStorage.token;
+        api.setAuthInHeader(null);
     }
 };
 

@@ -22,7 +22,7 @@ export default {
     return {
       menus: [
         { title: "dashboard", icon: "widgets", disabled: false },
-        { title: "coverletters", icon: "folder", disabled: true }
+        { title: "coverletters", icon: "folder", disabled: true },
       ]
     };
   },
