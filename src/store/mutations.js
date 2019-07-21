@@ -78,6 +78,12 @@ const mutations = {
         const coverletter = getCoverletter(state, cid);
         const question = coverletter.questions.find((q,index)=>index == qid);
         question.hashtags = hashtags;
+    },
+    SET_MEMBER_INFO(memberInfo) {
+        state.memberInfo = memberInfo;ㅁㅃ
+    },
+    SET_TOKEN(state, token) {
+        state.token = token;
     }
 };
 

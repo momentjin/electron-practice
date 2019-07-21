@@ -26,6 +26,17 @@ const actions = {
   FETCH_HASHTAGS({ commit }) {
     return api.hashtag.fetch()
       .then(data => commit('SET_HASHTAGS', data));
+  },
+  GET_MEMBER_INFO({ commit }) {
+    return api.member.getMemberInfo()
+      .then(data => commit('SET_MEMBER_INFO', data));
+  },
+  SIGN_UP(_, data) {
+    return api.member.signUp(data);
+  },
+  SIGN_IN({ commit }, data) {
+    return api.member.signIn(data)
+      .then(data => commit('SET_TOKEN', data));
   }
 }
 

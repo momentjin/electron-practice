@@ -58,5 +58,18 @@ export const hashtag = {
     }
 }
 
+export const member = {
+    getMemberInfo() {
+        return request('get', 'members/me')
+    },
+    signUp(data) {
+        return request('post', 'members/signup', data)
+    },
+    signIn(data) {
+        return request('post', 'login', data)
+    }
+}
+
+
 // test
 setAuthInHeader('JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJuYW1lIjoi7KeE7J6s7Ja4IiwiaWQiOiJzX3dsc3dvZGpzQG5hdmVyLmNvbSIsImV4cCI6MTU2NDQ4OTI2MH0.znhHVtkKmjQeAPlonMChBBlCoGwrBjJJjGI_jxip86GUAbkCbUQ8ooT8n5MPhiTps9O5eSEpyPjVbbMAP7Os7A');
