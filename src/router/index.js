@@ -10,8 +10,8 @@ import Login from '../views/Login.vue'
 Vue.use(Router)
 
 const requireAuth = (to, from, next) => {
-	const loginPath = `/login?rPath=${encodeURIComponent(to.path)}` // rPath = return path
-	store.getters.isAuth ? next() : next(loginPath)
+	const loginPath = `/login?returnPath=${encodeURIComponent(to.path)}` // rPath = return path
+	store.getters.isAuth() ? next() : next(loginPath)
 }
 
 const router = new Router({

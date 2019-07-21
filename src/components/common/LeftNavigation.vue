@@ -1,14 +1,24 @@
 <template>
   <nav class="nav">
     <ul>
-      <li v-for="menu in menus" :key="menu.index" :title="menu.title" @click.stop="onChangeView">
+      <li
+        v-for="menu in viewMenus"
+        :key="menu.index"
+        :title="menu.title"
+        @click.stop="onChangeView"
+      >
         <v-icon medium :disabled="menu.disabled" dark :title="menu.title">{{menu.icon}}</v-icon>
+      </li>
+      <li v-for="menu in functionMenus" :key="menu.index">
+        <v-icon small dark :title="menu.title" @click="menu.callback">{{menu.icon}}</v-icon>
       </li>
     </ul>
   </nav>
 </template>
 
 <script>
+import { mapMutations } from "vuex";
+
 export default {
   created() {
     this.setActiveMenu(this.$route.path);
@@ -20,13 +30,17 @@ export default {
   },
   data() {
     return {
-      menus: [
+      viewMenus: [
         { title: "dashboard", icon: "widgets", disabled: false },
-        { title: "coverletters", icon: "folder", disabled: true },
+        { title: "coverletters", icon: "folder", disabled: true }
+      ],
+      functionMenus: [
+        { title: "logout", icon: "power_settings_new", callback: this.logout }
       ]
     };
   },
   methods: {
+    ...mapMutations(["LOG_OUT"]),
     onChangeView(e) {
       const menuName = e.target.title;
       this.$router.push(`/${menuName}`);
@@ -34,10 +48,16 @@ export default {
     setActiveMenu(changedMenuName) {
       const after = changedMenuName.replace("/", "");
 
-      this.menus.forEach(menu => {
+      this.viewMenus.forEach(menu => {
         if (menu.title == after) menu.disabled = false;
         else menu.disabled = true;
       });
+    },
+    logout() {
+      if (!confirm("로그아웃 하시겠습니까?")) return;
+
+      this.LOG_OUT();
+      this.$router.push("/login");
     }
   }
 };
