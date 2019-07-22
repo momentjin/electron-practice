@@ -5,7 +5,7 @@ const DOMAIN = 'http://localhost:8080';
 const UNAUTHORIZED = 401;
 
 const onUnauthorized = () => {
-    router.push(`/login?rPath=${encodeURIComponent(location.pathname)}`)
+    router.push(`/login?returnPath=${encodeURIComponent(location.pathname)}`)
 }
 
 const request = (method, url, data) => {
@@ -16,13 +16,17 @@ const request = (method, url, data) => {
         })
         .then(result => result.data)
         .catch(result => {
+            const { status } = result.response;
+            
+            if (status === UNAUTHORIZED) 
+                onUnauthorized();
+            
+            // 흐음.. 안타까운 코드구만..
+            else if (status == '500' && result.response.data.message.includes('토큰')) {
+                delete localStorage.token;
+                onUnauthorized();
+            }
 
-            debugger;
-
-            const {
-                status
-            } = result.response;
-            if (status === UNAUTHORIZED) onUnauthorized();
             throw result.response
         })
 }
@@ -69,7 +73,3 @@ export const member = {
         return request('post', '/login', data)
     }
 }
-
-
-// test
-setAuthInHeader('JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJuYW1lIjoi7KeE7J6s7Ja4IiwiaWQiOiJzX3dsc3dvZGpzQG5hdmVyLmNvbSIsImV4cCI6MTU2NDQ4OTI2MH0.znhHVtkKmjQeAPlonMChBBlCoGwrBjJJjGI_jxip86GUAbkCbUQ8ooT8n5MPhiTps9O5eSEpyPjVbbMAP7Os7A');
