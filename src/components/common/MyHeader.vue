@@ -9,7 +9,7 @@
       </span>
     </div>
     <div class="MyHeader__bottom" v-if="useSearchBar">
-      <input type="text" :placeholder="searchBarHint">
+      <input type="text" placeholder="회사명으로 검색 (아직 지원하지 않는 기능입니다)">
     </div>
   </div>
 </template>
@@ -30,15 +30,6 @@ export default {
       required: false,
       default: ""
     },
-    /**
-     * 정렬 기능 사용 여부 Props
-     * : 사용한다고치면, 정렬 기준도 넣어줘야 하는 건가?
-     */
-
-    /**
-     * 버튼 Props
-     * : 버튼에 대한 액션을 넘겨줘야 하나??
-     */
     buttons: {
       type: Array,
       required: false

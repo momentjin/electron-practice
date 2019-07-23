@@ -13,6 +13,8 @@ const store = new Vuex.Store({
   mutations,
   state,
   strict: true
-})
+});
+
+store.commit('SET_TOKEN', localStorage.token);
 
 export default store

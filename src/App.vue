@@ -3,7 +3,7 @@
     <div class="app-container">
       <div class="main-container">
         <!-- 팝업일 때 메뉴 노출 X -->
-        <nav v-if="isPopup"> 
+        <nav v-if="needNav"> 
           <left-navigation/>
         </nav>
         <v-content>
@@ -28,11 +28,15 @@ export default {
     LeftNavigation
   },
   computed: {
-    isPopup() {
-      return !opener;
+    needNav() {
+      return !opener && !this.$route.path.includes('login');
+    },
+    isLoginView() {
+      return this.$route.path.includes('login');
     }
   },
   created() {
+    if (this.isLoginView) return;
     this.FETCH_HASHTAGS();
   },
   props: {

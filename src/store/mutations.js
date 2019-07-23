@@ -1,4 +1,15 @@
+import * as api from '../api'
+
 const mutations = {
+    SET_MEMBER_NAME(state, name) {
+        state.memberInfo.name = name;
+    },
+    SET_MEMBER_MOTTO(state, motto) {
+        state.memberInfo.motto = motto;
+    },
+    SET_PROFILE_IMAGE_URL(state, profileImageUrl) {
+        state.memberInfo.profileImageUrl = profileImageUrl;
+    },
     SET_COVERLETTERS(state, coverletters) {
         state.coverletters = coverletters;
     },
@@ -74,10 +85,24 @@ const mutations = {
     SET_HASHTAGS(state, hashtags) {
         state.hashtags = hashtags;
     },
-    SET_HASHTAGS_IN_QUESTION(state, {cid, qid, hashtags}) {
+    SET_HASHTAGS_IN_QUESTION(state, { cid, qid, hashtags }) {
         const coverletter = getCoverletter(state, cid);
-        const question = coverletter.questions.find((q,index)=>index == qid);
+        const question = coverletter.questions.find((q, index) => index == qid);
         question.hashtags = hashtags;
+    },
+    SET_MEMBER_INFO(state, memberInfo) {
+        state.memberInfo = memberInfo;
+    },
+    SET_TOKEN(state, token) {
+        if (!token) return;
+        state.token = token;
+        localStorage.setItem('token', token);
+        api.setAuthInHeader(token);
+    },
+    LOG_OUT(state) {
+        state.token = null;
+        delete localStorage.token;
+        api.setAuthInHeader(null);
     }
 };
 

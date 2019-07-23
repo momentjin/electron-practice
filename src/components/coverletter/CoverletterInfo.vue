@@ -2,7 +2,7 @@
 <template>
   <div class="view_wrapper coverletter_info">
     <v-card>
-      <v-toolbar card color="blue-grey" dark>
+      <v-toolbar card color="#423630" dark>
         <v-toolbar-title>자기소개서 지원정보</v-toolbar-title>
       </v-toolbar>
       <v-layout row>

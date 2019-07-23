@@ -1,9 +1,9 @@
 <template>
-  <div class="c-view">
+  <div class="menu_view">
       <my-header
         title="자기소개서"
         :useSearchBar="true"
-        searchBarHint="자기소개서 검색"
+        searchBarHint="회사명으로 자기소개서 검색"
         :buttons="headerButtons"
       ></my-header>
     <coverletter-list/>
@@ -59,7 +59,7 @@ export default {
 </script>
 
 <style>
-.c-view {
+.menu_view {
   border: 1px solid black;
   margin: 1px;
 }
