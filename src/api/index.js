@@ -71,5 +71,8 @@ export const member = {
     },
     signIn(data) {
         return request('post', '/login', data)
+    },
+    updateMemberInfo(data) {
+        return request('put', '/members', data)
     }
 }

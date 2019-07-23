@@ -6,8 +6,10 @@ const state = {
     questions: [],
     hashtags: [],
     memberInfo: {
-        id: null,
-        name: null
+        profileImageUrl: '',
+        id: '',
+        name: '',
+        motto: ''
     }
 };
 

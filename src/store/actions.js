@@ -37,6 +37,10 @@ const actions = {
   SIGN_IN({ commit }, data) {
     return api.member.signIn(data)
       .then(data => commit('SET_TOKEN', data));
+  },
+  UPDATE_MEMBER_INFO({ dispatch }, data) {
+    return api.member.updateMemberInfo(data)
+      .then(() => dispatch('GET_MEMBER_INFO'));
   }
 }
 

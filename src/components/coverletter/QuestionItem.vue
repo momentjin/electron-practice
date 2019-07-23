@@ -17,7 +17,7 @@
         item-text="value"
       >
         <template v-slot:selection="data">
-          <v-chip :key="JSON.stringify(data.item)" @click="onClickHashtag">{{ data.item }}</v-chip>
+          <v-chip :key="JSON.stringify(data.item)">{{ data.item }}</v-chip>
         </template>
       </v-combobox>
     </div>
