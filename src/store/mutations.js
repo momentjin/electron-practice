@@ -12,6 +12,10 @@ const mutations = {
     },
     SET_COVERLETTERS(state, coverletters) {
         state.coverletters = coverletters;
+        state.filteredCoverletters = coverletters;
+    },
+    SET_FILTERED_COVERLETTERS(state, filteredCoverletters) {
+        state.filteredCoverletters = filteredCoverletters;
     },
     SET_COVERLETTER(state, coverletter) {
         state.coverletter.push(coverletter);

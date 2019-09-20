@@ -1,6 +1,7 @@
 const state = {
     token: null,
     coverletters: [],
+    filteredCoverletters: [],
     coverletter: [],
     coverletterNewIndex: -1,
     questions: [],
