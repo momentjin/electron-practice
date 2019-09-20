@@ -8,9 +8,6 @@
         <v-icon @click="button.action">{{ button.icon }}</v-icon>
       </span>
     </div>
-    <div class="MyHeader__bottom" v-if="useSearchBar">
-      <input type="text" placeholder="회사명으로 검색 (아직 지원하지 않는 기능입니다)">
-    </div>
   </div>
 </template>
 
@@ -20,15 +17,6 @@ export default {
     title: {
       type: String,
       required: true
-    },
-    useSearchBar: {
-      type: Boolean,
-      default: false
-    },
-    searchBarHint: {
-      type: String,
-      required: false,
-      default: ""
     },
     buttons: {
       type: Array,
@@ -40,25 +28,18 @@ export default {
 
 <style scoped>
 .MyHeader {
-  border: 1px solid black;
-  margin: 1px;
+  /* border: 1px solid black; */
 }
 
 .MyHeader__top {
-  margin: 10px;
+  /* margin: 10px; */
+  margin: 10px 10px 10px 0px;
   display: flex;
   justify-content: space-between;
   padding: 5px;
-  /* test */ border: 1px dotted black;
+  /* test border: 1px dotted black; */
 }
 
-.MyHeader__bottom {
-  margin: 10px;
-  display: flex;
-  justify-content: center;
-
-  /* test */ border: 1px dotted black;
-}
 
 input {
   width: 100%;

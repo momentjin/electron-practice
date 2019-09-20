@@ -28,7 +28,7 @@ export default {
   },
   created() {
     debugger;
-    this.returnPath = this.$route.query.returnPath || "/";
+    this.returnPath = this.$route.query.returnPath || "/coverletters";
 
     if (this.$store.getters.isAuth()) {
       this.$router.push(this.returnPath);

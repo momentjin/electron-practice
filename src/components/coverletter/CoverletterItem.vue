@@ -1,8 +1,8 @@
 <template>
   <div class="coverletter_container" @click.stop="onClickCoverletter">
     <div class="coverletter_wrapper coverletter_title">
-      <span>{{coverletter.companyName}}</span>
-      <div>{{coverletter.applicationYear}} | {{applicationHalf}} | {{applicationType}} | {{coverletter.jobType}}</div>
+      <span class="title_info"> <b> {{coverletter.companyName}} </b> </span>
+      <div class="sub_info">{{coverletter.applicationYear}} | {{applicationHalf}} | {{applicationType}} | {{coverletter.jobType}}</div>
       <div v-if="deadline">{{deadline}}</div>
     </div>
     <div class="coverletter_wrapper coverletter_etc">
@@ -14,47 +14,29 @@
 
 <script>
 import { mapActions } from 'vuex';
+import { convert } from '../../utils/CoverletterContants';
+
+
 export default {
   props: ["coverletter"],
   computed: {
-    applicationHalf: function() {
-      switch (this.coverletter.applicationHalf) {
-        case 0:
-          return "상반기";
-        case 1:
-          return "하반기";
-        default:
-          return "기타";
-      }
-    },
-    applicationType: function() {
-      switch (this.coverletter.applicationType) {
-        case 0:
-          return "인턴";
-        case 1:
-          return "신입";
-        case 2:
-          return "경력";
-        default:
-          return "기타";
-      }
-    },
-    isApplication: function() {
-      return this.coverletter.application ? "지원 완료" : "미지원";
-    },
-    isPass: function() {
-      if (!this.coverletter.application) return;
+    applicationHalf() { return convert.applicationHalf(this.coverletter.applicationHalf) },
+    applicationType() { return convert.applicationType(this.coverletter.applicationType) },
+    isApplication() { return convert.isApplication(this.coverletter.isApplication) },
+    isPass() { return convert.isPass(this.coverletter.isPass) },
+    deadline() {
 
-      return this.coverletter.pass ? "합격" : "불합격";
-    },
-    deadline: function() {
-      // 미지원이거나 마감일 데이터가 없는 경우
+      // 미지원이거나 마감일 데이터가 없는 경우 표시 안함
       if (!this.coverletter.application || !this.coverletter.deadline) return;
 
-      // TODO : 의존성 분리 필요
+      // 지원 완료한 경우 표시 안함
+      if (this.coverletter.application) return;
+
+      // TODO : DateTime 의존성 분리 필요
       const deadline = this.$moment(this.coverletter.deadline).format(
         "YYYY년 MM월 DD일 HH시"
       );
+      
       return `서류 마감 : ${deadline}`;
     }
   },
@@ -91,22 +73,26 @@ export default {
   /* margin: 10px; */
   /* min-width: 400px; */
   /* max-width: 100%; */
-  border: 1px solid black;
+  border: 1px solid #E3E3E3;
   flex-grow: 1;
-  margin: 10px;
+  padding: 10px;
   overflow: hidden;
+  margin-bottom: 3px;
+  border-radius: 5px 5px 5px 5px;
+  cursor: pointer;
 }
 
-.coverletter_wrapper {
-  margin: 1px;
-  border: 1px dotted black;
-  padding: 5px;
+.coverletter_container:hover {
+  background-color: #F7F7F7;
 }
 
 .coverletter_etc {
-  margin: 1px;
-  border: 1px dotted black;
   align-self: center;
   margin-left: auto;
 }
+
+.sub_info {
+  color: #808080;
+}
+
 </style>

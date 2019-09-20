@@ -65,32 +65,16 @@
 </template>
 
 <script>
+import * as CoverletterConstants from '../../utils/CoverletterContants';
+
 export default {
   props: ["coverletter"],
   data() {
     return {
-      applicationHalfs: [
-        { key: 0, value: "상반기" },
-        { key: 1, value: "하반기" },
-        { key: 2, value: "수시" },
-        { key: 3, value: "기타" }
-      ],
-      applicationTypes: [
-        { key: 0, value: "인턴" },
-        { key: 1, value: "신입" },
-        { key: 2, value: "경력" },
-        { key: 3, value: "기타" }
-      ],
-      isApplications: [
-        { key: -1, value: "대기" },
-        { key: false, value: "미지원" },
-        { key: true, value: "지원완료" }
-      ],
-      isPasses: [
-        { key: -1, value: "대기" },
-        { key: true, value: "합격" },
-        { key: false, value: "불합격" }
-      ],
+      applicationHalfs: CoverletterConstants.APPLICATION_HALFS,
+      applicationTypes: CoverletterConstants.APPLICATION_TYPES,
+      isApplications: CoverletterConstants.IS_APPLICATIONS,
+      isPasses: CoverletterConstants.IS_PASSES,
       applicationYearRules: [
         v =>
           (Number(v) >= 2017 && Number(v) <= 2019) ||
@@ -154,7 +138,7 @@ export default {
     },
     isApplication: {
       get() {
-        return this.coverletter.application;
+        return this.coverletter.isApplication;
       },
       set(value) {
         this.$store.commit("SET_IS_APPLICATION", {
@@ -165,7 +149,7 @@ export default {
     },
     isPass: {
       get() {
-        return this.coverletter.pass;
+        return this.coverletter.isPass;
       },
       set(value) {
         this.$store.commit("SET_IS_PASS", { cid: this.coverletter.id, value });

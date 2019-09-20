@@ -2,10 +2,11 @@
   <div class="menu_view">
       <my-header
         title="자기소개서"
-        :useSearchBar="true"
-        searchBarHint="회사명으로 자기소개서 검색"
         :buttons="headerButtons"
       ></my-header>
+      <div>
+        <input class="search_bar" type="text" placeholder="회사명으로 자기소개서 검색"/>
+      </div>
     <coverletter-list/>
   </div>
 </template>
@@ -60,8 +61,9 @@ export default {
 
 <style>
 .menu_view {
-  border: 1px solid black;
-  margin: 1px;
+  /* border: 1px solid black; */
+  margin-left: 10px;
+  margin-right: 10px;
 }
 
 .search {
@@ -77,5 +79,21 @@ export default {
 .func {
   margin-left: auto;
 }
+
+.search_bar {
+  background-color: #F7F7F7;
+  width: 100%;
+  margin: 0 auto;
+  align-items: center;
+  padding: 2px;
+  font-size: 12px;
+  margin-right: 1px;
+  border-radius: 5px 5px 5px 5px;
+  margin-bottom: 10px;
+}
+
+
+
+
 </style>
 

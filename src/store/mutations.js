@@ -29,10 +29,10 @@ const mutations = {
         getCoverletter(state, cid).applicationHalf = value;
     },
     SET_IS_APPLICATION(state, { cid, value }) {
-        getCoverletter(state, cid).application = value;
+        getCoverletter(state, cid).isApplication = value;
     },
     SET_IS_PASS(state, { cid, value }) {
-        getCoverletter(state, cid).pass = value;
+        getCoverletter(state, cid).isPass = value;
     },
     SET_JOB_TYPE(state, { cid, value }) {
         getCoverletter(state, cid).jobType = value;

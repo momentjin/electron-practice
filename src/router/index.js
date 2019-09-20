@@ -11,7 +11,7 @@ import User from '../views/user/User.vue'
 Vue.use(Router)
 
 const requireAuth = (to, from, next) => {
-	const loginPath = `/login?returnPath=${encodeURIComponent(to.path)}` // rPath = return path
+	const loginPath = `/login?returnPath=${encodeURIComponent(to.path)}`
 	store.getters.isAuth() ? next() : next(loginPath)
 }
 

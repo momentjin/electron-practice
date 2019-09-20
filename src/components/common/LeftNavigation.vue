@@ -69,7 +69,6 @@ export default {
 
 <style>
 nav {
-  position: sticky;
   background-color: #423630;
   display: flex;
   justify-content: center;
