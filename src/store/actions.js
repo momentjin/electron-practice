@@ -41,6 +41,13 @@ const actions = {
   UPDATE_MEMBER_INFO({ dispatch }, data) {
     return api.member.updateMemberInfo(data)
       .then(() => dispatch('GET_MEMBER_INFO'));
+  },
+  CONVERT_FILES({ dispatch }, files) {
+    return api.converter.convert(files)
+      .then(res => {
+        dispatch('FETCH_COVERLETTERS');
+        return res;
+      });
   }
 }
 

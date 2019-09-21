@@ -1,12 +1,14 @@
 <template>
   <div class="MyHeader">
     <div class="MyHeader__top">
-      <span>
+      <span class="item-start">
         <h3>{{title}}</h3>
       </span>
-      <span v-for="(button, idx) in buttons" :key="idx">
-        <v-icon @click="button.action">{{ button.icon }}</v-icon>
-      </span>
+      <div class="item-end">
+        <span class="fn-button" v-for="(button, idx) in buttons" :key="idx">
+          <v-icon @click="button.action">{{ button.icon }}</v-icon>
+        </span>
+      </div>
     </div>
   </div>
 </template>
@@ -33,13 +35,11 @@ export default {
 
 .MyHeader__top {
   /* margin: 10px; */
-  margin: 10px 10px 10px 0px;
+  margin: 10px 0px 10px 0px;
   display: flex;
-  justify-content: space-between;
   padding: 5px;
   /* test border: 1px dotted black; */
 }
-
 
 input {
   width: 100%;
@@ -47,4 +47,15 @@ input {
   background-color: #F7F7F7;
 }
 
+.item-start {
+  flex: none;
+}
+
+.item-end {
+  margin-left: auto;
+}
+
+.fn-button {
+  margin-left: 20px;
+}
 </style>
