@@ -56,6 +56,10 @@ export default {
         if (menu.title == after) menu.disabled = false;
         else menu.disabled = true;
       });
+
+      if (after == "") {
+        this.menuButtons[0].disabled = false;
+      }
     },
     logout() {
       if (!confirm("로그아웃 하시겠습니까?")) return;
