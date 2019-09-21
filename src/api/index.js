@@ -31,6 +31,34 @@ const request = (method, url, data) => {
         })
 }
 
+// TODO : 중복되는 부분이 많다. axios 인스턴스를 바로 리턴하지 말아야겠다.
+const multipartFormRequest = (method, url, data) => {
+    const headers = axios.defaults.headers;
+    headers['Content-Type'] = 'multipart/form-data';
+
+    return axios({
+        method,
+        url: DOMAIN + url,
+        data,
+        headers: headers
+    })
+    .then(result => result.data)
+    .catch(result => {
+        const { status } = result.response;
+        
+        if (status === UNAUTHORIZED) 
+            onUnauthorized();
+        
+        // 흐음.. 안타까운 코드구만..
+        else if (status == '500' && result.response.data.message.includes('토큰')) {
+            delete localStorage.token;
+            onUnauthorized();
+        }
+
+        throw result.response
+    })
+}
+
 export const setAuthInHeader = token => {
     axios.defaults.headers.common['Authorization'] = token ? `${token}` : null;
 }
@@ -74,5 +102,11 @@ export const member = {
     },
     updateMemberInfo(data) {
         return request('put', '/members', data)
+    }
+}
+
+export const converter = {
+    convert(files) {
+        return multipartFormRequest('post', '/converter', files);
     }
 }

@@ -5,6 +5,7 @@
       <input class="search_bar" type="text" placeholder="회사명으로 자기소개서 검색" @keyup="searchItem" />
     </div>
     <coverletter-list />
+    <input type="file" multiple ref="converter" @change="onChangeFile" hidden />
   </div>
 </template>
 
@@ -19,6 +20,11 @@ export default {
       newPopupCount: 0,
       headerButtons: [
         {
+          title: "convertCoverletter",
+          icon: "input",
+          action: this.onConvertFile
+        },
+        {
           title: "addCoverletter",
           icon: "playlist_add",
           action: this.onClickAddBtn
@@ -32,12 +38,11 @@ export default {
   },
   created() {
     this.getCoverletterList();
-    
   },
   methods: {
     ...mapState(["coverletters"]),
     ...mapMutations(["SET_FILTERED_COVERLETTERS"]),
-    ...mapActions(["FETCH_COVERLETTERS"]),
+    ...mapActions(["FETCH_COVERLETTERS", "CONVERT_FILES"]),
     getCoverletterList() {
       this.FETCH_COVERLETTERS();
     },
@@ -61,15 +66,39 @@ export default {
         };
       };
     },
+    onConvertFile() {
+      if (!confirm("마이그레이션 하시겠습니까?")) return;
+    },
     searchItem(e) {
       var searchText = e.target.value;
 
-      // * 선행조건
-      // 1. 초기 서버에서 받아온 coverletters를 filteredCoverletters로 복사해서 이걸로 렌더링해야한다.
-      // -> 그러러면 비동기 이후, 할당되도록 적절한 조치가 필요하다. 우선 이것부터 해보자.
-      const filteredList = this.coverletters().filter(c=>c.companyName.startsWith(searchText));
-      console.log(filteredList);
+      const filteredList = this.coverletters().filter(c => {
+        return c.companyName.normalize().indexOf(searchText) >= 0;
+      });
+
       this.SET_FILTERED_COVERLETTERS(filteredList);
+    },
+    onChangeFile() {
+      const selectedFiles = this.$refs.converter.files;
+      if (!selectedFiles || !selectedFiles.length) return;
+
+      // TODO : toast message로 변경되야 한다.
+      alert(
+        `총 ${selectedFiles.length}` +
+          "개 파일을 자기소개서 데이터로 변환합니다."
+      );
+
+      // call api
+      let formDatas = new FormData();
+      for (let f of selectedFiles) {
+        formDatas.append("file", f);
+      }
+
+      this.CONVERT_FILES(formDatas)
+        .then(() => alert("자기소개서 변환을 완료했습니다."))
+        .catch(err => {
+          alert(err.data.message);
+        });
     }
   }
 };
