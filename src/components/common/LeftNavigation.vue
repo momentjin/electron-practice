@@ -11,6 +11,7 @@
       </li>
 
       <div class="option">
+        <notification-list />
         <li v-for="menu in functionButtons" :key="menu.index">
           <v-icon small dark :title="menu.title" @click="menu.callback">{{menu.icon}}</v-icon>
         </li>
@@ -20,9 +21,11 @@
 </template>
 
 <script>
+import NotificationList from "../notification/NotificationList.vue";
 import { mapMutations } from "vuex";
 
 export default {
+  components: { NotificationList },
   created() {
     this.setActiveMenu(this.$route.path);
   },
@@ -36,7 +39,8 @@ export default {
       menuButtons: [
         // { title: "dashboard", icon: "widgets", disabled: false },
         { title: "coverletters", icon: "folder", disabled: true },
-        { title: "user", icon: "person", disabled: false }
+        { title: "user", icon: "person", disabled: false },
+        { title: "practice", icon: "person", disalbed: false }
       ],
       functionButtons: [
         { title: "logout", icon: "power_settings_new", callback: this.logout }
@@ -56,6 +60,10 @@ export default {
         if (menu.title == after) menu.disabled = false;
         else menu.disabled = true;
       });
+
+      if (after == "") {
+        this.menuButtons[0].disabled = false;
+      }
     },
     logout() {
       if (!confirm("로그아웃 하시겠습니까?")) return;

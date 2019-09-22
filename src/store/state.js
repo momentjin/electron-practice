@@ -11,7 +11,8 @@ const state = {
         id: '',
         name: '',
         motto: ''
-    }
+    },
+    notifications: [],
 };
 
 export default state;

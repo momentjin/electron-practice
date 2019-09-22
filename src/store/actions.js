@@ -4,7 +4,8 @@ const actions = {
   FETCH_COVERLETTERS({ dispatch, commit }) {
     return api.coverletter.fetch()
       .then(data => commit('SET_COVERLETTERS', data.coverletters))
-      .then(() => dispatch('FETCH_HASHTAGS'));
+      .then(() => dispatch('FETCH_HASHTAGS'))
+      .then(() => dispatch('FETCH_NOTIFICATIONS'));
   },
   FETCH_COVERLETTER({ commit }, id) {
     return api.coverletter.fetch(id)
@@ -48,6 +49,14 @@ const actions = {
         dispatch('FETCH_COVERLETTERS');
         return res;
       });
+  },
+  FETCH_NOTIFICATIONS({ commit }) {
+    return api.notification.fetch()
+      .then(data => commit('SET_NOTIFICATIONS', data));
+  },
+  CHECK_NOTIFICATION({ dispatch }, id) {
+    return api.notification.check(id)
+      .then(() => dispatch('FETCH_NOTIFICATIONS'));
   }
 }
 
