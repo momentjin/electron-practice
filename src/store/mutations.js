@@ -107,6 +107,9 @@ const mutations = {
         state.token = null;
         delete localStorage.token;
         api.setAuthInHeader(null);
+    },
+    SET_NOTIFICATIONS(state, data) {
+        state.notifications = data.notifications;
     }
 };
 

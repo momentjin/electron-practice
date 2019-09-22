@@ -110,3 +110,12 @@ export const converter = {
         return multipartFormRequest('post', '/converter', files);
     }
 }
+
+export const notification = {
+    fetch() {
+        return request('get', '/notifications')
+    },
+    check(id) {
+        return request('put', `/notifications/${id}`)
+    }
+}

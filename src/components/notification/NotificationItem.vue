@@ -1,13 +1,19 @@
 <template>
-  <div class="notification-item" @click.stop="onClickNotification" v-bind:class="{ notification_active: isChecked}">
+  <div class="notification-item" :notification-id="notificationId" @click.stop.capture="onClickNotification(notificationId)" v-bind:class="{ notification_active: !checked}">
     <div class="notification-item-top">{{contents}}</div>
     <div class="notification-item-bottom">{{createDate}}</div>
   </div>
 </template>
 
 <script>
+import { mapActions } from "vuex";
+
 export default {
   props: {
+    notificationId: {
+      type: Number,
+      required: true
+    },
     coverletterId: {
       type: Number,
       required: true
@@ -20,7 +26,7 @@ export default {
       type: String,
       required: true
     },
-    isChecked: {
+    checked: {
       type: Boolean,
       default: false
     }
@@ -31,28 +37,28 @@ export default {
     }
   },
   methods: {
-    onClickNotification() {
-      alert("클릭");
-      return;
+    ...mapActions(["CHECK_NOTIFICATION"]),
+    onClickNotification(id) {
+      this.CHECK_NOTIFICATION(id);
 
-      // let routeData = this.$router.resolve({
-      //   name: "coverletterDetail",
-      //   params: { cid: this.coverletterId }
-      // });
+      let routeData = this.$router.resolve({
+        name: "coverletterDetail",
+        params: { cid: this.coverletterId }
+      });
 
-      // const popup = window.open(
-      //   routeData.href,
-      //   `coverletter${this.coverletterId}`,
-      //   "width=500,height=700"
-      // );
+      const popup = window.open(
+        routeData.href,
+        `coverletter${this.coverletterId}`,
+        "width=500,height=700"
+      );
 
-      // const self = this;
+      const self = this;
 
-      // popup.onload = function() {
-      //   popup.onbeforeunload = function() {
-      //     self.FETCH_COVERLETTERS();
-      //   };
-      // };
+      popup.onload = function() {
+        popup.onbeforeunload = function() {
+          self.FETCH_COVERLETTERS();
+        };
+      };
     }
   }
 };
@@ -61,7 +67,7 @@ export default {
 <style>
 .notification-item {
   border-bottom: 0.5px solid #E3E3E3;
-  padding: 5px;
+  padding: 5px 10px 5px 10px;
 }
 
 .notification_active {

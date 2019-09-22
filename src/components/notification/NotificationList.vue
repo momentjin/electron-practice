@@ -15,7 +15,7 @@
       <template v-slot:activator="{ on }">
         <v-badge>
           <!-- 새로 도착한 메세지 api로 받아서 바인딩해야 한다. -->
-          <template v-slot:badge>15</template>
+          <template v-slot:badge>{{newNotificationNum}}</template>
           <v-icon v-on="on" small dark title="notification">mail_outline</v-icon>
         </v-badge>
       </template>
@@ -23,16 +23,16 @@
       <div class="notification-header">
         <b>알림 보관함</b>
       </div>
-      <div class="notification-list" v-for="item in notifications" :key="item.id">
+      <div v-if="!notifications || !notifications.length">알림이 존재하지 않습니다.</div>
+
+      <div v-else class="notification-list" v-for="item in notifications" :key="item.id">
         <notification-item
+          :notification-id="item.id"
           :coverletter-id="item.coverletterId"
           :contents="item.contents"
-          :is-checked="item.isChecked"
+          :checked="item.checked"
           :create-date="item.createDate"
         />
-      </div>
-      <div v-if="!notifications || !notifications.length">
-        알림이 존재하지 않습니다.
       </div>
     </v-menu>
   </li>
@@ -47,7 +47,10 @@ export default {
     return {};
   },
   computed: {
-    ...mapState(["notifications"])
+    ...mapState(["notifications"]),
+    newNotificationNum() {
+      return this.notifications.filter(n => !n.checked).length;
+    }
   },
   components: { NotificationItem }
 };
@@ -60,7 +63,9 @@ export default {
 }
 
 .notification-header {
-  padding: 8px;
+  padding: 8px 10px 8px 10px;
   border-bottom: 0.01px solid black;
+  background-color: #41352f;
+  color: white;
 }
 </style>
