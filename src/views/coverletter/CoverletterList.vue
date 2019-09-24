@@ -106,14 +106,14 @@ export default {
 
 <style>
 .menu_view {
-  /* border: 1px solid black; */
-  margin-left: 10px;
-  margin-right: 10px;
+  width: 100%;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 
 .search {
   align-items: center;
-  /* margin: 20px 10px 10px 15px; */
+  margin: 20px 10px 10px 15px;
 }
 
 .c-header {

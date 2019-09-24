@@ -9,7 +9,10 @@ const actions = {
   },
   FETCH_COVERLETTER({ commit }, id) {
     return api.coverletter.fetch(id)
-      .then(data => commit('SET_COVERLETTER', data));
+      .then(data => {
+        debugger;
+        commit('SET_COVERLETTER', data)
+      });
   },
   CREATE_COVERLETTER(_, data) {
     return api.coverletter.create(data)

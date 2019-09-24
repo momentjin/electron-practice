@@ -1,184 +1,125 @@
-
 <template>
-  <div class="view_wrapper coverletter_info">
-    <v-card>
-      <v-toolbar card color="#423630" dark>
-        <v-toolbar-title>자기소개서 지원정보</v-toolbar-title>
-      </v-toolbar>
-      <v-layout row>
-        <v-flex grow pa-1>
-          <v-text-field v-model="companyName" label="기업명" :rules="[v => !!v || '기업명을 입력해주세요']" />
-        </v-flex>
-      </v-layout>
-      <v-layout row>
-        <v-flex shrink pa-1>
-          <v-text-field v-model="applicationYear" label="지원연도" :rules="applicationYearRules" />
-        </v-flex>
-        <v-flex shrink pa-1>
-          <v-select
-            v-model="applicationType"
-            :items="applicationTypes"
-            item-value="key"
-            item-text="value"
-            label="지원종류"
-          ></v-select>
-        </v-flex>
-        <v-flex shrink pa-1>
-          <v-select
-            v-model="applicationHalf"
-            :items="applicationHalfs"
-            item-value="key"
-            item-text="value"
-            label="지원분기"
-          ></v-select>
-        </v-flex>
-      </v-layout>
-      <v-text-field v-model="jobType" label="직무" />
-      <v-text-field
-        v-model="deadline"
-        label="서류 마감일"
-        placeholder="예시) 2019-05-19 18:00"
-        :rules="deadlineRules"
-      />
-      <v-layout row>
-        <v-flex shrink pa-1>
-          <v-select
-            v-model="isApplication"
-            :items="isApplications"
-            item-value="key"
-            item-text="value"
-            label="지원여부"
-          ></v-select>
-        </v-flex>
-        <v-flex shrink pa-1>
-          <v-select
-            v-model="isPass"
-            :items="isPasses"
-            label="합격여부"
-            item-value="key"
-            item-text="value"
-          ></v-select>
-        </v-flex>
-      </v-layout>
-    </v-card>
+  <div class="menu_view">
+    <my-header title="자기소개서 지원 정보"></my-header>
+    <div class="coverletter_info">
+      <div class="coverletter_info_row row_type1">
+        <label class="info_title" for="companyName">기업명</label>
+        <br />
+        <input class="info_field" type="text" id="companyName" />
+      </div>
+      <div class="coverletter_info_row row_type2">
+        <div class="row2">
+          <label class="info_title" for="applicationYear">지원 연도</label>
+          <select class="info_field" name="applicationYear">
+            <option value="2017">2017</option>
+            <option value="2018">2018</option>
+            <option value="2019">2019</option>
+            <option value="2020">2020</option>
+          </select>
+        </div>
+        <div class="row2">
+          <label class="info_title" for="applicationHalf">지원 분기</label>
+          <select class="info_field" name="applicationHalf">
+            <option value="1">상반기</option>
+            <option value="2">하반기</option>
+            <option value="3">수시</option>
+            <option value="4">기타</option>
+          </select>
+        </div>
+        <div class="row2">
+          <label class="info_title" for="applicationHalf">지원 종류</label>
+          <select class="info_field" name="applicationType">
+            <option value="1">신입</option>
+            <option value="2">경력</option>
+            <option value="3">인턴</option>
+            <option value="4">기타</option>
+          </select>
+        </div>
+      </div>
+      <div class="coverletter_info_row row_type2">
+        <div class="row2">
+          <label class="info_title" for="deadline">서류 마감일</label>
+          <input class="info_field" type="text" id="deadline" />
+        </div>
+      </div>
+      <div class="coverletter_info_row row_type2">
+        <div class="row2">
+          <label class="info_title" for="isApplication">제출 여부</label>
+          <input class="info_field" type="checkbox" id="isApplication" />
+        </div>
+        <div class="row2">
+          <label class="info_title" for="isPass">합격 여부</label>
+          <input class="info_field" type="checkbox" id="isPass" />
+        </div>
+      </div>
+    </div>
+    <div class="menu_view_footer">
+      <div class="button-container">
+        <button> 저장 </button>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-import * as CoverletterConstants from '../../utils/CoverletterContants';
+import MyHeader from "../common/MyHeader.vue";
 
 export default {
-  props: ["coverletter"],
-  data() {
-    return {
-      applicationHalfs: CoverletterConstants.APPLICATION_HALFS,
-      applicationTypes: CoverletterConstants.APPLICATION_TYPES,
-      isApplications: CoverletterConstants.IS_APPLICATIONS,
-      isPasses: CoverletterConstants.IS_PASSES,
-      applicationYearRules: [
-        v =>
-          (Number(v) >= 2017 && Number(v) <= 2019) ||
-          "2017 ~ 2019 사이의 값을 입력해주세요."
-      ],
-      deadlineRules: [
-        v => {
-          if (!v) return true;
-          return (
-            /[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}/.test(v) ||
-            "날짜 형식을 지켜주세요. (2019-05-04 14:00)"
-          );
-        }
-      ]
-    };
-  },
-  computed: {
-    companyName: {
-      get() {
-        return this.coverletter.companyName;
-      },
-      set(value) {
-        return this.$store.commit("SET_COMPANY_NAME", {
-          cid: this.coverletter.id,
-          value
-        });
-      }
-    },
-    applicationYear: {
-      get() {
-        return this.coverletter.applicationYear;
-      },
-      set(value) {
-        this.$store.commit("SET_APPLICATION_YEAR", {
-          cid: this.coverletter.id,
-          value
-        });
-      }
-    },
-    applicationType: {
-      get() {
-        return this.coverletter.applicationType;
-      },
-      set(value) {
-        this.$store.commit("SET_APPLICATION_TYPE", {
-          cid: this.coverletter.id,
-          value
-        });
-      }
-    },
-    applicationHalf: {
-      get() {
-        return this.coverletter.applicationHalf;
-      },
-      set(value) {
-        this.$store.commit("SET_APPLICATION_HALF", {
-          cid: this.coverletter.id,
-          value
-        });
-      }
-    },
-    isApplication: {
-      get() {
-        return this.coverletter.isApplication;
-      },
-      set(value) {
-        this.$store.commit("SET_IS_APPLICATION", {
-          cid: this.coverletter.id,
-          value
-        });
-      }
-    },
-    isPass: {
-      get() {
-        return this.coverletter.isPass;
-      },
-      set(value) {
-        this.$store.commit("SET_IS_PASS", { cid: this.coverletter.id, value });
-      }
-    },
-    jobType: {
-      get() {
-        return this.coverletter.jobType;
-      },
-      set(value) {
-        this.$store.commit("SET_JOB_TYPE", { cid: this.coverletter.id, value });
-      }
-    },
-    deadline: {
-      get() {
-        return this.coverletter.deadline;
-      },
-      set(value) {
-        this.$store.commit("SET_DEADLINE", { cid: this.coverletter.id, value });
-      }
-    }
-  }
+  components: { MyHeader }
 };
 </script>
 
 <style>
-.view_wrapper {
-  padding: 10px;
-  border: 1px solid gray;
-  /* margin: 5px; */
+.coverletter_info {
+  display: flex;
+  flex-direction: column;
+
 }
+
+.info_title {
+  font-weight: bold;
+}
+
+.info_field {
+  margin-top: 5px;
+  border: 1px solid #E5E5E5;
+  padding: 5px;
+  width: 100%;
+  border-radius: 5px 5px 5px 5px;
+}
+
+.coverletter_info_row {
+  margin: 10px;
+}
+
+.row_type1 {
+  flex-grow: 1;
+}
+
+.row_type2 {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+
+.menu_view_footer {
+  text-align: center;
+  padding: 10px;
+  margin-top: 30px;
+}
+
+button {
+  width: 120px;
+  padding: 10px;
+  border: 1px solid #F3D905;
+  border-radius: 50px 50px 50px 50px;
+  background-color: #FFE509;
+}
+
+.row2 {
+  margin-right: 5px;
+  flex-grow: 1;
+}
+
 </style>

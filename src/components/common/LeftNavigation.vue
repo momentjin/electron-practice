@@ -77,21 +77,21 @@ export default {
 
 <style>
 nav {
-  background-color: #423630;
   display: flex;
   justify-content: center;
-  width: 65px;
-  /* padding-top: 50px; */
+  width: 70px;
+
+  background-color: #423630;
 }
 
 ul {
-  flex-shrink: 0;
   display: flex;
+  flex-shrink: 0;
   flex-direction: column;
   padding: 0px;
   align-items: center;
   margin-top: 50px;
-  width: 65px;
+  width: 100%;
 }
 
 li {

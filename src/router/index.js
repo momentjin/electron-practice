@@ -3,11 +3,14 @@ import Router from 'vue-router'
 import store from '../store'
 
 import CoverletterList from '../views/coverletter/CoverletterList.vue'
-import CoverletterView from '../views/coverletter/CoverletterView.vue'
+import CoverletterDetail from '../views/coverletter/CoverletterDetail.vue'
 import Practice from '../views/Practice.vue'
 import Dashboard from '../views/dashboard/Dashboard.vue'
 import Login from '../views/Login.vue'
 import User from '../views/user/User.vue'
+
+import QuestionItem from '../components/coverletter/QuestionItem.vue'
+import CoverletterInfo from '../components/coverletter/CoverletterInfo.vue'
 
 Vue.use(Router)
 
@@ -23,13 +26,25 @@ const router = new Router({
 		{
 			path: '/coverletters/:cid',
 			name: 'coverletterDetail',
-			component: CoverletterView,
-			beforeEnter: requireAuth
+			component: CoverletterDetail,
+			beforeEnter: requireAuth,
+			children: [
+				{
+					path: 'info',
+					name: 'coverletterInfo',
+					component: CoverletterInfo
+				},
+				{ 
+					path: 'questions/:qid',
+					name: 'question',
+					component: QuestionItem
+				}
+			]
 		},
 		{
 			path: 'coverletters/new',
 			name: 'coverletterNew',
-			component: CoverletterView,
+			component: CoverletterDetail,
 			beforeEnter: requireAuth
 		},
 		{

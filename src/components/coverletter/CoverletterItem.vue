@@ -43,13 +43,8 @@ export default {
   methods: {
     ...mapActions(['FETCH_COVERLETTERS']),
     onClickCoverletter() {
-      let routeData = this.$router.resolve({
-        name: "coverletterDetail",
-        params: { cid: this.coverletter.id }
-      });
-
       const popup = window.open(
-        routeData.href,
+        `coverletters/${this.coverletter.id}/info`,
         `coverletter${this.coverletter.id}`,
         "width=500,height=700"
       );
@@ -74,9 +69,9 @@ export default {
   /* min-width: 400px; */
   /* max-width: 100%; */
   border: 1px solid #E3E3E3;
-  flex-grow: 1;
+  /* flex-grow: 1; */
   padding: 10px;
-  overflow: hidden;
+  /* overflow: hidden; */
   margin-bottom: 3px;
   border-radius: 5px 5px 5px 5px;
   cursor: pointer;

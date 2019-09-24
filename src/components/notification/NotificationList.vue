@@ -14,8 +14,7 @@
     >
       <template v-slot:activator="{ on }">
         <v-badge>
-          <!-- 새로 도착한 메세지 api로 받아서 바인딩해야 한다. -->
-          <template v-slot:badge>{{newNotificationNum}}</template>
+          <template v-if="newNotificationNum>0" v-slot:badge>{{newNotificationNum}}</template>
           <v-icon v-on="on" small dark title="notification">mail_outline</v-icon>
         </v-badge>
       </template>

@@ -21,9 +21,9 @@ export default {
 
 <style>
 .my-container {
-  flex-grow: 1;
+  /* flex-grow: 1; */
   margin: 1px;
-  max-height: 768px; /** TODO : 현재 화면의 높이로 설정해야 하는데.. 흐어.. **/
+  /* max-height: 768px; * TODO : 현재 화면의 높이로 설정해야 하는데.. 흐어.. * */
   overflow: auto;
 }
 </style>
