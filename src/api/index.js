@@ -16,13 +16,15 @@ const request = (method, url, data) => {
         })
         .then(result => result.data)
         .catch(result => {
+            debugger;
+
             const { status } = result.response;
-            
-            if (status === UNAUTHORIZED) 
+
+            if (status === UNAUTHORIZED)
                 onUnauthorized();
-            
+
             // 흐음.. 안타까운 코드구만..
-            else if (status == '500' && result.response.data.message.includes('토큰')) {
+            else if (status == '500' && result.response.data.message.includes('Token')) {
                 delete localStorage.token;
                 onUnauthorized();
             }
@@ -37,26 +39,26 @@ const multipartFormRequest = (method, url, data) => {
     headers['Content-Type'] = 'multipart/form-data';
 
     return axios({
-        method,
-        url: DOMAIN + url,
-        data,
-        headers: headers
-    })
-    .then(result => result.data)
-    .catch(result => {
-        const { status } = result.response;
-        
-        if (status === UNAUTHORIZED) 
-            onUnauthorized();
-        
-        // 흐음.. 안타까운 코드구만..
-        else if (status == '500' && result.response.data.message.includes('토큰')) {
-            delete localStorage.token;
-            onUnauthorized();
-        }
+            method,
+            url: DOMAIN + url,
+            data,
+            headers: headers
+        })
+        .then(result => result.data)
+        .catch(result => {
+            const { status } = result.response;
 
-        throw result.response
-    })
+            if (status === UNAUTHORIZED)
+                onUnauthorized();
+
+            // 흐음.. 안타까운 코드구만..
+            else if (status == '500' && result.response.data.message.includes('토큰')) {
+                delete localStorage.token;
+                onUnauthorized();
+            }
+
+            throw result.response
+        })
 }
 
 export const setAuthInHeader = token => {
@@ -64,8 +66,11 @@ export const setAuthInHeader = token => {
 }
 
 export const coverletter = {
-    fetch(id) {
-        return id ? request('get', `/coverletters/${id}`) : request('get', '/coverletters')
+    fetch({ id, pageNo }) {
+        return id ? request('get', `/coverletters/${id}`) : request('get', `/coverletters?page=${pageNo}&size=20`)
+    },
+    search({ companyName }) {
+        return request('get', `/coverletters/search?companyName=${companyName}`)
     },
     create(data) {
         return request('post', '/coverletters/', data)
@@ -75,7 +80,7 @@ export const coverletter = {
     },
     delete(id) {
         return request('delete', `/coverletters/${id}`)
-    }    
+    }
 }
 
 export const question = {

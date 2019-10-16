@@ -11,6 +11,7 @@
       :right="true"
       nudge-right="50"
       nudge-top="100"
+      :fixed="true"
     >
       <template v-slot:activator="{ on }">
         <v-badge>
@@ -24,8 +25,10 @@
       </div>
       <div v-if="!notifications || !notifications.length">알림이 존재하지 않습니다.</div>
 
-      <div v-else class="notification-list" v-for="item in notifications" :key="item.id">
+      <div v-else class="notification-list">
         <notification-item
+          v-for="item in notifications"
+          :key="item.id"
           :notification-id="item.id"
           :coverletter-id="item.coverletterId"
           :contents="item.contents"
@@ -38,7 +41,7 @@
 </template>
 
 <script>
-import NotificationItem from "./NotificationItem.vue";
+import NotificationItem from "@/components/notification/NotificationItem.vue";
 import { mapState } from "vuex";
 
 export default {
@@ -48,7 +51,8 @@ export default {
   computed: {
     ...mapState(["notifications"]),
     newNotificationNum() {
-      return this.notifications.filter(n => !n.checked).length;
+      return this.notifications.filter(notifications => !notifications.checked)
+        .length;
     }
   },
   components: { NotificationItem }
@@ -64,7 +68,12 @@ export default {
 .notification-header {
   padding: 8px 10px 8px 10px;
   border-bottom: 0.01px solid black;
-  background-color: #41352f;
+  background-color: black;
   color: white;
+}
+
+.notification-list {
+  overflow: scroll;
+  max-height: 500px;
 }
 </style>

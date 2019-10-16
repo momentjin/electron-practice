@@ -1,16 +1,17 @@
 <template>
-  <div class="MyHeader">
-    <div class="MyHeader__top">
-      <span class="item-start">
-        <h3>{{title}}</h3>
+  <header>
+    <span class="header-title">
+      <h3>
+        {{title}}
+        <span class="header-title-sub">{{ subData }}</span>
+      </h3>
+    </span>
+    <div class="header-button-container">
+      <span class="header-button" v-for="(button, idx) in buttons" :key="idx">
+        <v-icon @click="button.action">{{ button.icon }}</v-icon>
       </span>
-      <div class="item-end">
-        <span class="fn-button" v-for="(button, idx) in buttons" :key="idx">
-          <v-icon @click="button.action">{{ button.icon }}</v-icon>
-        </span>
-      </div>
     </div>
-  </div>
+  </header>
 </template>
 
 <script>
@@ -22,40 +23,45 @@ export default {
     },
     buttons: {
       type: Array,
+      required: false,
+      default: () => []
+    },
+    subData: {
+      type: Number,
       required: false
     }
   }
 };
 </script>
 
-<style scoped>
-.MyHeader {
-  /* border: 1px solid black; */
-}
-
-.MyHeader__top {
-  /* margin: 10px; */
+<style>
+header {
   margin: 10px 0px 10px 0px;
+  padding: 5px 5px 5px 0px;
+
   display: flex;
-  padding: 5px;
-  /* test border: 1px dotted black; */
 }
 
-input {
-  width: 100%;
-  padding: 5px;
-  background-color: #F7F7F7;
-}
-
-.item-start {
+.header-title {
   flex: none;
 }
 
-.item-end {
+.header-title-sub {
+  color: #878787;
+  font-weight: normal;
+}
+
+.header-button-container {
   margin-left: auto;
 }
 
-.fn-button {
+.header-button {
   margin-left: 20px;
+}
+
+button.v-btn[disabled] {
+  opacity: 0.6;
+  color: red;
+  background-color: red;
 }
 </style>

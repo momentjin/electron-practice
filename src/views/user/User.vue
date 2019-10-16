@@ -1,49 +1,66 @@
 <template>
-  <div class="menu_view">
-    <my-header title="내정보"></my-header>
+  <div class="menu-container">
+    <my-header title="설정" :buttons="headerButtons"></my-header>
 
-    <div class="profile_item">
-      <div class="profile_image_wrapper">
-        <img :src="memberInfo.profileImageUrl" id="preview" @click="openFileSelector" accept="image/*" />
-      </div>
+    <div class="profile-item">
+      <profile-image />
     </div>
 
-    <div class="profile_item">
+    <div class="profile-item">
       <div class="input_wrapper">
-        <div class="input_label">
-          <b>이름</b>
-          ({{name.length}}/10)
+        <div class="info-title">
+          아이디
         </div>
         <div>
-          <input class="my_input" v-model="name" type="text" maxlength="10" />
+          <input class="info-field" :value="memberInfo.id" disabled type="text" />
         </div>
       </div>
     </div>
 
-    <div class="profile_item">
+    <div class="profile-item">
       <div class="input_wrapper">
-        <div class="input_label">
-          <b>취업 성공을 위한 각오</b>
-          ({{motto.length}}/50)
+        <div class="info-title">
+          이름
+          <span class="rule"> ({{name.length}}/10) </span>
         </div>
         <div>
-          <textarea class="my_input" v-model="motto" maxlength="50"></textarea>
+          <input class="info-field" v-model="name" type="text" maxlength="10" />
         </div>
       </div>
     </div>
 
-    <div class="profile_item">
-      <button @click="onClickSave">저장</button>
+    <div class="profile-item">
+      <div class="input_wrapper">
+        <div class="info-title">
+          좌우명
+          <span class="rule"> ({{motto.length}}/30) </span>
+        </div>
+        <div>
+          <input class="info-field" v-model="motto" maxlength="30" />
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import MyHeader from "../../components/common/MyHeader.vue";
+import ProfileImage from "@/components/user/ProfileImage.vue";
+import MyHeader from "@/components/common/MyHeader.vue";
 import { mapActions, mapState } from "vuex";
 
 export default {
-  components: { MyHeader },
+  components: { MyHeader, ProfileImage },
+  data() {
+    return {
+      headerButtons: [
+        {
+          title: "save",
+          icon: "send",
+          action: this.saveUserData,
+        }
+      ]
+    }
+  },
   created() {
     this.getMemberInfo();
   },
@@ -72,6 +89,9 @@ export default {
       set(value) {
         this.$store.commit("SET_PROFILE_IMAGE_URL", value);
       }
+    },
+    saveButtonDisabled() {
+      return !name || name.length == 0;
     }
   },
   methods: {
@@ -79,68 +99,39 @@ export default {
     getMemberInfo() {
       this.GET_MEMBER_INFO();
     },
-    onClickSave() {
+    saveUserData() {
       const data = {
         name: this.name,
         motto: this.motto,
         profileImageUrl: this.profileImageUrl
       };
 
-      this.UPDATE_MEMBER_INFO(data).then(() => alert("저장되었습니다."));
-    },
-    openFileSelector() {
-      alert("프로필 사진 변경은 아직 지원하지 않는 기능입니다.");
+      this.UPDATE_MEMBER_INFO(data)
+        .then(() => alert("저장되었습니다."))
+        .catch((e) => alert(e.data.message));
     }
   }
 };
 </script>
 
 <style>
-.profile_item {
-  border: 1px solid black;
+.profile-item {
   display: flex;
-  justify-content: center;
-  margin: 1px;
+  margin: 1px 1px 20px 1px;
   padding: 5px;
-}
-
-.profile_image_wrapper {
-  width: 100px;
-  height: 100px;
-  margin: 5px;
-  display: flex;
-  justify-content: center;
-}
-
-.profile_image_wrapper > img {
-  width: 100%;
-  height: 100%;
-  border-radius: 40%;
-  cursor: pointer;
 }
 
 .label {
   font-weight: bold;
 }
 
-.input_label {
-  margin-bottom: 5px;
-}
-
 .input_wrapper {
-  width: 80%;
+  width: 100%;
   display: flex;
   flex-direction: column;
 }
 
-.my_input {
-  border: 1.2px solid #e5e5e5;
-  border-radius: 10px;
-  width: 100%;
-  padding: 5px;
-}
-
-.profile_item > button {
+.profile-item > button {
   border-radius: 10px;
   background-color: #ffe509;
   border: 1px solid #f3d905;

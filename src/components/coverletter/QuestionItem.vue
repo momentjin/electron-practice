@@ -1,54 +1,86 @@
 <template>
   <div>
-    <!-- TODO : 읽기모드일 때는 단순히 chip만 보여주기 -->
-    <!-- 
-      위 todo에 대해 다음 코드를 참고하기. 
-      - https://next.vuetifyjs.com/ko/components/combobox#multiple-combobox 
-    -->
     <div>
-      <v-combobox
-        v-model="selectedHashtags"
-        :items="hashtags"
-        :search-input.sync="search"
-        hide-selected
-        multiple
-        persistent-hint
-        small-chips
-        item-text="value"
-      >
-        <template v-slot:selection="data">
-          <v-chip :key="JSON.stringify(data.item)">{{ data.item }}</v-chip>
-        </template>
-      </v-combobox>
-    </div>
-    <div class="question-item text-xs-right">
-      <a href="#" @click.prevent="executeRemoveQuestion">X</a>
-    </div>
-    <div class="question-item down">
-      <v-text-field v-model="title" label="문항 제목" :rules="[v => !!v || '문항 제목을 입력해주세요']"/>
-      <v-textarea
-        v-model="contents"
-        label="문항 내용"
-        v-bind:auto-grow="true"
-        row-height="5"
-        :rules="[v => !!v || '문항 내용을 입력해주세요.']"
-      ></v-textarea>
+      <div v-if="!question">로딩중입니다.</div>
+      <div v-else>
+        <my-header title="문항 정보" :buttons="headerButtons"></my-header>
+        <div class="hashtag_container">
+          <div class="coverletter_info_row row_type1">
+            <label class="info-title" for="title">문항 태그</label>
+            <div>
+              <v-combobox
+                v-model="selectedHashtags"
+                :items="hashtags"
+                :search-input.sync="search"
+                hide-selected
+                multiple
+                persistent-hint
+                small-chips
+                item-text="value"
+              >
+                <template v-slot:selection="data">
+                  <v-chip :key="JSON.stringify(data.item)">{{ data.item }}</v-chip>
+                </template>
+              </v-combobox>
+            </div>
+          </div>
+        </div>
+        <div class="coverletter_info_row row_type1">
+          <label class="info-title" for="title">문항 제목</label>
+          <input class="info-field" id="title" type="text" v-model="title" />
+        </div>
+        <div class="coverletter_info_row row_type1">
+          <label class="info-title" for="contents">
+            문항 내용
+            <span class="count">{{ contents.length }}글자</span>
+          </label>
+          <textarea class="info-field" id="contents" v-model="contents" />
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import { mapState, mapMutations, mapActions } from "vuex";
+import MyHeader from "@/components/common/MyHeader.vue";
+import { mapGetters, mapMutations, mapActions, mapState } from "vuex";
 
 export default {
-  props: ["question", "removeQuestion", "idx", "coverletterId"],
+  components: { MyHeader },
   data() {
     return {
-      search: null
+      search: "",
+      headerButtons: [
+        {
+          title: "deleteQuestion",
+          icon: "delete",
+          action: this.onRemove
+        },
+        {
+          title: "saveCoverletter",
+          icon: "send",
+          action: this.onSave
+        }
+      ]
     };
   },
   computed: {
-    ...mapState(["hashtags"]),
+    ...mapState(["hashtags", "coverletterNewIndex"]),
+    ...mapGetters(["findQuestionById", "findCoverletterById"]),
+    questionId() {
+      return this.$route.params.qid;
+    },
+    coverletterId() {
+      return this.$route.params.cid == "new"
+        ? this.coverletterNewIndex
+        : this.$route.params.cid;
+    },
+    coverletter() {
+      return this.findCoverletterById(this.coverletterId);
+    },
+    question() {
+      return this.findQuestionById(this.coverletterId, this.questionId);
+    },
     selectedHashtags: {
       get() {
         return this.question.hashtags;
@@ -56,7 +88,7 @@ export default {
       set(hashtags) {
         this.SET_HASHTAGS_IN_QUESTION({
           cid: this.coverletterId,
-          qid: this.idx,
+          qid: this.questionId,
           hashtags
         });
       }
@@ -79,30 +111,61 @@ export default {
     }
   },
   methods: {
-    ...mapActions(["FETCH_QUESTIONS_BY_HASHTAG"]),
+    ...mapMutations(["DELETE_QUESTION"]),
+    ...mapActions([
+      "CREATE_COVERLETTER",
+      "UPDATE_COVERLETTER",
+      "DELETE_COVERLETTER"
+    ]),
     ...mapMutations(["SET_HASHTAGS_IN_QUESTION"]),
     executeRemoveQuestion() {
       this.removeQuestion(this.idx);
     },
     updateQuestion(data) {
+      const coverletterId = this.coverletterId;
+
       this.$store.commit("SET_QUESTION", {
-        cid: this.coverletterId,
-        pid: this.idx,
+        cid: coverletterId,
+        pid: this.question.id,
         title: data.title || this.title,
         contents: data.contents || this.contents
       });
+    },
+    onSave() {
+      if (this.$route.params.cid == "new") {
+        this.CREATE_COVERLETTER(this.coverletter)
+          .then(() => alert("자기소개서가 저장되었습니다"))
+          .catch(() => alert("오류"));
+      } else {
+        this.UPDATE_COVERLETTER(this.coverletter)
+          .then(() => {
+            alert("자기소개서가 수정되었습니다.");
+          })
+          .catch(() => alert("오류"));
+      }
+    },
+    onRemove() {
+      if (!confirm("해당 문항을 삭제하시겠습니까?")) return;
+
+      this.DELETE_QUESTION({
+        cid: this.coverletterId,
+        qid: this.questionId
+      });
+
+      const cid = this.$route.params.cid;
+      this.$router.push(`/coverletters/${cid}/info`);
     }
   }
 };
 </script>
 
 <style>
-.question-item {
-  /* padding: 5px; */
-  border: 1px solid black;
+textarea {
+  min-height: 500px;
 }
 
-.down {
-  margin-bottom: 10px;
+.count {
+  color: #a8a8a8;
+  font-size: 13px;
 }
 </style>

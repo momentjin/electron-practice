@@ -11,14 +11,20 @@ const mutations = {
         state.memberInfo.profileImageUrl = profileImageUrl;
     },
     SET_COVERLETTERS(state, coverletters) {
-        state.coverletters = coverletters;
-        state.filteredCoverletters = coverletters;
+        state.coverletters = state.coverletters.concat(coverletters);
+        state.filteredCoverletters = state.coverletters;
     },
     SET_FILTERED_COVERLETTERS(state, filteredCoverletters) {
         state.filteredCoverletters = filteredCoverletters;
     },
     SET_COVERLETTER(state, coverletter) {
         state.coverletter.push(coverletter);
+    },
+    SET_PAGE_INFO(state, pageInfo) {
+        state.pageInfo = {
+            currentPageNo: pageInfo.pageNo,
+            totalPageNum: pageInfo.totalPageNum
+        }
     },
     SET_COMPANY_NAME(state, { cid, value }) {
         getCoverletter(state, cid).companyName = value;
@@ -49,7 +55,7 @@ const mutations = {
         if (!coverletter)
             throw `could not found coverletter (${cid})`;
 
-        var findQuestion = coverletter.questions.find((q, index) => index == pid)
+        var findQuestion = coverletter.questions.find(x => x.id == pid);
         if (!findQuestion)
             throw `could not found question (${pid})`;
 
@@ -58,7 +64,7 @@ const mutations = {
     },
     DELETE_QUESTION(state, { cid, qid }) {
         const coverletter = getCoverletter(state, cid);
-        coverletter.questions = coverletter.questions.filter((q, index) => index != qid);
+        coverletter.questions = coverletter.questions.filter(q => q.id != qid);
     },
     INIT_COVERLETTER(state) {
         state.coverletterNewIndex -= 1;
@@ -71,17 +77,24 @@ const mutations = {
             applicationType: 0,
             jobType: '',
             deadline: '',
-            application: false,
-            pass: false,
+            isApplication: 3,
+            isPass: 3,
             questions: []
         };
 
         state.coverletter.push(newCoverletterTemplate);
     },
     ADD_QUESTION_FORM(state, { cid }) {
-        state.coverletter.find(c => c.id == cid).questions.push(
-            { title: "", contents: "", hashtags: [] }
-        );
+        const coverletter = state.coverletter.find(c => c.id == cid);
+
+        let newQuestionIdx = -1;
+        if (coverletter.questions.length > 0) {
+            newQuestionIdx = coverletter.questions[coverletter.questions.length - 1].id;
+        }
+
+        newQuestionIdx = newQuestionIdx < 0 ? newQuestionIdx - 1 : -1;
+        coverletter.questions.push({ id: newQuestionIdx, title: "", contents: "", hashtags: [] });
+        return newQuestionIdx;
     },
     SET_QUESTIONS(state, questions) {
         state.questions = questions;
@@ -91,7 +104,7 @@ const mutations = {
     },
     SET_HASHTAGS_IN_QUESTION(state, { cid, qid, hashtags }) {
         const coverletter = getCoverletter(state, cid);
-        const question = coverletter.questions.find((q, index) => index == qid);
+        const question = coverletter.questions.find(x => x.id == qid);
         question.hashtags = hashtags;
     },
     SET_MEMBER_INFO(state, memberInfo) {
@@ -110,6 +123,9 @@ const mutations = {
     },
     SET_NOTIFICATIONS(state, data) {
         state.notifications = data.notifications;
+    },
+    SET_TOTAL_COVERLETTER_NUM(state, data) {
+        state.totalCoverletterNum = data;
     }
 };
 

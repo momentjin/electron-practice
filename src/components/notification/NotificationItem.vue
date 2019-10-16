@@ -6,7 +6,7 @@
     v-bind:class="{ notification_active: !checked}"
   >
     <div class="notification-item-top">{{contents}}</div>
-    <div class="notification-item-bottom">{{createDate}}</div>
+    <div class="notification-item-bottom">{{createDate.replace('T', ' ').substring(0, 16)}}</div>
   </div>
 </template>
 
@@ -33,7 +33,7 @@ export default {
     },
     checked: {
       type: Boolean,
-      default: false
+      required: true
     }
   },
   data() {
@@ -43,12 +43,13 @@ export default {
   },
   methods: {
     ...mapActions(["CHECK_NOTIFICATION"]),
-    onClickNotification(id) {
-      this.CHECK_NOTIFICATION(id);
+    onClickNotification() {
+      debugger;
+      this.CHECK_NOTIFICATION(this.notificationId);
 
       const popup = window.open(
-        `coverletters/${this.coverletter.id}/info`,
-        `coverletter${this.coverletter.id}`,
+        `coverletters/${this.coverletterId}/info`,
+        `coverletter${this.coverletterId}`,
         "width=500,height=700"
       );
 
@@ -86,6 +87,6 @@ export default {
 .notification-item-bottom {
   color: gray;
   text-align: right;
-  font-size: 8px;
+  font-size: 12px;
 }
 </style>

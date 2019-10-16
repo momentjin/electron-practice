@@ -1,13 +1,17 @@
 <template>
-  <div class="view-container">
-    <coverletter-nav :questions="coverletter.questions" />
-    <router-view /> 
+  <div class="main-container">
+    <coverletter-nav :questions="coverletter.questions" :coverletterId="coverletter.id" />
+    <main>
+      <div class="menu-container">
+        <router-view />
+      </div>
+    </main>
   </div>
 </template>
 
 <script>
-import CoverletterNav from "../../components/coverletter/CoverletterNav.vue";
-import { mapActions, mapGetters } from "vuex";
+import CoverletterNav from "@/components/coverletter/CoverletterNav.vue";
+import { mapState, mapActions, mapGetters, mapMutations } from "vuex";
 
 export default {
   components: { CoverletterNav },
@@ -16,24 +20,38 @@ export default {
       edit: false
     };
   },
-  beforeMount() {
+  created() {
     const coverletterId = this.$route.params.cid;
-    this.fetchCoverletter(coverletterId);
+    if (coverletterId == "new") {
+      this.INIT_COVERLETTER();
+    } else {
+      this.fetchCoverletter(coverletterId);
+    }
   },
   computed: {
     ...mapGetters(["findCoverletterById"]),
+    ...mapState(["coverletterNewIndex"]),
     coverletter() {
-      return this.findCoverletterById(this.$route.params.cid) || { coverletter: { questions: [] }} ;
+      debugger;
+
+      if (this.$route.params.cid == "new") {
+        return this.findCoverletterById(this.coverletterNewIndex);
+      }
+
+      return (
+        this.findCoverletterById(this.$route.params.cid) || {
+          coverletter: { questions: [] }
+        }
+      );
     }
   },
-
   methods: {
+    ...mapMutations(["INIT_COVERLETTER"]),
     ...mapActions(["FETCH_COVERLETTER"]),
     fetchCoverletter(coverletterId) {
-      this.FETCH_COVERLETTER(coverletterId)
+      this.FETCH_COVERLETTER({ id: coverletterId })
         .then(data => {
           this.coverletter = data;
-          debugger;
         })
         .catch(e => {
           alert(e.data.message || "server errror!");
@@ -45,14 +63,4 @@ export default {
 </script>
 
 <style>
-.view-container {
-  width: 100%;
-  height: 100%;
-  display: flex;
-}
-
-.item2 {
-  background-color: white;
-  flex-grow: 1;
-}
 </style>

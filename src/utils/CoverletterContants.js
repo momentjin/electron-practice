@@ -10,17 +10,17 @@ const APPLICATION_TYPES = [
     { key: 1, value: "신입" },
     { key: 2, value: "경력" },
     { key: 3, value: "기타" }
-  ];
+];
 
 const IS_APPLICATIONS = [
-    { key: 0, value: "대기" },
-    { key: 1, value: "미지원" },
-    { key: 2, value: "지원완료" },
+    { key: 0, value: "지원 대기" },
+    { key: 1, value: "지원 안함" },
+    { key: 2, value: "지원 완료" },
     { key: 3, value: "기타" }
 ];
 
 const IS_PASSES = [
-    { key: 0, value: "대기" },
+    { key: 0, value: "결과 대기" },
     { key: 1, value: "합격" },
     { key: 2, value: "불합격" },
     { key: 3, value: "기타" }
@@ -30,13 +30,13 @@ const DEFAULT = 0;
 
 const convert = {
     applicationHalf(val) {
-       return getValueByKey(APPLICATION_HALFS, val);
+        return getValueByKey(APPLICATION_HALFS, val);
     },
     applicationType(val) {
-       return getValueByKey(APPLICATION_TYPES, val);
+        return getValueByKey(APPLICATION_TYPES, val);
     },
     isApplication(val) {
-       return getValueByKey(IS_APPLICATIONS, val);
+        return getValueByKey(IS_APPLICATIONS, val);
     },
     isPass(val) {
         return getValueByKey(IS_PASSES, val);

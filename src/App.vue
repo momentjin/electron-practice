@@ -3,9 +3,7 @@
     <div class="app-container">
       <div class="main-container">
         <!-- 팝업일 때 메뉴 노출 X -->
-        <nav v-if="needNav">
-          <left-navigation />
-        </nav>
+        <left-navigation v-if="needNav" />
         <main>
           <router-view />
         </main>
@@ -15,7 +13,7 @@
 </template>
 
 <script>
-import LeftNavigation from "./components/common/LeftNavigation.vue";
+import LeftNavigation from "@/components/layout/LeftNavigation.vue";
 import { mapActions } from "vuex";
 
 export default {
@@ -60,5 +58,9 @@ export default {
 main {
   flex-grow: 1;
   min-height: 100%;
+}
+
+a {
+  text-decoration: none;
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <nav class="nav">
+  <nav class="view-container">
     <ul>
       <li
         v-for="menu in menuButtons"
@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import NotificationList from "../notification/NotificationList.vue";
+import NotificationList from "@/components/notification/NotificationList.vue";
 import { mapMutations } from "vuex";
 
 export default {
@@ -37,10 +37,8 @@ export default {
   data() {
     return {
       menuButtons: [
-        // { title: "dashboard", icon: "widgets", disabled: false },
         { title: "coverletters", icon: "folder", disabled: true },
-        { title: "user", icon: "person", disabled: false },
-        { title: "practice", icon: "person", disalbed: false }
+        { title: "user", icon: "settings_applications", disabled: false },
       ],
       functionButtons: [
         { title: "logout", icon: "power_settings_new", callback: this.logout }
@@ -76,12 +74,13 @@ export default {
 </script>
 
 <style>
-nav {
+.view-container {
   display: flex;
   justify-content: center;
   width: 70px;
-
-  background-color: #423630;
+  background-color: black;
+  /* background-color: #423630; */
+  overflow-x: hidden;
 }
 
 ul {
