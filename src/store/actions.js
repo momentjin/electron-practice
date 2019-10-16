@@ -4,6 +4,7 @@ const actions = {
     FETCH_COVERLETTERS({ dispatch, commit }, { pageNo }) {
         return api.coverletter.fetch({ pageNo })
             .then(data => {
+                debugger;
                 commit('SET_COVERLETTERS', data.content);
                 commit('SET_TOTAL_COVERLETTER_NUM', data.totalElements);
                 commit('SET_PAGE_INFO', { pageNo: pageNo, totalPageNum: data.totalPages })

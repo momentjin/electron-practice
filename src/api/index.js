@@ -67,7 +67,7 @@ export const setAuthInHeader = token => {
 
 export const coverletter = {
     fetch({ id, pageNo }) {
-        return id ? request('get', `/coverletters/${id}`) : request('get', `/coverletters?page=${pageNo}&size=20`)
+        return id ? request('get', `/coverletters/${id}`) : request('get', `/coverletters?page=${pageNo}&size=2`)
     },
     search({ companyName }) {
         return request('get', `/coverletters/search?companyName=${companyName}`)
