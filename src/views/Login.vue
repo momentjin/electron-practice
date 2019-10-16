@@ -1,6 +1,6 @@
 <template>
   <div class="login_wrapper">
-    <div class="login_form">
+    <div class="login_form form-border">
       <div class="login_input user_email">
         <input v-model="email" type="text" placeholder="이메일" ref="email" />
       </div>
@@ -8,8 +8,13 @@
         <input v-model="password" type="password" placeholder="비밀번호" ref="password" />
       </div>
     </div>
-    <div class="login_footer login_form">
-      <button v-on:click="signIn" v-bind:class="{active: isActive, loginBtn: true}">로그인</button>
+    <div class="login_footer">
+      <button
+        class="login-button form-border"
+        :disabled="!isActive"
+        v-on:click="signIn"
+        v-bind:class="{active: isActive}"
+      >로그인</button>
     </div>
     <div class="link" @click="openSignIn">회원가입</div>
   </div>
@@ -27,7 +32,6 @@ export default {
     };
   },
   created() {
-    debugger;
     this.returnPath = this.$route.query.returnPath || "/coverletters";
 
     if (this.$store.getters.isAuth()) {
@@ -71,7 +75,7 @@ export default {
   align-items: center;
 }
 
-.login_form {
+.form-border {
   border: 1.2px solid #e4d42d;
 }
 
@@ -89,21 +93,25 @@ export default {
   margin-top: 10px;
 }
 
-.loginBtn {
+.login-button {
   width: 240px;
   padding: 10px;
   background-color: #f6f6f7;
   color: #acacac;
   font-weight: bold;
+  border-radius: 0;
 }
 
 .active {
   background-color: #423631;
   color: white;
+  cursor: pointer;
 }
 
 .link {
   margin-top: 30px;
   font-size: 12px;
+  color: #7f771d;
+  cursor: pointer;
 }
 </style>

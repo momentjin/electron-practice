@@ -1,7 +1,12 @@
 <template>
-  <div class="notification-item" :notification-id="notificationId" @click.stop.capture="onClickNotification(notificationId)" v-bind:class="{ notification_active: !checked}">
+  <div
+    class="notification-item"
+    :notification-id="notificationId"
+    @click.stop.capture="onClickNotification(notificationId)"
+    v-bind:class="{ notification_active: !checked}"
+  >
     <div class="notification-item-top">{{contents}}</div>
-    <div class="notification-item-bottom">{{createDate}}</div>
+    <div class="notification-item-bottom">{{createDate.replace('T', ' ').substring(0, 16)}}</div>
   </div>
 </template>
 
@@ -28,26 +33,22 @@ export default {
     },
     checked: {
       type: Boolean,
-      default: false
+      required: true
     }
   },
   data() {
     return {
-      active: this.isChecked,
-    }
+      active: this.isChecked
+    };
   },
   methods: {
     ...mapActions(["CHECK_NOTIFICATION"]),
-    onClickNotification(id) {
-      this.CHECK_NOTIFICATION(id);
-
-      let routeData = this.$router.resolve({
-        name: "coverletterDetail",
-        params: { cid: this.coverletterId }
-      });
+    onClickNotification() {
+      debugger;
+      this.CHECK_NOTIFICATION(this.notificationId);
 
       const popup = window.open(
-        routeData.href,
+        `coverletters/${this.coverletterId}/info`,
         `coverletter${this.coverletterId}`,
         "width=500,height=700"
       );
@@ -66,12 +67,12 @@ export default {
 
 <style>
 .notification-item {
-  border-bottom: 0.5px solid #E3E3E3;
+  border-bottom: 0.5px solid #e3e3e3;
   padding: 5px 10px 5px 10px;
 }
 
 .notification_active {
-  background-color: #EDF2FA;
+  background-color: #edf2fa;
 }
 
 .notification-item:hover {
@@ -86,6 +87,6 @@ export default {
 .notification-item-bottom {
   color: gray;
   text-align: right;
-  font-size: 8px;
+  font-size: 12px;
 }
 </style>

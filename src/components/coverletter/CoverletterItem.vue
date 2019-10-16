@@ -1,55 +1,80 @@
 <template>
-  <div class="coverletter_container" @click.stop="onClickCoverletter">
-    <div class="coverletter_wrapper coverletter_title">
-      <span class="title_info"> <b> {{coverletter.companyName}} </b> </span>
-      <div class="sub_info">{{coverletter.applicationYear}} | {{applicationHalf}} | {{applicationType}} | {{coverletter.jobType}}</div>
-      <div v-if="deadline">{{deadline}}</div>
+  <div class="coverletter-item" @click.stop="onClickCoverletter">
+    <div class="coverletter-item-main">
+      <span class="coverletter-item-title">{{coverletter.companyName}}</span>
+      <div class="coverletter-item-info">{{applicationInfo}}</div>
+      <div class="coverletter-item-info" v-if="deadline">{{deadline}}</div>
     </div>
-    <div class="coverletter_wrapper coverletter_etc">
-      <span v-if="isPass">{{isPass}}</span>
-      <span v-else>{{isApplication}}</span>
+    <div class="coverletter-item-status">
+      <span>{{applicationStatus}}</span>
     </div>
   </div>
 </template>
 
 <script>
-import { mapActions } from 'vuex';
-import { convert } from '../../utils/CoverletterContants';
-
+import { mapActions } from "vuex";
+import { convert } from "@/utils/CoverletterContants";
 
 export default {
   props: ["coverletter"],
   computed: {
-    applicationHalf() { return convert.applicationHalf(this.coverletter.applicationHalf) },
-    applicationType() { return convert.applicationType(this.coverletter.applicationType) },
-    isApplication() { return convert.isApplication(this.coverletter.isApplication) },
-    isPass() { return convert.isPass(this.coverletter.isPass) },
+    applicationInfo() {
+      const { applicationYear, jobType } = this.coverletter;
+      const infos = [
+        applicationYear,
+        this.applicationHalf,
+        this.applicationType,
+        jobType
+      ].filter(item => !!item);
+      return infos.join(" | ");
+    },
+    applicationHalf() {
+      return convert.applicationHalf(this.coverletter.applicationHalf);
+    },
+    applicationType() {
+      return convert.applicationType(this.coverletter.applicationType);
+    },
+    isApplication() {
+      return convert.isApplication(this.coverletter.isApplication);
+    },
+    isPass() {
+      return convert.isPass(this.coverletter.isPass);
+    },
+    applicationStatus() {
+      // 지원대기일 경우 지원대기
+      if (this.isApplication == "지원 대기") return this.isApplication;
+
+      // 지원 완료 -> 결과 대기
+      // 합격했을 경우 합격
+      // 불합격했을 경우 불합격
+      if (
+        this.isPass == "합격" ||
+        this.isPass == "불합격" ||
+        this.isApplication == "지원 완료"
+      )
+        return this.isPass;
+
+      // 기타일 경우 출력 x
+      else return "";
+    },
     deadline() {
-
       // 미지원이거나 마감일 데이터가 없는 경우 표시 안함
-      if (!this.coverletter.application || !this.coverletter.deadline) return;
-
-      // 지원 완료한 경우 표시 안함
-      if (this.coverletter.application) return;
+      if (!this.isApplication == "지원 대기") return;
+      if (!this.coverletter.deadline) return;
 
       // TODO : DateTime 의존성 분리 필요
       const deadline = this.$moment(this.coverletter.deadline).format(
         "YYYY년 MM월 DD일 HH시"
       );
-      
+
       return `서류 마감 : ${deadline}`;
     }
   },
   methods: {
-    ...mapActions(['FETCH_COVERLETTERS']),
+    ...mapActions(["FETCH_COVERLETTERS"]),
     onClickCoverletter() {
-      let routeData = this.$router.resolve({
-        name: "coverletterDetail",
-        params: { cid: this.coverletter.id }
-      });
-
       const popup = window.open(
-        routeData.href,
+        `coverletters/${this.coverletter.id}/info`,
         `coverletter${this.coverletter.id}`,
         "width=500,height=700"
       );
@@ -67,32 +92,29 @@ export default {
 </script>
 
 <style>
-.coverletter_container {
+.coverletter-item {
   display: flex;
   flex-direction: row;
-  /* margin: 10px; */
-  /* min-width: 400px; */
-  /* max-width: 100%; */
-  border: 1px solid #E3E3E3;
-  flex-grow: 1;
+
   padding: 10px;
-  overflow: hidden;
   margin-bottom: 3px;
+
+  border: 1px solid #e3e3e3;
   border-radius: 5px 5px 5px 5px;
+
   cursor: pointer;
 }
 
-.coverletter_container:hover {
-  background-color: #F7F7F7;
+.coverletter-item:hover {
+  background-color: #f7f7f7;
 }
 
-.coverletter_etc {
+.coverletter-item-status {
   align-self: center;
   margin-left: auto;
 }
 
-.sub_info {
+.coverletter-item-info {
   color: #808080;
 }
-
 </style>

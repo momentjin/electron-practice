@@ -1,5 +1,6 @@
 const state = {
     token: null,
+    totalCoverletterNum: 0,
     coverletters: [],
     filteredCoverletters: [],
     coverletter: [],
@@ -13,6 +14,10 @@ const state = {
         motto: ''
     },
     notifications: [],
+    pageInfo: {
+        currentPageNo: 1,
+        totalPageNum: 1,
+    }
 };
 
 export default state;

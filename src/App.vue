@@ -3,24 +3,18 @@
     <div class="app-container">
       <div class="main-container">
         <!-- 팝업일 때 메뉴 노출 X -->
-        <nav v-if="needNav"> 
-          <left-navigation/>
-        </nav>
-        <v-content>
-          <v-container fluid class="pa-0">
-            <main>
-              <router-view/>
-            </main>
-          </v-container>
-        </v-content>
+        <left-navigation v-if="needNav" />
+        <main>
+          <router-view />
+        </main>
       </div>
     </div>
   </v-app>
 </template>
 
 <script>
-import LeftNavigation from "./components/common/LeftNavigation.vue";
-import { mapActions } from 'vuex';
+import LeftNavigation from "@/components/layout/LeftNavigation.vue";
+import { mapActions } from "vuex";
 
 export default {
   name: "App",
@@ -29,10 +23,10 @@ export default {
   },
   computed: {
     needNav() {
-      return !opener && !this.$route.path.includes('login');
+      return !opener && !this.$route.path.includes("login");
     },
     isLoginView() {
-      return this.$route.path.includes('login');
+      return this.$route.path.includes("login");
     }
   },
   created() {
@@ -43,7 +37,7 @@ export default {
     source: String
   },
   methods: {
-    ...mapActions(["FETCH_HASHTAGS"]),
+    ...mapActions(["FETCH_HASHTAGS"])
   }
 };
 </script>
@@ -63,5 +57,10 @@ export default {
 
 main {
   flex-grow: 1;
+  min-height: 100%;
+}
+
+a {
+  text-decoration: none;
 }
 </style>
