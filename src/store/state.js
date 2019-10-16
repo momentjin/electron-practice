@@ -17,7 +17,8 @@ const state = {
     pageInfo: {
         currentPageNo: 1,
         totalPageNum: 1,
-    }
+    },
+    isSearchView: false
 };
 
 export default state;

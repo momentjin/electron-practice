@@ -16,6 +16,11 @@ const mutations = {
     },
     SET_FILTERED_COVERLETTERS(state, filteredCoverletters) {
         state.filteredCoverletters = filteredCoverletters;
+        state.isSearchView = true;
+    },
+    RESET_FILTERED_COVERLETTERS(state) {
+        state.filteredCoverletters = state.coverletters;
+        state.isSearchView = false;
     },
     SET_COVERLETTER(state, coverletter) {
         state.coverletter.push(coverletter);
@@ -126,7 +131,7 @@ const mutations = {
     },
     SET_TOTAL_COVERLETTER_NUM(state, data) {
         state.totalCoverletterNum = data;
-    }
+    },
 };
 
 function getCoverletter(state, cid) {

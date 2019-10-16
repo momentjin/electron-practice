@@ -7,10 +7,10 @@ import { mapState, mapActions } from "vuex";
 
 export default {
   computed: {
-    ...mapState(["pageInfo"]),
+    ...mapState(["pageInfo", "isSearchView"]),
     active() {
       const { currentPageNo, totalPageNum } = this.pageInfo;
-      return currentPageNo < totalPageNum;
+      return currentPageNo < totalPageNum && !this.isSearchView;
     }
   },
   methods: {

@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapActions, mapMutations } from "vuex";
 
 export default {
   data() {
@@ -20,7 +20,16 @@ export default {
       enterKeyFlag: true
     };
   },
+  watch: {
+    searchValue(newValue) {
+      if (!newValue.trim()) {
+        console.log("?");
+        this.RESET_FILTERED_COVERLETTERS();
+      }
+    }
+  },
   methods: {
+    ...mapMutations(["RESET_FILTERED_COVERLETTERS"]),
     ...mapActions(["SEARCH_COVERLETTERS_BY_COMPANY_NAME"]),
     onPressEnter() {
       const self = this;
