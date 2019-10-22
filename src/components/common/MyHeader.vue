@@ -1,9 +1,10 @@
 <template>
   <header>
-    <span class="header-title">
+    <span class="header-title" v-bind:class="{clickable: isClickable}" ref="title">
       <h3>
         {{title}}
         <span class="header-title-sub">{{ subData }}</span>
+        <span v-if="isClickable" class="more-btn"> ▼ </span> 
       </h3>
     </span>
     <div class="header-button-container">
@@ -23,12 +24,27 @@ export default {
     },
     buttons: {
       type: Array,
-      required: false,
-      default: () => []
+      required: false
     },
     subData: {
       type: Number,
       required: false
+    },
+    onClickHeaderTitle: {
+      type: Function,
+      required: false,
+      default: null
+    }
+  },
+  data() {
+    return {
+      isClickable: false
+    };
+  },
+  mounted() {
+    if (this.onClickHeaderTitle) {
+      this.$refs.title.addEventListener("click", this.onClickHeaderTitle);
+      this.isClickable = true;
     }
   }
 };
@@ -63,5 +79,14 @@ button.v-btn[disabled] {
   opacity: 0.6;
   color: red;
   background-color: red;
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+.more-btn {
+  font-size: 5px;
+  color: #A6A6A6;
 }
 </style>

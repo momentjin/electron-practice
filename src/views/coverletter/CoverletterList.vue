@@ -1,23 +1,28 @@
 <template>
   <div class="menu-container">
-    <my-header title="자기소개서" :subData="totalCoverletterNum" :buttons="headerButtons" headerMenuDatas></my-header>
-    <search-bar :placeHolderValue="placeHolderValue" />
+    <my-header
+      title="자기소개서"
+      :subData="totalCoverletterNum"
+      :buttons="headerButtons"
+      :onClickHeaderTitle="onClickHeaderTitle"
+    />
+    <coverletter-search-bar :placeHolderValue="placeHolderValue" />
     <coverletter-list />
     <input type="file" multiple ref="converter" @change="onChangeFile" hidden />
   </div>
 </template>
 
 <script>
+import MyHeader from "@/components/common/MyHeader.vue";
+import CoverletterSearchBar from "@/components/coverletter/CoverletterSearchBar.vue";
 import CoverletterList from "@/components/coverletter/CoverletterList.vue";
-import MyHeader from "@/components/coverletter/CoverletterHeader.vue";
-import SearchBar from "@/components/coverletter/SearchBar.vue";
 import { mapActions, mapState } from "vuex";
 
 export default {
   components: {
     CoverletterList,
     MyHeader,
-    SearchBar
+    CoverletterSearchBar
   },
   data() {
     return {
@@ -46,7 +51,7 @@ export default {
   methods: {
     ...mapActions(["FETCH_COVERLETTERS", "CONVERT_FILES"]),
     getCoverletterList() {
-      this.FETCH_COVERLETTERS({pageNo: this.pageInfo.currentPageNo});
+      this.FETCH_COVERLETTERS({ pageNo: this.pageInfo.currentPageNo });
     },
     onClickAddBtn() {
       const popup = window.open(
@@ -69,7 +74,6 @@ export default {
 
       this.$refs.converter.click();
     },
-
     onChangeFile() {
       const selectedFiles = this.$refs.converter.files;
       if (!selectedFiles || !selectedFiles.length) return;
@@ -90,6 +94,9 @@ export default {
         .catch(err => {
           alert(err.data.message);
         });
+    },
+    onClickHeaderTitle() {
+      this.$router.push("/questions");
     }
   }
 };

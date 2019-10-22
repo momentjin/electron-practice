@@ -1,14 +1,19 @@
 <template>
   <div class="menu-container">
-    <my-header title="문항" :subData="totalQuestionNum" :buttons="headerButtons"></my-header>
-    <search-bar :placeHolderValue="placeHolderValue" />
+    <my-header
+      title="문항"
+      :subData="totalQuestionNum"
+      :buttons="headerButtons"
+      :onClickHeaderTitle="onClickHeaderTitle"
+    />
+    <question-search-bar :placeHolderValue="placeHolderValue" />
     <question-list />
   </div>
 </template>
 
 <script>
-import MyHeader from "@/components/question/QuestionHeader.vue";
-import SearchBar from "@/components/question/SearchBar.vue";
+import MyHeader from "@/components/common/MyHeader.vue";
+import QuestionSearchBar from "@/components/question/QuestionSearchBar.vue";
 import QuestionList from "@/components/question/QuestionList.vue";
 
 import { mapActions, mapState } from "vuex";
@@ -16,8 +21,8 @@ import { mapActions, mapState } from "vuex";
 export default {
   components: {
     MyHeader,
-    SearchBar,
-    QuestionList
+    QuestionList,
+    QuestionSearchBar
   },
   data() {
     return {
@@ -58,6 +63,9 @@ export default {
           self.FETCH_COVERLETTERS();
         };
       };
+    },
+    onClickHeaderTitle() {
+      this.$router.push("/coverletters");
     }
   }
 };

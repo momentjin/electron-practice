@@ -44,7 +44,6 @@ export default {
   methods: {
     ...mapActions(["CHECK_NOTIFICATION"]),
     onClickNotification() {
-      debugger;
       this.CHECK_NOTIFICATION(this.notificationId);
 
       const popup = window.open(

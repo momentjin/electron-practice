@@ -11,14 +11,12 @@
 </template>
 
 <script>
-import { mapActions, mapMutations } from "vuex";
-
 export default {
   props: {
     placeHolderValue: {
       type: String,
       required: false,
-      default: ''
+      default: ""
     }
   },
   data() {
@@ -31,28 +29,30 @@ export default {
     searchValue(newValue) {
       if (!newValue.trim()) {
         console.log("?");
-        this.RESET_FILTERED_COVERLETTERS();
+        this.reset();
       }
     }
   },
   methods: {
-    ...mapMutations(["RESET_FILTERED_COVERLETTERS"]),
-    ...mapActions(["SEARCH_COVERLETTERS_BY_COMPANY_NAME"]),
     onPressEnter() {
       const self = this;
       if (!self.enterKeyFlag) return;
 
       self.enterKeyFlag = false;
 
-      this.SEARCH_COVERLETTERS_BY_COMPANY_NAME({
-        companyName: this.searchValue
-      })
+      this.search()
         .catch(e => console.log(e))
         .finally(() => {
           setTimeout(() => {
             self.enterKeyFlag = true;
           }, 1500);
         });
+    },
+    reset() {
+      return;
+    },
+    search() {
+      return new Promise();
     }
   }
 };

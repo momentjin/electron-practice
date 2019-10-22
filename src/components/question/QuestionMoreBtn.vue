@@ -9,7 +9,6 @@ export default {
   computed: {
     ...mapState(["pageInfoForQuestion", "isSearchViewForQuestion"]),
     active() {
-      debugger;
       const { currentPageNo, totalPageNum } = this.pageInfoForQuestion;
       return currentPageNo < totalPageNum && !this.isSearchViewForQuestion;
     }

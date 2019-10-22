@@ -64,8 +64,6 @@ export default {
     setActiveMenu(changedMenuName) {
       const after = changedMenuName.replace("/", "");
 
-      debugger;
-
       for (const menu of this.menuButtons) {
         for (const routerName of menu.routerNames) {
           if (routerName == after) {

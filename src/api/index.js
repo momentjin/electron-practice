@@ -16,8 +16,6 @@ const request = (method, url, data) => {
         })
         .then(result => result.data)
         .catch(result => {
-            debugger;
-
             const { status } = result.response;
 
             if (status === UNAUTHORIZED)
@@ -85,7 +83,6 @@ export const coverletter = {
 
 export const question = {
     fetchByHashtags({ hashtags }) {
-        debugger;
         return request('get', `/questions/search?hashtags=${hashtags}`)
     },
     fetch({ pageNo }) {

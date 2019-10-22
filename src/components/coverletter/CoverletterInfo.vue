@@ -170,8 +170,6 @@ export default {
       return true;
     },
     coverletter() {
-      debugger;
-
       if (this.$route.params.cid == "new") {
         return this.findCoverletterById(this.coverletterNewIndex);
       }

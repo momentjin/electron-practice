@@ -32,11 +32,9 @@ const actions = {
             });
     },
     CREATE_COVERLETTER(_, data) {
-        debugger;
         return api.coverletter.create(data)
     },
     UPDATE_COVERLETTER(_, data) {
-        debugger;
         return api.coverletter.update(data);
     },
     DELETE_COVERLETTER(_, id) {

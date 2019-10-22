@@ -32,8 +32,6 @@ export default {
     ...mapGetters(["findCoverletterById"]),
     ...mapState(["coverletterNewIndex"]),
     coverletter() {
-      debugger;
-
       if (this.$route.params.cid == "new") {
         return this.findCoverletterById(this.coverletterNewIndex);
       }

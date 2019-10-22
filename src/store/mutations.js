@@ -42,7 +42,6 @@ const mutations = {
     },
     SET_FILTERED_QUESTIONS(state, filteredQuestions) {
         state.filteredQuestions = filteredQuestions;
-        debugger;
         state.isSearchViewForQuestion = true;
     },
     RESET_FILTERED_QUESTIONS(state) {
