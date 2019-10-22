@@ -1,6 +1,6 @@
 <template>
   <div class="coverletter-container">
-    <CoverletterNoItem v-if="!filteredCoverletters.length" />
+    <coverletter-no-item v-if="!filteredCoverletters.length" />
     <div v-else>
       <coverletter-item
         v-for="coverletter in filteredCoverletters"
@@ -21,7 +21,7 @@ import CoverletterMoreBtn from "@/components/coverletter/CoverletterMoreBtn.vue"
 export default {
   components: { CoverletterMoreBtn, CoverletterItem, CoverletterNoItem },
   computed: {
-    ...mapState(["filteredCoverletters"])
+    ...mapState(["filteredCoverletters"]),
   }
 };
 </script>

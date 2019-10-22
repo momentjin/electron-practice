@@ -1,6 +1,17 @@
 import * as api from '../api'
 
 const mutations = {
+    SET_QUESTIONS(state, questions) {
+        // 중복 제거
+        let tempQuestions = [];
+        for (const c of questions) {
+            const hasQuestion = !!state.questions.find(baseQ => baseQ.id == c.id);
+            if (!hasQuestion) tempQuestions.push(c);
+        }
+
+        state.questions = state.questions.concat(tempQuestions);
+        state.filteredQuestions = state.questions;
+    },
     SET_MEMBER_NAME(state, name) {
         state.memberInfo.name = name;
     },
@@ -11,17 +22,43 @@ const mutations = {
         state.memberInfo.profileImageUrl = profileImageUrl;
     },
     SET_COVERLETTERS(state, coverletters) {
-        state.coverletters = state.coverletters.concat(coverletters);
+        // 중복 제거
+        let tempCoverletters = [];
+        for (const c of coverletters) {
+            const hasCoverletter = !!state.coverletters.find(baseC => baseC.id == c.id);
+            if (!hasCoverletter) tempCoverletters.push(c);
+        }
+
+        state.coverletters = state.coverletters.concat(tempCoverletters);
         state.filteredCoverletters = state.coverletters;
     },
     SET_FILTERED_COVERLETTERS(state, filteredCoverletters) {
         state.filteredCoverletters = filteredCoverletters;
+        state.isSearchView = true;
+    },
+    RESET_FILTERED_COVERLETTERS(state) {
+        state.filteredCoverletters = state.coverletters;
+        state.isSearchView = false;
+    },
+    SET_FILTERED_QUESTIONS(state, filteredQuestions) {
+        state.filteredQuestions = filteredQuestions;
+        state.isSearchViewForQuestion = true;
+    },
+    RESET_FILTERED_QUESTIONS(state) {
+        state.filteredQuestions = state.questions;
+        state.isSearchViewForQuestion = false;
     },
     SET_COVERLETTER(state, coverletter) {
         state.coverletter.push(coverletter);
     },
     SET_PAGE_INFO(state, pageInfo) {
         state.pageInfo = {
+            currentPageNo: pageInfo.pageNo,
+            totalPageNum: pageInfo.totalPageNum
+        }
+    },
+    SET_PAGE_INFO_FOR_QUESTION(state, pageInfo) {
+        state.pageInfoForQuestion = {
             currentPageNo: pageInfo.pageNo,
             totalPageNum: pageInfo.totalPageNum
         }
@@ -96,9 +133,6 @@ const mutations = {
         coverletter.questions.push({ id: newQuestionIdx, title: "", contents: "", hashtags: [] });
         return newQuestionIdx;
     },
-    SET_QUESTIONS(state, questions) {
-        state.questions = questions;
-    },
     SET_HASHTAGS(state, hashtags) {
         state.hashtags = hashtags;
     },
@@ -126,7 +160,10 @@ const mutations = {
     },
     SET_TOTAL_COVERLETTER_NUM(state, data) {
         state.totalCoverletterNum = data;
-    }
+    },
+    SET_TOTAL_QUESTION_NUM(state, data) {
+        state.totalQuestionNum = data;
+    },
 };
 
 function getCoverletter(state, cid) {

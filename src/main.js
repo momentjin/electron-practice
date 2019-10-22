@@ -8,16 +8,6 @@ import store from './store'
 
 Vue.config.productionTip = false
 
-import Vuetify from 'vuetify/lib'
-import 'vuetify/src/stylus/app.styl'
-
-Vue.use(Vuetify, {
-    iconfont: 'md',
-})
-
-import infiniteScroll from 'vue-infinite-scroll'
-Vue.use(infiniteScroll);
-
 new Vue({
     router,
     store,

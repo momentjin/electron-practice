@@ -3,7 +3,7 @@
     <input
       class="search-bar"
       type="text"
-      placeholder="회사명을 입력하고 'Enter' 키를 눌러 검색"
+      :placeholder="placeHolderValue"
       v-model="searchValue"
       @keyup.enter.stop="onPressEnter"
     />
@@ -11,32 +11,48 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
-
 export default {
+  props: {
+    placeHolderValue: {
+      type: String,
+      required: false,
+      default: ""
+    }
+  },
   data() {
     return {
       searchValue: "",
       enterKeyFlag: true
     };
   },
+  watch: {
+    searchValue(newValue) {
+      if (!newValue.trim()) {
+        console.log("?");
+        this.reset();
+      }
+    }
+  },
   methods: {
-    ...mapActions(["SEARCH_COVERLETTERS_BY_COMPANY_NAME"]),
     onPressEnter() {
       const self = this;
       if (!self.enterKeyFlag) return;
 
       self.enterKeyFlag = false;
 
-      this.SEARCH_COVERLETTERS_BY_COMPANY_NAME({
-        companyName: this.searchValue
-      })
+      this.search()
         .catch(e => console.log(e))
         .finally(() => {
           setTimeout(() => {
             self.enterKeyFlag = true;
           }, 1500);
         });
+    },
+    reset() {
+      return;
+    },
+    search() {
+      return new Promise();
     }
   }
 };

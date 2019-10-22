@@ -7,17 +7,17 @@ import { mapState, mapActions } from "vuex";
 
 export default {
   computed: {
-    ...mapState(["pageInfo", "isSearchView"]),
+    ...mapState(["pageInfoForQuestion", "isSearchViewForQuestion"]),
     active() {
-      const { currentPageNo, totalPageNum } = this.pageInfo;
-      return currentPageNo < totalPageNum && !this.isSearchView;
+      const { currentPageNo, totalPageNum } = this.pageInfoForQuestion;
+      return currentPageNo < totalPageNum && !this.isSearchViewForQuestion;
     }
   },
   methods: {
-    ...mapActions(["FETCH_COVERLETTERS"]),
+    ...mapActions(["FETCH_QUESTIONS"]),
     loadMore() {
-      const nextPage = this.pageInfo.currentPageNo + 1;
-      this.FETCH_COVERLETTERS({ pageNo: nextPage });
+      const nextPage = this.pageInfoForQuestion.currentPageNo + 1;
+      this.FETCH_QUESTIONS({ pageNo: nextPage });
     }
   }
 };

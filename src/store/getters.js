@@ -1,6 +1,5 @@
 const getters = {
     findCoverletterById: state => id => {
-        debugger;
         return state.coverletter.find(coverletter => coverletter.id == id);
     },
     findQuestionById: state => (cid, pid) => {
@@ -17,7 +16,6 @@ const getters = {
         return state.memberInfo;
     },
     isLastPage: state => {
-        debugger;
         const { currentPageNo, totalPageNum } = state.pageInfo;
         return currentPageNo == totalPageNum;
     }
