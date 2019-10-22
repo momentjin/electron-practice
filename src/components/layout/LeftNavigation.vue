@@ -37,8 +37,18 @@ export default {
   data() {
     return {
       menuButtons: [
-        { title: "coverletters", icon: "folder", disabled: true },
-        { title: "user", icon: "settings_applications", disabled: false },
+        {
+          title: "coverletters",
+          routerNames: ["", "coverletters", "questions"],
+          icon: "folder",
+          disabled: true
+        },
+        {
+          title: "user",
+          routerNames: ["user"],
+          icon: "settings_applications",
+          disabled: false
+        }
       ],
       functionButtons: [
         { title: "logout", icon: "power_settings_new", callback: this.logout }
@@ -54,19 +64,20 @@ export default {
     setActiveMenu(changedMenuName) {
       const after = changedMenuName.replace("/", "");
 
-      this.menuButtons.forEach(menu => {
-        if (menu.title == after) menu.disabled = false;
-        else menu.disabled = true;
-      });
+      debugger;
 
-      if (after == "") {
-        this.menuButtons[0].disabled = false;
-        return;
+      for (const menu of this.menuButtons) {
+        for (const routerName of menu.routerNames) {
+          if (routerName == after) {
+            menu.disabled = false;
+            break;
+          }
+          else {
+            menu.disabled = true;
+          }
+        }
       }
 
-      if (after == "questions") {
-        this.menuButtons[0].disabled = false;
-      }
     },
     logout() {
       if (!confirm("로그아웃 하시겠습니까?")) return;
