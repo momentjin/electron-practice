@@ -1,12 +1,20 @@
 import * as api from '../api'
 
 const actions = {
+    FETCH_QUESTIONS({ commit }, { pageNo }) {
+        return api.question.fetch({ pageNo })
+            .then(data => {
+                commit('SET_QUESTIONS', data.content);
+                commit('SET_TOTAL_QUESTION_NUM', data.totalElements);
+                commit('SET_PAGE_INFO_FOR_QUESTION', { pageNo: pageNo, totalPageNum: data.totalPages });
+            });
+    },
     FETCH_COVERLETTERS({ dispatch, commit }, { pageNo }) {
         return api.coverletter.fetch({ pageNo })
             .then(data => {
                 commit('SET_COVERLETTERS', data.content);
                 commit('SET_TOTAL_COVERLETTER_NUM', data.totalElements);
-                commit('SET_PAGE_INFO', { pageNo: pageNo, totalPageNum: data.totalPages })
+                commit('SET_PAGE_INFO', { pageNo: pageNo, totalPageNum: data.totalPages });
             })
             .then(() => dispatch('FETCH_HASHTAGS'))
             .then(() => dispatch('FETCH_NOTIFICATIONS'))
@@ -34,9 +42,9 @@ const actions = {
     DELETE_COVERLETTER(_, id) {
         return api.coverletter.delete(id);
     },
-    FETCH_QUESTIONS_BY_HASHTAG({ commit }, hashtag) {
-        return api.question.fetchByhashtags(hashtag)
-            .then(data => commit('SET_QUESTIONS', data));
+    FETCH_QUESTIONS_BY_HASHTAG({ commit }, { hashtags }) {
+        return api.question.fetchByHashtags({ hashtags })
+            .then(data => commit('SET_FILTERED_QUESTIONS', data));
     },
     FETCH_HASHTAGS({ commit }) {
         return api.hashtag.fetch()

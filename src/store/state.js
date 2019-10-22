@@ -5,7 +5,9 @@ const state = {
     filteredCoverletters: [],
     coverletter: [],
     coverletterNewIndex: -1,
+    totalQuestionNum: 0,
     questions: [],
+    filteredQuestions: [],
     hashtags: [],
     memberInfo: {
         profileImageUrl: '',
@@ -18,7 +20,12 @@ const state = {
         currentPageNo: 1,
         totalPageNum: 1,
     },
-    isSearchView: false
+    pageInfoForQuestion: {
+        currentPageNo: 1,
+        totalPageNum: 1,
+    },
+    isSearchView: false,
+    isSearchViewForQuestion: false,
 };
 
 export default state;

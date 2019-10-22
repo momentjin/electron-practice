@@ -21,7 +21,7 @@ import CoverletterMoreBtn from "@/components/coverletter/CoverletterMoreBtn.vue"
 export default {
   components: { CoverletterMoreBtn, CoverletterItem, CoverletterNoItem },
   computed: {
-    ...mapState(["coverletters", "filteredCoverletters"]),
+    ...mapState(["filteredCoverletters"]),
   }
 };
 </script>

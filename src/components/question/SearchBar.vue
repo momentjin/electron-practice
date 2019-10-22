@@ -18,7 +18,7 @@ export default {
     placeHolderValue: {
       type: String,
       required: false,
-      default: ''
+      default: ""
     }
   },
   data() {
@@ -30,22 +30,23 @@ export default {
   watch: {
     searchValue(newValue) {
       if (!newValue.trim()) {
-        console.log("?");
-        this.RESET_FILTERED_COVERLETTERS();
+        this.RESET_FILTERED_QUESTIONS();
       }
     }
   },
   methods: {
-    ...mapMutations(["RESET_FILTERED_COVERLETTERS"]),
-    ...mapActions(["SEARCH_COVERLETTERS_BY_COMPANY_NAME"]),
+    ...mapMutations(["RESET_FILTERED_QUESTIONS"]),
+    ...mapActions(["FETCH_QUESTIONS_BY_HASHTAG"]),
     onPressEnter() {
       const self = this;
       if (!self.enterKeyFlag) return;
 
       self.enterKeyFlag = false;
 
-      this.SEARCH_COVERLETTERS_BY_COMPANY_NAME({
-        companyName: this.searchValue
+      const hashtags = this.searchValue.split(" ").join(",");
+
+      this.FETCH_QUESTIONS_BY_HASHTAG({
+        hashtags
       })
         .catch(e => console.log(e))
         .finally(() => {

@@ -61,6 +61,11 @@ export default {
 
       if (after == "") {
         this.menuButtons[0].disabled = false;
+        return;
+      }
+
+      if (after == "questions") {
+        this.menuButtons[0].disabled = false;
       }
     },
     logout() {

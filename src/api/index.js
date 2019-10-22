@@ -67,7 +67,7 @@ export const setAuthInHeader = token => {
 
 export const coverletter = {
     fetch({ id, pageNo }) {
-        return id ? request('get', `/coverletters/${id}`) : request('get', `/coverletters?page=${pageNo}&size=2`)
+        return id ? request('get', `/coverletters/${id}`) : request('get', `/coverletters?page=${pageNo}&size=10`)
     },
     search({ companyName }) {
         return request('get', `/coverletters/search?companyName=${companyName}`)
@@ -84,8 +84,12 @@ export const coverletter = {
 }
 
 export const question = {
-    fetchByhashtags(hashtag) {
-        return request('get', `/questions?hashtag=${hashtag}`)
+    fetchByHashtags({ hashtags }) {
+        debugger;
+        return request('get', `/questions/search?hashtags=${hashtags}`)
+    },
+    fetch({ pageNo }) {
+        return request('get', `/questions?page=${pageNo}&size=10`)
     }
 }
 

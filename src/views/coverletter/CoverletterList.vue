@@ -1,7 +1,7 @@
 <template>
   <div class="menu-container">
-    <my-header title="자기소개서" :subData="totalCoverletterNum" :buttons="headerButtons"></my-header>
-    <search-bar />
+    <my-header title="자기소개서" :subData="totalCoverletterNum" :buttons="headerButtons" headerMenuDatas></my-header>
+    <search-bar :placeHolderValue="placeHolderValue" />
     <coverletter-list />
     <input type="file" multiple ref="converter" @change="onChangeFile" hidden />
   </div>
@@ -9,7 +9,7 @@
 
 <script>
 import CoverletterList from "@/components/coverletter/CoverletterList.vue";
-import MyHeader from "@/components/common/MyHeader.vue";
+import MyHeader from "@/components/coverletter/CoverletterHeader.vue";
 import SearchBar from "@/components/coverletter/SearchBar.vue";
 import { mapActions, mapState } from "vuex";
 
@@ -21,6 +21,7 @@ export default {
   },
   data() {
     return {
+      placeHolderValue: "회사명을 입력하고 'Enter' 키를 눌러 검색",
       newPopupCount: 0,
       headerButtons: [
         {
@@ -37,7 +38,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(["coverletters", "totalCoverletterNum", "pageInfo"])
+    ...mapState(["totalCoverletterNum", "pageInfo"])
   },
   created() {
     this.getCoverletterList();
@@ -56,6 +57,7 @@ export default {
 
       const self = this;
 
+      // VUEX 공유문제 임시 처리
       popup.onload = function() {
         popup.onbeforeunload = function() {
           self.FETCH_COVERLETTERS();
