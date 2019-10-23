@@ -10,7 +10,7 @@ const state = {
     filteredQuestions: [],
     hashtags: [],
     memberInfo: {
-        profileImageUrl: '',
+        profileImage: '',
         id: '',
         name: '',
         motto: ''

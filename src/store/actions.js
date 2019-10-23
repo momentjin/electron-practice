@@ -77,6 +77,15 @@ const actions = {
     CHECK_NOTIFICATION({ dispatch }, id) {
         return api.notification.check(id)
             .then(() => dispatch('FETCH_NOTIFICATIONS'));
+    },
+    UPDATE_PROFILE_IMAGE({ dispatch }, data) {
+        return api.member.updateProfileImage(data)
+            .then(() => dispatch('GET_MEMBER_INFO'))
+            .then(() => dispatch('GET_PROFILE_IMAGE'))
+    },
+    GET_PROFILE_IMAGE({ commit }) {
+        return api.member.getProfileImage()
+            .then(data => commit('SET_PROFILE_IMAGE', data));
     }
 }
 
