@@ -1,14 +1,14 @@
 <template>
   <div class="profile-image-container">
     <img
-      v-if="!memberInfo.profileImage"
+      v-if="!profileImage"
       src="../../resource/empty_user.png"
       id="preview"
       @click="openFileSelector"
     />
     <img
       v-else
-      :src="'data:image/jpg;base64,'+memberInfo.profileImage"
+      :src="'data:image/jpg;base64,'+profileImage"
       id="preview"
       @click="openFileSelector"
     />
@@ -26,11 +26,11 @@ export default {
     };
   },
   computed: {
-    ...mapState(["memberInfo"]),
+    ...mapState(["memberInfo", "profileImage"]),
     hasProfileImage() {
       return (
-        this.memberInfo.hasProfileImage &&
-        this.memberInfo.hasProfileImage.length != 0
+        this.profileImage &&
+        this.profileImage != 0
       );
     }
   },

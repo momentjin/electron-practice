@@ -19,18 +19,7 @@ const mutations = {
         state.memberInfo.motto = motto;
     },
     SET_PROFILE_IMAGE(state, data) {
-        // vue js에서는 state 객체 내 일부 속성만 바뀌면 반응하지 않음
-        // 따라서 객체 복사를 통해 통째로 바꿔줌 (fake)
-        // TODO : 라이브러리를 쓰거나, 모듈화 하기
-        var copy = state.memberInfo.constructor();
-        for (var attr in state.memberInfo) {
-            if (state.memberInfo.hasOwnProperty(attr)) {
-                copy[attr] = state.memberInfo[attr];
-            }
-        }
-        copy.profileImage = data;
-
-        state.memberInfo = copy;
+        state.profileImage = data;
     },
     SET_COVERLETTERS(state, coverletters) {
         // 중복 제거

@@ -10,7 +10,6 @@ const state = {
     filteredQuestions: [],
     hashtags: [],
     memberInfo: {
-        profileImage: '',
         id: '',
         name: '',
         motto: ''
@@ -26,6 +25,7 @@ const state = {
     },
     isSearchView: false,
     isSearchViewForQuestion: false,
+    profileImage: '',
 };
 
 export default state;
