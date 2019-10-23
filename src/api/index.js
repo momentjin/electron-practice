@@ -108,6 +108,12 @@ export const member = {
     },
     updateMemberInfo(data) {
         return request('put', '/members', data)
+    },
+    updateProfileImage(data) {
+        return multipartFormRequest('put', '/members/profileImage', data)
+    },
+    getProfileImage() {
+        return request('get', '/members/profileImage');
     }
 }
 

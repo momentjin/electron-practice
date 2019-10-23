@@ -2,41 +2,41 @@
   <div class="menu-container">
     <my-header title="설정" :buttons="headerButtons"></my-header>
 
-    <div class="profile-item">
-      <profile-image />
-    </div>
+    <div v-if="permitRender">
+      <div class="profile-item">
+        <profile-image />
+      </div>
 
-    <div class="profile-item">
-      <div class="input_wrapper">
-        <div class="info-title">
-          아이디
-        </div>
-        <div>
-          <input class="info-field" :value="memberInfo.id" disabled type="text" />
+      <div class="profile-item">
+        <div class="input_wrapper">
+          <div class="info-title">아이디</div>
+          <div>
+            <input class="info-field" :value="memberInfo.id" disabled type="text" />
+          </div>
         </div>
       </div>
-    </div>
 
-    <div class="profile-item">
-      <div class="input_wrapper">
-        <div class="info-title">
-          이름
-          <span class="rule"> ({{name.length}}/10) </span>
-        </div>
-        <div>
-          <input class="info-field" v-model="name" type="text" maxlength="10" />
+      <div class="profile-item">
+        <div class="input_wrapper">
+          <div class="info-title">
+            이름
+            <span class="rule">({{name.length}}/10)</span>
+          </div>
+          <div>
+            <input class="info-field" v-model="name" type="text" maxlength="10" />
+          </div>
         </div>
       </div>
-    </div>
 
-    <div class="profile-item">
-      <div class="input_wrapper">
-        <div class="info-title">
-          좌우명
-          <span class="rule"> ({{motto.length}}/30) </span>
-        </div>
-        <div>
-          <input class="info-field" v-model="motto" maxlength="30" />
+      <div class="profile-item">
+        <div class="input_wrapper">
+          <div class="info-title">
+            좌우명
+            <span class="rule">({{motto.length}}/30)</span>
+          </div>
+          <div>
+            <input class="info-field" v-model="motto" maxlength="30" />
+          </div>
         </div>
       </div>
     </div>
@@ -56,16 +56,22 @@ export default {
         {
           title: "save",
           icon: "send",
-          action: this.saveUserData,
+          action: this.saveUserData
         }
       ]
-    }
+    };
   },
   created() {
     this.getMemberInfo();
   },
   computed: {
     ...mapState(["memberInfo"]),
+    permitRender() {
+      debugger;
+      return this.memberInfo &&
+          this.memberInfo.name &&
+          this.memberInfo.motto;
+    },
     name: {
       get() {
         return this.memberInfo.name;
@@ -80,14 +86,6 @@ export default {
       },
       set(value) {
         return this.$store.commit("SET_MEMBER_MOTTO", value);
-      }
-    },
-    profileImageUrl: {
-      get() {
-        return this.memberInfo.profileImageUrl;
-      },
-      set(value) {
-        this.$store.commit("SET_PROFILE_IMAGE_URL", value);
       }
     },
     saveButtonDisabled() {
@@ -108,7 +106,7 @@ export default {
 
       this.UPDATE_MEMBER_INFO(data)
         .then(() => alert("저장되었습니다."))
-        .catch((e) => alert(e.data.message));
+        .catch(e => alert(e.data.message));
     }
   }
 };
