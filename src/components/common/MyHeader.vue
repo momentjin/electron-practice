@@ -86,7 +86,7 @@ button.v-btn[disabled] {
 }
 
 .more-btn {
-  font-size: 5px;
+  font-size: 10px;
   color: #A6A6A6;
 }
 </style>

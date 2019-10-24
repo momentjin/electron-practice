@@ -17,6 +17,8 @@
             v-model="companyName"
           />
         </div>
+      </div>
+      <div class="coverletter_info_row row_type2">
         <div class="row2">
           <label class="info-title" for="jobType">
             직무
@@ -79,7 +81,7 @@
             type="text"
             id="deadline"
             v-model="deadline"
-            @keypress="onKeyDown"
+            @keyup="onKeyDown"
             placeholder="ex) 2000-05-05 15:00"
           />
         </div>
@@ -119,7 +121,7 @@ import {
   IS_PASSES
 } from "../../utils/CoverletterContants";
 import { mapState, mapGetters, mapActions } from "vuex";
-import MyHeader from '@/components/common/MyHeader.vue';
+import MyHeader from "@/components/common/MyHeader.vue";
 
 export default {
   components: { MyHeader },
@@ -145,15 +147,23 @@ export default {
         },
         {
           title: "saveCoverletter",
-          icon: "send",
+          icon: "save",
           action: this.onSave
         }
       ]
     };
   },
+  created() {
+     if (this.isNew) {
+       this.headerButtons = this.headerButtons.slice(1, 2);
+     }
+  },
   computed: {
     ...mapState(["coverletterNewIndex"]),
     ...mapGetters(["findCoverletterById"]),
+    isNew() {
+      return this.$route.params.cid == "new";
+    },
     isActive() {
       if (
         this.companyName.length <= 0 ||
@@ -170,7 +180,7 @@ export default {
       return true;
     },
     coverletter() {
-      if (this.$route.params.cid == "new") {
+      if (this.isNew) {
         return this.findCoverletterById(this.coverletterNewIndex);
       }
 
@@ -284,16 +294,20 @@ export default {
       "DELETE_COVERLETTER"
     ]),
     onSave() {
-      if (this.$route.params.cid == "new") {
+      if (this.isNew) {
         this.CREATE_COVERLETTER(this.coverletter)
           .then(() => alert("자기소개서가 저장되었습니다"))
-          .catch(() => alert("오류"));
+          .catch(() => {
+            alert("오류")
+          });
       } else {
         this.UPDATE_COVERLETTER(this.coverletter)
           .then(() => {
             alert("자기소개서가 수정되었습니다.");
           })
-          .catch(() => alert("오류"));
+          .catch(() => {
+            alert("오류")
+          });
       }
     },
     onRemove() {
@@ -309,20 +323,11 @@ export default {
       const deadline = this.deadline;
 
       if (deadline.length == 4 || deadline.length == 7) {
-        this.$store.commit("SET_DEADLINE", {
-          cid: this.coverletter.id,
-          value: deadline + "-"
-        });
+        this.deadline += "-";
       } else if (deadline.length == 10) {
-        this.$store.commit("SET_DEADLINE", {
-          cid: this.coverletter.id,
-          value: deadline + " "
-        });
+        this.deadline += " ";
       } else if (deadline.length == 13) {
-        this.$store.commit("SET_DEADLINE", {
-          cid: this.coverletter.id,
-          value: deadline + ":"
-        });
+        this.deadline += ":";
       }
     }
   }

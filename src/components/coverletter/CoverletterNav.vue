@@ -16,7 +16,7 @@
       </div>
 
       <!-- 문항 추가 버튼 -->
-      <li>
+      <li class="view-menu-item">
         <v-icon medium dark @click="onClickAddQuestion">add_circle</v-icon>
       </li>
     </ul>
@@ -47,14 +47,14 @@ export default {
     };
   },
   mounted() {
-    const self = this;
-    this.$nextTick(function() {
-      self.setActiveMenu(self.$route.path);
-    });
+    this.setActiveMenu(this.$route.path);
   },
   watch: {
     $route(to) {
       this.setActiveMenu(to.path);
+    },
+    questions() {
+      this.setActiveMenu(this.$route.path);
     }
   },
   computed: {
@@ -92,15 +92,6 @@ export default {
 </script>
 
 <style>
-.view-menu-container {
-  background: white;
-  width: 65px;
-}
-
-.view-menu-container {
-  background-color: #423630;
-}
-
 .view-menu-item {
   color: #7b736e;
   font-size: 20px;

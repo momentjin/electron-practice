@@ -6,7 +6,7 @@
     v-bind:class="{ notification_active: !checked}"
   >
     <div class="notification-item-top">{{contents}}</div>
-    <div class="notification-item-bottom">{{createDate.replace('T', ' ').substring(0, 16)}}</div>
+    <div class="notification-item-bottom">{{formattedCreateDate}} 생성됨</div>
   </div>
 </template>
 
@@ -40,6 +40,11 @@ export default {
     return {
       active: this.isChecked
     };
+  },
+  computed: {
+    formattedCreateDate() {
+      return this.$moment(this.createDate).fromNow();
+    }
   },
   methods: {
     ...mapActions(["CHECK_NOTIFICATION"]),

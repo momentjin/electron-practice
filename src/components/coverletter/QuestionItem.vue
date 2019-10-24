@@ -29,7 +29,7 @@
           <label class="info-title" for="title">문항 제목</label>
           <input class="info-field" id="title" type="text" v-model="title" />
         </div>
-        <div class="coverletter_info_row row_type1">
+        <div class="coverletter_info_row row_type1 contents">
           <label class="info-title" for="contents">
             문항 내용
             <span class="count">{{ contents.length }}글자</span>
@@ -58,7 +58,7 @@ export default {
         },
         {
           title: "saveCoverletter",
-          icon: "send",
+          icon: "save",
           action: this.onSave
         }
       ]
@@ -161,7 +161,11 @@ export default {
 
 <style>
 textarea {
-  min-height: 500px;
+  min-height: 400px;
+  max-height: 400px;
+  border: 1px solid pink;
+  overflow: scroll;
+  resize: none;
 }
 
 .count {

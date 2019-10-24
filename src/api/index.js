@@ -110,10 +110,10 @@ export const member = {
         return request('put', '/members', data)
     },
     updateProfileImage(data) {
-        return multipartFormRequest('put', '/members/profileImage', data)
+        return multipartFormRequest('put', '/profile', data)
     },
     getProfileImage() {
-        return request('get', '/members/profileImage');
+        return request('get', '/profile');
     }
 }
 

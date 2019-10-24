@@ -51,12 +51,12 @@ export default {
 
 .main-container {
   display: flex;
-  min-width: 300px;
   min-height: 100%;
 }
 
 main {
   flex-grow: 1;
+  min-width: 370px;
   min-height: 100%;
 }
 

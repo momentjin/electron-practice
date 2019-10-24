@@ -31,7 +31,7 @@ export default {
       headerButtons: [
         {
           title: "addCoverletter",
-          icon: "playlist_add",
+          icon: "add_circle",
           action: this.onClickAddBtn
         }
       ]

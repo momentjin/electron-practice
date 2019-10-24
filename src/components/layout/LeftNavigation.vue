@@ -91,9 +91,8 @@ export default {
 .view-container {
   display: flex;
   justify-content: center;
-  width: 70px;
+  min-width: 70px;
   background-color: black;
-  /* background-color: #423630; */
   overflow-x: hidden;
 }
 

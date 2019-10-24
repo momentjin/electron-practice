@@ -28,7 +28,6 @@ export default {
   watch: {
     searchValue(newValue) {
       if (!newValue.trim()) {
-        console.log("?");
         this.reset();
       }
     }
