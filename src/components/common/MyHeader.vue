@@ -4,19 +4,35 @@
       <h3>
         {{title}}
         <span class="header-title-sub">{{ subData }}</span>
-        <span v-if="isClickable" class="more-btn"> ▼ </span> 
+        <span v-if="isClickable" class="more-btn">▼</span>
       </h3>
     </span>
     <div class="header-button-container">
       <span class="header-button" v-for="(button, idx) in buttons" :key="idx">
-        <v-icon @click="button.action">{{ button.icon }}</v-icon>
+        <my-tool-tip v-if="button.tooltip" :contents="button.tooltip">
+          <my-icon
+            :clickAction="button.action"
+            :iconType="button.icon"
+            :disabled="button.disabled"
+          />
+        </my-tool-tip>
+        <my-icon
+          v-else
+          :clickAction="button.action"
+          :iconType="button.icon"
+          :disabled="button.disabled"
+        />
       </span>
     </div>
   </header>
 </template>
 
 <script>
+import MyIcon from "@/components/common/MyIcon.vue";
+import MyToolTip from "@/components/common/MyToolTip.vue";
+
 export default {
+  components: { MyIcon, MyToolTip },
   props: {
     title: {
       type: String,
@@ -41,7 +57,11 @@ export default {
       isClickable: false
     };
   },
+  updated() {
+    debugger;
+  },
   mounted() {
+    debugger;
     if (this.onClickHeaderTitle) {
       this.$refs.title.addEventListener("click", this.onClickHeaderTitle);
       this.isClickable = true;
@@ -52,6 +72,7 @@ export default {
 
 <style>
 header {
+  background-color: white;
   margin: 10px 0px 10px 0px;
   padding: 5px 5px 5px 0px;
 
@@ -75,18 +96,12 @@ header {
   margin-left: 20px;
 }
 
-button.v-btn[disabled] {
-  opacity: 0.6;
-  color: red;
-  background-color: red;
-}
-
 .clickable {
   cursor: pointer;
 }
 
 .more-btn {
   font-size: 10px;
-  color: #A6A6A6;
+  color: #a6a6a6;
 }
 </style>

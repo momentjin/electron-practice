@@ -32,12 +32,14 @@ export default {
         {
           title: "convertCoverletter",
           icon: "input",
-          action: this.onConvertFile
+          action: this.onConvertFile,
+          tooltip: "기존에 파일로 된 자기소개서를 변환합니다."
         },
         {
           title: "addCoverletter",
           icon: "add_circle",
-          action: this.onClickAddBtn
+          action: this.onClickAddBtn,
+          tooltip: "새로운 자기소개서를 작성합니다."
         }
       ]
     };

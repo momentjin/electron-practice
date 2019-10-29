@@ -16,7 +16,7 @@
       <template v-slot:activator="{ on }">
         <v-badge>
           <template v-if="newNotificationNum>0" v-slot:badge>{{newNotificationNum}}</template>
-          <v-icon v-on="on" small dark title="notification">mail_outline</v-icon>
+          <v-icon v-on="on"  dark title="notification">mail_outline</v-icon>
         </v-badge>
       </template>
 

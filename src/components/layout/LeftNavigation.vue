@@ -13,7 +13,7 @@
       <div class="option">
         <notification-list />
         <li v-for="menu in functionButtons" :key="menu.index">
-          <v-icon small dark :title="menu.title" @click="menu.callback">{{menu.icon}}</v-icon>
+          <my-icon color="white" :clickAction="menu.callback" :title="menu.title" :iconType="menu.icon" />
         </li>
       </div>
     </ul>
@@ -21,11 +21,12 @@
 </template>
 
 <script>
+import MyIcon from "@/components/common/MyIcon.vue";
 import NotificationList from "@/components/notification/NotificationList.vue";
 import { mapMutations } from "vuex";
 
 export default {
-  components: { NotificationList },
+  components: { NotificationList, MyIcon },
   created() {
     this.setActiveMenu(this.$route.path);
   },
@@ -40,7 +41,7 @@ export default {
         {
           title: "coverletters",
           routerNames: ["", "coverletters", "questions"],
-          icon: "folder",
+          icon: "vertical_split",
           disabled: true
         },
         {
@@ -59,7 +60,9 @@ export default {
     ...mapMutations(["LOG_OUT"]),
     onChangeView(e) {
       const menuName = e.target.title;
-      this.$router.push(`/${menuName}`);
+      this.$router.push({
+        path: `/${menuName}`
+      });
     },
     setActiveMenu(changedMenuName) {
       const after = changedMenuName.replace("/", "");

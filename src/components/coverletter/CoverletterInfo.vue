@@ -1,115 +1,32 @@
 <template>
   <div>
     <my-header title="자기소개서 지원 정보" :buttons="headerButtons"></my-header>
-
-    <div v-if="coverletter" class="coverletter_info">
-      <div class="coverletter_info_row row_type2">
-        <div class="row2">
-          <label class="info-title" for="companyName">
-            기업명
-            <span class="rule">{{companyName.length}}/{{rules.companyName.maxLength}}</span>
-          </label>
-          <input
-            class="info-field"
-            type="text"
-            id="companyName"
-            :maxLength="rules.companyName.maxLength"
-            v-model="companyName"
-          />
-        </div>
+    <div v-if="coverletter" class="my-form">
+      <div class="my-form-row">
+        <my-input label="기업명" :maxLength="20" :required="true" :value.sync="companyName" />
       </div>
-      <div class="coverletter_info_row row_type2">
-        <div class="row2">
-          <label class="info-title" for="jobType">
-            직무
-            <span class="rule">{{jobType.length}}/{{rules.jobType.maxLength}}</span>
-          </label>
-          <input
-            class="info-field"
-            type="text"
-            id="jobType"
-            :maxlength="rules.jobType.maxLength"
-            v-model="jobType"
-          />
-        </div>
+      <div class="my-form-row">
+        <my-input label="직무" :maxLength="20" :value.sync="jobType" />
       </div>
-      <div class="coverletter_info_row row_type2">
-        <div class="row2">
-          <label class="info-title" for="applicationYear">지원 연도</label>
-          <select class="info-field" name="applicationYear" v-model="applicationYear">
-            <option v-for="year in years" :key="year">{{ year }}</option>
-          </select>
-        </div>
-        <div class="row2">
-          <label class="info-title" for="applicationHalf">지원 분기</label>
-          <select
-            class="info-field"
-            id="applicationHalf"
-            name="applicationHalf"
-            v-model="applicationHalf"
-          >
-            <option
-              v-for="item in applicationHalfs"
-              :key="item.key"
-              :value="item.value"
-            >{{item.value}}</option>
-          </select>
-        </div>
-        <div class="row2">
-          <label class="info-title" for="applicationType">지원 종류</label>
-          <select
-            class="info-field"
-            id="applicationType"
-            name="applicationType"
-            v-model="applicationType"
-          >
-            <option
-              v-for="item in applicationTypes"
-              :key="item.key"
-              :value="item.value"
-              :selected="item.key == coverletter.applicationType"
-            >{{item.value}}</option>
-          </select>
-        </div>
+      <div class="my-form-row">
+        <my-input
+          label="서류마감 일시"
+          :hint="deadlineExample"
+          :value.sync="deadline"
+          :rules="[deadlineRule]"
+        />
       </div>
-      <div class="coverletter_info_row row_type2">
-        <div class="row2">
-          <label class="info-title" for="deadline">서류 마감일시</label>
-          <input
-            maxlength="16"
-            class="info-field"
-            type="text"
-            id="deadline"
-            v-model="deadline"
-            @keyup="onKeyDown"
-            placeholder="ex) 2000-05-05 15:00"
-          />
-        </div>
+      <div class="my-form-row">
+        <my-select label="지원연도" :datas="years" :item.sync="applicationYear" />
+        <my-select label="지원분기" :datas="applicationHalfs" :item.sync="applicationHalf" />
+        <my-select label="지원종류" :datas="applicationTypes" :item.sync="applicationType" />
       </div>
-      <div class="coverletter_info_row row_type2">
-        <div class="row2">
-          <label class="info-title" for="isApplication">제출 여부</label>
-          <select
-            class="info-field"
-            id="isApplication"
-            name="isApplication"
-            v-model="isApplication"
-          >
-            <option
-              v-for="(item, index) in isApplications"
-              :key="index"
-              :value="item.value"
-            >{{item.value}}</option>
-          </select>
-        </div>
-        <div class="row2">
-          <label class="info-title" for="isPass">합격 여부</label>
-          <select class="info-field" id="isPass" name="isPass" v-model="isPass">
-            <option v-for="(item,index) in isPasses" :key="index" :value="item.value">{{item.value}}</option>
-          </select>
-        </div>
+      <div class="my-form-row">
+        <my-select label="제출 여부" :datas="isApplications" :item.sync="isApplication" />
+        <my-select label="합격 여부" :datas="isPasses" :item.sync="isPass" />
       </div>
     </div>
+    <div v-else>로딩중입니다.</div>
   </div>
 </template>
 
@@ -119,79 +36,82 @@ import {
   APPLICATION_TYPES,
   IS_APPLICATIONS,
   IS_PASSES
-} from "../../utils/CoverletterContants";
+} from "@/utils/CoverletterContants";
 import { mapState, mapGetters, mapActions } from "vuex";
 import MyHeader from "@/components/common/MyHeader.vue";
+import MyInput from "@/components/common/MyInput.vue";
+import MySelect from "@/components/common/MySelect.vue";
 
 export default {
-  components: { MyHeader },
+  components: { MyHeader, MyInput, MySelect },
   data() {
     return {
       applicationHalfs: APPLICATION_HALFS,
       applicationTypes: APPLICATION_TYPES,
       isApplications: IS_APPLICATIONS,
       isPasses: IS_PASSES,
-      rules: {
-        companyName: {
-          maxLength: 20
-        },
-        jobType: {
-          maxLength: 20
-        }
-      },
       headerButtons: [
         {
           title: "deleteCoverletter",
           icon: "delete",
-          action: this.onRemove
+          action: this.onRemove,
+          tooltip: "자기소개서를 삭제합니다."
         },
         {
           title: "saveCoverletter",
           icon: "save",
-          action: this.onSave
+          action: this.onSave,
+          tooltip: "자기소개서를 저장합니다.",
+          disabled: false
         }
       ]
     };
   },
   created() {
-     if (this.isNew) {
-       this.headerButtons = this.headerButtons.slice(1, 2);
-     }
+    // 수정 모드에서만, 삭제버튼을 제공한다.
+    if (this.isNew) {
+      this.headerButtons = this.headerButtons.slice(1, 2);
+    }
   },
   computed: {
     ...mapState(["coverletterNewIndex"]),
     ...mapGetters(["findCoverletterById"]),
+    deadlineExample() {
+      return `ex) ${this.$moment().format("YYYY-MM-DD hh:mm")}`;
+    },
     isNew() {
       return this.$route.params.cid == "new";
     },
-    isActive() {
-      if (
-        this.companyName.length <= 0 ||
-        this.companyName.length > this.rules.companyName.maxLength
-      )
-        return false;
-
-      if (
-        this.jobType.length <= 0 ||
-        this.jobType.length > this.rules.jobType.maxLength
-      )
-        return false;
-
-      return true;
-    },
     coverletter() {
-      if (this.isNew) {
-        return this.findCoverletterById(this.coverletterNewIndex);
-      }
-
-      return this.findCoverletterById(this.$route.params.cid);
+      return this.findCoverletterById(
+        this.isNew ? this.coverletterNewIndex : this.$route.params.cid
+      );
     },
     years() {
       const currentYear = new Date().getFullYear();
-      return [currentYear - 2, currentYear - 1, currentYear, currentYear + 1];
+      let years = [];
+      let idx = 0;
+
+      for (let year = currentYear - 1; year <= currentYear + 1; year++) {
+        years.push({ key: idx, value: year });
+        idx = idx + 1;
+      }
+      return years;
+    },
+    deadlineRule() {
+      const self = this;
+      return deadline => {
+        if (self.$moment(deadline, "YYYY-MM-DD HH:mm", true).isValid())
+          return true;
+
+        if (deadline == "") return true; // 공백 허용 (필수값 X)
+
+        return "날짜 시간 형식이 올바르지 않습니다.";
+      };
     },
     companyName: {
       get() {
+        if (!this.coverletter) return "";
         return this.coverletter.companyName;
       },
       set(value) {
@@ -203,12 +123,16 @@ export default {
     },
     applicationYear: {
       get() {
-        return this.coverletter.applicationYear;
+        return this.years.find(
+          y => y.value == this.coverletter.applicationYear
+        );
       },
-      set(value) {
+      set(data) {
+        const applicationYear = this.years.find(x => x.key == data.key);
+
         this.$store.commit("SET_APPLICATION_YEAR", {
           cid: this.coverletter.id,
-          value
+          value: applicationYear.value
         });
       }
     },
@@ -216,14 +140,16 @@ export default {
       get() {
         return this.applicationTypes.find(
           x => x.key == this.coverletter.applicationType
-        ).value;
+        );
       },
-      set(value) {
-        const key = this.applicationTypes.find(x => x.value == value).key;
+      set(data) {
+        const applicationType = this.applicationTypes.find(
+          x => x.key == data.key
+        );
 
         this.$store.commit("SET_APPLICATION_TYPE", {
           cid: this.coverletter.id,
-          value: key
+          value: applicationType.key
         });
       }
     },
@@ -231,14 +157,16 @@ export default {
       get() {
         return this.applicationHalfs.find(
           x => x.key == this.coverletter.applicationHalf
-        ).value;
+        );
       },
-      set(value) {
-        const key = this.applicationHalfs.find(x => x.value == value).key;
+      set(data) {
+        const applicationHalf = this.applicationHalfs.find(
+          x => x.key == data.key
+        );
 
         this.$store.commit("SET_APPLICATION_HALF", {
           cid: this.coverletter.id,
-          value: key
+          value: applicationHalf.key
         });
       }
     },
@@ -246,26 +174,26 @@ export default {
       get() {
         return this.isApplications.find(
           x => x.key == this.coverletter.isApplication
-        ).value;
+        );
       },
-      set(value) {
-        const key = this.isApplications.find(x => x.value == value).key;
+      set(data) {
+        const isApplication = this.isApplications.find(x => x.key == data.key);
 
         this.$store.commit("SET_IS_APPLICATION", {
           cid: this.coverletter.id,
-          value: key
+          value: isApplication.key
         });
       }
     },
     isPass: {
       get() {
-        return this.isPasses.find(x => x.key == this.coverletter.isPass).value;
+        return this.isPasses.find(x => x.key == this.coverletter.isPass);
       },
-      set(value) {
-        const key = this.isPasses.find(x => x.value == value).key;
+      set(data) {
+        const isPass = this.isPasses.find(x => x.key == data.key);
         this.$store.commit("SET_IS_PASS", {
           cid: this.coverletter.id,
-          value: key
+          value: isPass.key
         });
       }
     },
@@ -279,12 +207,21 @@ export default {
     },
     deadline: {
       get() {
+        if (!this.coverletter) return "";
         if (!this.coverletter.deadline) return "";
         return this.coverletter.deadline.replace("T", " ");
       },
       set(value) {
         this.$store.commit("SET_DEADLINE", { cid: this.coverletter.id, value });
       }
+    }
+  },
+  watch: {
+    companyName() {
+      this.validate();
+    },
+    deadline() {
+      this.validate();
     }
   },
   methods: {
@@ -298,7 +235,7 @@ export default {
         this.CREATE_COVERLETTER(this.coverletter)
           .then(() => alert("자기소개서가 저장되었습니다"))
           .catch(() => {
-            alert("오류")
+            alert("오류");
           });
       } else {
         this.UPDATE_COVERLETTER(this.coverletter)
@@ -306,7 +243,7 @@ export default {
             alert("자기소개서가 수정되었습니다.");
           })
           .catch(() => {
-            alert("오류")
+            alert("오류");
           });
       }
     },
@@ -319,15 +256,18 @@ export default {
           window.close();
         });
     },
-    onKeyDown() {
-      const deadline = this.deadline;
-
-      if (deadline.length == 4 || deadline.length == 7) {
-        this.deadline += "-";
-      } else if (deadline.length == 10) {
-        this.deadline += " ";
-      } else if (deadline.length == 13) {
-        this.deadline += ":";
+    validate() {
+      if (this.companyName) {
+        if (
+          this.deadline.length == 0 ||
+          (this.deadline && this.deadlineRule(this.deadline) == true)
+        ) {
+          this.headerButtons[1].disabled = false;
+        } else {
+          this.headerButtons[1].disabled = true;
+        }
+      } else {
+        this.headerButtons[1].disabled = true;
       }
     }
   }
@@ -335,43 +275,15 @@ export default {
 </script>
 
 <style>
-.coverletter_info {
+.my-form {
   display: flex;
   flex-direction: column;
 }
 
-.info-title {
-  font-weight: bold;
-}
-
-.info-field {
-  margin-top: 5px;
-  border: 1px solid #e5e5e5;
-  padding: 5px;
-  width: 100%;
-  border-radius: 5px 5px 5px 5px;
-}
-
-.coverletter_info_row {
-  margin: 10px 10px 10px 0px;
-}
-
-.row_type1 {
-  flex-grow: 1;
-}
-
-.row_type2 {
+.my-form-row {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-}
-
-.row2 {
-  margin-right: 5px;
-  flex-grow: 1;
-}
-
-.rule {
-  font-weight: normal;
+  margin: 10px 10px 10px 0px;
 }
 </style>

@@ -1,44 +1,17 @@
 <template>
   <div class="menu-container">
     <my-header title="설정" :buttons="headerButtons"></my-header>
-
-    <div v-if="permitRender">
-      <div class="profile-item">
-        <profile-image />
-      </div>
-
-      <div class="profile-item">
-        <div class="input_wrapper">
-          <div class="info-title">아이디</div>
-          <div>
-            <input class="info-field" :value="memberInfo.id" disabled type="text" />
-          </div>
-        </div>
-      </div>
-
-      <div class="profile-item">
-        <div class="input_wrapper">
-          <div class="info-title">
-            이름
-            <span class="rule">({{name.length}}/10)</span>
-          </div>
-          <div>
-            <input class="info-field" v-model="name" type="text" maxlength="10" />
-          </div>
-        </div>
-      </div>
-
-      <div class="profile-item">
-        <div class="input_wrapper">
-          <div class="info-title">
-            좌우명
-            <span class="rule">({{motto.length}}/30)</span>
-          </div>
-          <div>
-            <input class="info-field" v-model="motto" maxlength="30" />
-          </div>
-        </div>
-      </div>
+    <div class="my-form-row">
+      <profile-image />
+    </div>
+    <div class="my-form-row">
+      <my-input label="아이디" :value.sync="memberInfo.id" :disabled="true" />
+    </div>
+    <div class="my-form-row">
+      <my-input label="이름" :maxLength="10" :required="true" :value.sync="name" />
+    </div>
+    <div class="my-form-row">
+      <my-input label="좌우명" :maxLength="30" :value.sync="motto" />
     </div>
   </div>
 </template>
@@ -46,32 +19,31 @@
 <script>
 import ProfileImage from "@/components/user/ProfileImage.vue";
 import MyHeader from "@/components/common/MyHeader.vue";
+import MyInput from "@/components/common/MyInput.vue";
 import { mapActions, mapState } from "vuex";
 
 export default {
-  components: { MyHeader, ProfileImage },
+  components: { MyHeader, MyInput, ProfileImage },
   data() {
     return {
       headerButtons: [
         {
           title: "save",
-          icon: "send",
-          action: this.saveUserData
+          icon: "save",
+          action: this.saveUserData,
+          tooltip: "내 정보를 저장합니다",
+          disabled: false
         }
       ]
     };
   },
-  created() {
-    this.getMemberInfo();
+  watch: {
+    name() {
+      this.headerButtons[0].disabled = !(this.name && this.name.length >= 1);
+    }
   },
   computed: {
     ...mapState(["memberInfo"]),
-    permitRender() {
-      debugger;
-      return this.memberInfo &&
-          this.memberInfo.name &&
-          this.memberInfo.motto;
-    },
     name: {
       get() {
         return this.memberInfo.name;
@@ -89,8 +61,11 @@ export default {
       }
     },
     saveButtonDisabled() {
-      return !name || name.length == 0;
+      return !!name;
     }
+  },
+  created() {
+    this.getMemberInfo();
   },
   methods: {
     ...mapActions(["GET_MEMBER_INFO", "UPDATE_MEMBER_INFO"]),

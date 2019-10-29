@@ -1,4 +1,4 @@
-import * as api from '../api'
+import * as api from '../api';
 
 const mutations = {
     SET_QUESTIONS(state, questions) {
@@ -67,9 +67,11 @@ const mutations = {
         getCoverletter(state, cid).companyName = value;
     },
     SET_APPLICATION_YEAR(state, { cid, value }) {
+        debugger;
         getCoverletter(state, cid).applicationYear = value;
     },
     SET_APPLICATION_TYPE(state, { cid, value }) {
+        debugger;
         getCoverletter(state, cid).applicationType = value;
     },
     SET_APPLICATION_HALF(state, { cid, value }) {
@@ -88,6 +90,7 @@ const mutations = {
         getCoverletter(state, cid).deadline = value;
     },
     SET_QUESTION(state, { cid, pid, title, contents }) {
+        debugger;
         const coverletter = getCoverletter(state, cid);
         if (!coverletter)
             throw `could not found coverletter (${cid})`;
@@ -96,8 +99,8 @@ const mutations = {
         if (!findQuestion)
             throw `could not found question (${pid})`;
 
-        if (title) findQuestion.title = title;
-        if (contents) findQuestion.contents = contents;
+        if (title != undefined) findQuestion.title = title;
+        if (title != undefined) findQuestion.contents = contents;
     },
     DELETE_QUESTION(state, { cid, qid }) {
         const coverletter = getCoverletter(state, cid);

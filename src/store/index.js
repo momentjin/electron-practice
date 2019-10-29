@@ -8,11 +8,11 @@ import actions from './actions'
 Vue.use(Vuex);
 
 const store = new Vuex.Store({
-  actions,
-  getters,
-  mutations,
-  state,
-  strict: true
+    actions,
+    getters,
+    mutations,
+    state,
+    strict: true
 });
 
 store.commit('SET_TOKEN', localStorage.token);

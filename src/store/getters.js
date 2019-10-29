@@ -18,7 +18,7 @@ const getters = {
     isLastPage: state => {
         const { currentPageNo, totalPageNum } = state.pageInfo;
         return currentPageNo == totalPageNum;
-    }
+    },
 }
 
 export default getters;

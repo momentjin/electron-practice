@@ -4,49 +4,34 @@
       <div v-if="!question">로딩중입니다.</div>
       <div v-else>
         <my-header title="문항 정보" :buttons="headerButtons"></my-header>
-        <div class="hashtag_container">
-          <div class="coverletter_info_row row_type1">
-            <label class="info-title" for="title">문항 태그</label>
-            <div>
-              <v-combobox
-                v-model="selectedHashtags"
-                :items="hashtags"
-                :search-input.sync="search"
-                hide-selected
-                multiple
-                persistent-hint
-                small-chips
-                item-text="value"
-              >
-                <template v-slot:selection="data">
-                  <v-chip :key="JSON.stringify(data.item)">{{ data.item }}</v-chip>
-                </template>
-              </v-combobox>
-            </div>
-          </div>
+        <div class="my-form-row">
+          <my-combo-box label="문항 태그" :datas="hashtags" :item.sync="selectedHashtags" :maxLength="5" />
         </div>
-        <div class="coverletter_info_row row_type1">
-          <label class="info-title" for="title">문항 제목</label>
-          <input class="info-field" id="title" type="text" v-model="title" />
+        <div class="my-form-row">
+          <my-input label="문항 제목" :required="true" :maxLength="200" :value.sync="title" />
         </div>
-        <div class="coverletter_info_row row_type1 contents">
-          <label class="info-title" for="contents">
-            문항 내용
-            <span class="count">{{ contents.length }}글자</span>
-          </label>
-          <textarea class="info-field" id="contents" v-model="contents" />
+        <div class="my-form-row">
+          <my-text-area label="문항 내용" :showLength="true" :value.sync="contents" />
         </div>
       </div>
     </div>
   </div>
 </template>
 
+1. 문항 태그 5개이상 추가 불가능 로직 만들기
+2. chip에 x버튼 만들기 (지울려면 이전꺼 다지워야해서)
+
+
 <script>
 import MyHeader from "@/components/common/MyHeader.vue";
+import MyInput from "@/components/common/MyInput.vue";
+import MyTextArea from "@/components/common/MyTextArea.vue";
+import MyComboBox from "@/components/common/MyComboBox.vue";
+
 import { mapGetters, mapMutations, mapActions, mapState } from "vuex";
 
 export default {
-  components: { MyHeader },
+  components: { MyHeader, MyInput, MyTextArea, MyComboBox },
   data() {
     return {
       search: "",
@@ -54,12 +39,14 @@ export default {
         {
           title: "deleteQuestion",
           icon: "delete",
-          action: this.onRemove
+          action: this.onRemove,
+          tooltip: "현재 문항을 삭제합니다."
         },
         {
           title: "saveCoverletter",
           icon: "save",
-          action: this.onSave
+          action: this.onSave,
+          tooltip: "자기소개서를 저장합니다."
         }
       ]
     };
@@ -86,6 +73,7 @@ export default {
         return this.question.hashtags;
       },
       set(hashtags) {
+        debugger;
         this.SET_HASHTAGS_IN_QUESTION({
           cid: this.coverletterId,
           qid: this.questionId,
@@ -95,9 +83,11 @@ export default {
     },
     title: {
       get() {
+        debugger;
         return this.question.title;
       },
       set(value) {
+        debugger;
         this.updateQuestion({ title: value });
       }
     },
@@ -127,8 +117,8 @@ export default {
       this.$store.commit("SET_QUESTION", {
         cid: coverletterId,
         pid: this.question.id,
-        title: data.title || this.title,
-        contents: data.contents || this.contents
+        title: data.title != undefined ? data.title : this.title,
+        contents: data.contents != undefined ? data.contents : this.contents
       });
     },
     onSave() {
@@ -160,16 +150,7 @@ export default {
 </script>
 
 <style>
-textarea {
-  min-height: 400px;
-  max-height: 400px;
-  border: 1px solid pink;
-  overflow: scroll;
-  resize: none;
-}
-
-.count {
-  color: #a8a8a8;
-  font-size: 13px;
+.form-item-field2 {
+  width: 100%;
 }
 </style>

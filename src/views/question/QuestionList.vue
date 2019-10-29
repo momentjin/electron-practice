@@ -32,7 +32,8 @@ export default {
         {
           title: "addCoverletter",
           icon: "add_circle",
-          action: this.onClickAddBtn
+          action: this.onClickAddBtn,
+          tooltip: "새로운 자기소개서를 작성합니다."
         }
       ]
     };

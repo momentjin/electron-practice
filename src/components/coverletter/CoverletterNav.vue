@@ -2,22 +2,31 @@
   <nav class="view-container">
     <ul>
       <!-- 자기소개서 지원 정보 버튼 -->
-      <router-link :to="{ name: 'coverletterInfo' }">
-        <li class="view-menu-item">
-          <v-icon medium dark :disabled="info_icon.disabled">{{info_icon.name}}</v-icon>
-        </li>
-      </router-link>
+      <li>
+        <my-icon
+          color="white"
+          :active="activeInfoIcon"
+          :clickAction="onClickCoverletterInfo"
+          :iconType="info_icon.name"
+        />
+      </li>
 
       <!-- 문항별 버튼 -->
-      <div v-for="(q, index) in questions" :key="index">
-        <router-link :to="{ name: 'question', params: { qid: q.id } }">
-          <li class="view-menu-item" :id="q.id" ref="questions">{{index+1}}</li>
-        </router-link>
-      </div>
+      <li v-for="(q, index) in questions" :key="index">
+        <my-icon
+          :id="q.id"
+          ref="questions"
+          color="white"
+          :active="q.active"
+          :clickAction="onClickQuestion"
+          :data-question-id="q.id"
+          :altText="`Q${index+1}`"
+        />
+      </li>
 
       <!-- 문항 추가 버튼 -->
-      <li class="view-menu-item">
-        <v-icon medium dark @click="onClickAddQuestion">add_circle</v-icon>
+      <li>
+        <my-icon color="white" :clickAction="onClickAddQuestion" iconType="add_circle" />
       </li>
     </ul>
   </nav>
@@ -25,8 +34,10 @@
 
 <script>
 import { mapState, mapMutations } from "vuex";
+import MyIcon from "@/components/common/MyIcon.vue";
 
 export default {
+  components: { MyIcon },
   props: {
     questions: {
       type: Array,
@@ -41,51 +52,57 @@ export default {
   data() {
     return {
       info_icon: {
-        name: "info",
-        disabled: true
+        name: "info"
       }
     };
   },
   mounted() {
-    this.setActiveMenu(this.$route.path);
+    debugger;
+    this.setActiveMenu();
   },
   watch: {
+    questions() {
+      this.setActiveMenu();
+    },
     $route(to) {
       this.setActiveMenu(to.path);
-    },
-    questions() {
-      this.setActiveMenu(this.$route.path);
     }
   },
   computed: {
-    ...mapState(["coverletterNewIndex"])
+    ...mapState(["coverletterNewIndex"]),
+    activeInfoIcon() {
+      return this.$route.name == "coverletterInfo";
+    }
   },
   methods: {
     ...mapMutations(["ADD_QUESTION_FORM"]),
-    setActiveMenu(changedMenuName) {
-      const url = changedMenuName.replace("/", "");
+    setActiveMenu() {
+      const { qid } = this.$route.params;
 
-      if (url.endsWith("info")) {
-        this.info_icon.disabled = false;
-      } else {
-        this.info_icon.disabled = true;
-      }
-
-      if (!this.$refs.questions) return;
-      else {
-        for (let i = 0; i < this.$refs.questions.length; i++) {
-          if (url.endsWith(this.$refs.questions[i].id)) {
-            this.$refs.questions[i].className = "view-menu-item-active";
-          } else {
-            this.$refs.questions[i].className = "view-menu-item";
-          }
+      if (!this.questions) return;
+      // if (this.$route.name != "question") return;
+      debugger;
+      for (let question of this.questions) {
+        if (qid == question.id) {
+          question.active = true;
+        } else {
+          question.active = false;
         }
       }
+    },
+    onClickCoverletterInfo() {
+      debugger;
+      this.$router.push({ name: "coverletterInfo" });
     },
     onClickAddQuestion() {
       this.ADD_QUESTION_FORM({
         cid: this.coverletterId
       });
+    },
+    onClickQuestion(e) {
+      debugger;
+      const questionId = e.target.getAttribute("data-question-id");
+      this.$router.push({ name: "question", params: { qid: questionId } });
     }
   }
 };
@@ -104,15 +121,5 @@ export default {
 .view-menu-item:hover {
   color: white;
   cursor: pointer;
-}
-
-.view-menu-item-active {
-  color: white;
-
-  font-size: 20px;
-
-  text-align: center;
-  padding: 5px;
-  margin: 10px 5px 5px 5px;
 }
 </style>
