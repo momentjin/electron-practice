@@ -16,7 +16,6 @@
         "axios": "^0.18.0",
         "moment": "^2.24.0",
         "vue": "^2.6.6",
-        "vue-infinite-scroll": "^2.0.2",
         "vue-momentjs": "^0.1.2",
         "vue-router": "^3.0.1",
         "vuetify": "^1.5.5",
