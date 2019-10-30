@@ -2,7 +2,13 @@
   <div class="form-item-wrapper">
     <label class="form-item-label">{{ label }}</label>
     <span class="form-item-message">{{ruleMessages}}</span>
-    <input class="form-item-field" :disabled="disabled" type="text" v-model="myValue" :placeholder="hint" />
+    <input
+      class="form-item-field"
+      :disabled="disabled"
+      type="text"
+      v-model="myValue"
+      :placeholder="hint"
+    />
   </div>
 </template>
 
@@ -92,11 +98,9 @@ export default {
     },
     myValue: {
       get() {
-        debugger;
         return this.value;
       },
       set(newValue) {
-        debugger;
         this.$emit("update:value", newValue);
       }
     }

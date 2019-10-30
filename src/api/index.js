@@ -8,11 +8,18 @@ const onUnauthorized = () => {
     router.push(`/login?returnPath=${encodeURIComponent(location.pathname)}`)
 }
 
-const request = (method, url, data) => {
+const request = (method, url, data, isMultiPart) => {
+
+    const headers = axios.defaults.headers;
+    if (isMultiPart) {
+        headers['Content-Type'] = 'multipart/form-data';
+    }
+
     return axios({
             method,
             url: DOMAIN + url,
-            data
+            data,
+            headers
         })
         .then(result => result.data)
         .catch(result => {
@@ -23,34 +30,6 @@ const request = (method, url, data) => {
 
             // 흐음.. 안타까운 코드구만..
             else if (status == '500' && result.response.data.message.includes('Token')) {
-                delete localStorage.token;
-                onUnauthorized();
-            }
-
-            throw result.response
-        })
-}
-
-// TODO : 중복되는 부분이 많다. axios 인스턴스를 바로 리턴하지 말아야겠다.
-const multipartFormRequest = (method, url, data) => {
-    const headers = axios.defaults.headers;
-    headers['Content-Type'] = 'multipart/form-data';
-
-    return axios({
-            method,
-            url: DOMAIN + url,
-            data,
-            headers: headers
-        })
-        .then(result => result.data)
-        .catch(result => {
-            const { status } = result.response;
-
-            if (status === UNAUTHORIZED)
-                onUnauthorized();
-
-            // 흐음.. 안타까운 코드구만..
-            else if (status == '500' && result.response.data.message.includes('토큰')) {
                 delete localStorage.token;
                 onUnauthorized();
             }
@@ -110,7 +89,7 @@ export const member = {
         return request('put', '/members', data)
     },
     updateProfileImage(data) {
-        return multipartFormRequest('put', '/profile', data)
+        return request('put', '/profile', data)
     },
     getProfileImage() {
         return request('get', '/profile');
@@ -119,7 +98,7 @@ export const member = {
 
 export const converter = {
     convert(files) {
-        return multipartFormRequest('post', '/converter', files);
+        return request('post', '/converter', files);
     }
 }
 

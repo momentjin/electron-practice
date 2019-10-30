@@ -73,7 +73,6 @@ export default {
         return this.question.hashtags;
       },
       set(hashtags) {
-        debugger;
         this.SET_HASHTAGS_IN_QUESTION({
           cid: this.coverletterId,
           qid: this.questionId,
@@ -83,11 +82,9 @@ export default {
     },
     title: {
       get() {
-        debugger;
         return this.question.title;
       },
       set(value) {
-        debugger;
         this.updateQuestion({ title: value });
       }
     },

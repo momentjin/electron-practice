@@ -32,11 +32,9 @@ export default {
   computed: {
     myItem: {
       get() {
-        debugger;
         return this.item;
       },
       set(newValue) {
-        debugger;
         this.$emit("update:item", newValue);
       }
     }

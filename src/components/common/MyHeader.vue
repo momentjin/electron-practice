@@ -57,11 +57,7 @@ export default {
       isClickable: false
     };
   },
-  updated() {
-    debugger;
-  },
   mounted() {
-    debugger;
     if (this.onClickHeaderTitle) {
       this.$refs.title.addEventListener("click", this.onClickHeaderTitle);
       this.isClickable = true;

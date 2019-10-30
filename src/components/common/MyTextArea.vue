@@ -85,11 +85,9 @@ export default {
     },
     myValue: {
       get() {
-        debugger;
         return this.value;
       },
       set(newValue) {
-        debugger;
         this.$emit("update:value", newValue);
       }
     }

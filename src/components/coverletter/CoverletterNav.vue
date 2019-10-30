@@ -57,7 +57,6 @@ export default {
     };
   },
   mounted() {
-    debugger;
     this.setActiveMenu();
   },
   watch: {
@@ -81,7 +80,6 @@ export default {
 
       if (!this.questions) return;
       // if (this.$route.name != "question") return;
-      debugger;
       for (let question of this.questions) {
         if (qid == question.id) {
           question.active = true;
@@ -91,7 +89,6 @@ export default {
       }
     },
     onClickCoverletterInfo() {
-      debugger;
       this.$router.push({ name: "coverletterInfo" });
     },
     onClickAddQuestion() {
@@ -100,7 +97,6 @@ export default {
       });
     },
     onClickQuestion(e) {
-      debugger;
       const questionId = e.target.getAttribute("data-question-id");
       this.$router.push({ name: "question", params: { qid: questionId } });
     }

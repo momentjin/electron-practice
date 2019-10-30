@@ -57,7 +57,6 @@ export default {
   },
   computed: {
     activeColor() {
-      debugger;
       if (!this.active) {
         return "#8d8683";
       } else {

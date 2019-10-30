@@ -36,7 +36,6 @@ export default {
   },
   created() {
     this.GET_PROFILE_IMAGE();
-    debugger;
   },
   methods: {
     ...mapActions(["GET_PROFILE_IMAGE", "UPDATE_PROFILE_IMAGE"]),
