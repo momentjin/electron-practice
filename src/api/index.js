@@ -83,6 +83,7 @@ export const member = {
         return request('post', '/members/signup', data)
     },
     signIn(data) {
+        debugger;
         return request('post', '/login', data)
     },
     updateMemberInfo(data) {

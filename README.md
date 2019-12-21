@@ -17,7 +17,7 @@
 
 ## About The Project
 
-<img src="https://github.com/momentjin/study/blob/master/resource/image/rezoom-screenshot1.png" width="400px"> <img src="https://github.com/momentjin/study/blob/master/resource/image/rezoom-screenshot3.png" width="400px">
+<img src="https://raw.githubusercontent.com/momentjin/study/master/resource/image/rezoom-screenshot1.png" width="400px"> <img src="https://raw.githubusercontent.com/momentjin/study/master/resource/image/rezoom-screenshot3.png" width="400px">
 
 자기소개서 관리 어플리케이션의 Client입니다. [여기](https://github.com/momentjin/study/blob/master/%ED%86%A0%EC%9D%B4%20%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8%20%ED%9A%8C%EA%B3%A0%EB%A1%9D.md)를 참고하면 프로젝트 회고록을 볼 수 있습니다.
 
