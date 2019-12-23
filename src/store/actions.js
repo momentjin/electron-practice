@@ -61,6 +61,13 @@ const actions = {
                 commit('SET_TOKEN', data.token)
             });
     },
+    SIGN_IN_WITH_KAKAO({ commit }) {
+        return api.member.signInWithKakao()
+            .then(data => {
+                debugger;
+                commit('SET_TOKEN', data.token)
+            })
+    },
     UPDATE_MEMBER_INFO({ dispatch }, data) {
         return api.member.updateMemberInfo(data)
             .then(() => dispatch('GET_MEMBER_INFO'));

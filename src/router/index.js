@@ -7,9 +7,10 @@ import CoverletterDetail from '@/views/coverletter/CoverletterDetail.vue'
 import QuestionList from '@/views/question/QuestionList.vue'
 import Login from '@/views/Login.vue'
 import User from '@/views/user/User.vue'
-
 import QuestionItem from '@/components/coverletter/QuestionItem.vue'
 import CoverletterInfo from '@/components/coverletter/CoverletterInfo.vue'
+import OAuth2CallBack from '@/components/login//OAuth2CallBack.vue';
+
 
 Vue.use(Router)
 
@@ -40,6 +41,7 @@ const router = new Router({
         },
         {
             path: '/coverletters',
+            name: "main",
             component: CoverletterList,
             beforeEnter: requireAuth,
             alias: '/'
@@ -57,6 +59,10 @@ const router = new Router({
             path: '/user',
             component: User
         },
+        {
+            path: '/oauth2/callback',
+            component: OAuth2CallBack
+        }
     ],
 });
 

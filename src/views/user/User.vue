@@ -46,7 +46,7 @@ export default {
     ...mapState(["memberInfo"]),
     name: {
       get() {
-        return this.memberInfo.name;
+        return this.memberInfo.name || '';
       },
       set(value) {
         return this.$store.commit("SET_MEMBER_NAME", value);
@@ -54,7 +54,7 @@ export default {
     },
     motto: {
       get() {
-        return this.memberInfo.motto;
+        return this.memberInfo.motto || '';
       },
       set(value) {
         return this.$store.commit("SET_MEMBER_MOTTO", value);

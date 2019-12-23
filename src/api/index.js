@@ -86,6 +86,9 @@ export const member = {
         debugger;
         return request('post', '/login', data)
     },
+    signInWithKakao() {
+        return request('get', '/oauth2/authorization/kakao')
+    },
     updateMemberInfo(data) {
         return request('put', '/members', data)
     },

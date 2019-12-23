@@ -83,6 +83,7 @@ export default {
       return messages.join(" ");
     },
     currentLength() {
+      if (!this.value) return;
       if (this.maxLength) return `${this.value.length}/${this.maxLength}`;
       else return undefined;
     },
@@ -98,7 +99,7 @@ export default {
     },
     myValue: {
       get() {
-        return this.value;
+        return this.value || '';
       },
       set(newValue) {
         this.$emit("update:value", newValue);
