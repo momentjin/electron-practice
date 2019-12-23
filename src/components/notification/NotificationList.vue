@@ -16,14 +16,16 @@
       <template v-slot:activator="{ on }">
         <v-badge>
           <template v-if="newNotificationNum>0" v-slot:badge>{{newNotificationNum}}</template>
-          <v-icon v-on="on"  dark title="notification">mail_outline</v-icon>
+          <v-icon v-on="on" dark title="notification">mail_outline</v-icon>
         </v-badge>
       </template>
 
       <div class="notification-header">
         <b>알림 보관함</b>
       </div>
-      <div v-if="!notifications || !notifications.length">알림이 존재하지 않습니다.</div>
+      <div v-if="!notifications || !notifications.length">
+        <notification-empty />
+      </div>
 
       <div v-else class="notification-list">
         <notification-item
@@ -42,9 +44,11 @@
 
 <script>
 import NotificationItem from "@/components/notification/NotificationItem.vue";
+import NotificationEmpty from "@/components/notification/NotificationEmpty.vue";
 import { mapState } from "vuex";
 
 export default {
+  components: { NotificationItem, NotificationEmpty },
   data() {
     return {};
   },
@@ -54,8 +58,7 @@ export default {
       return this.notifications.filter(notifications => !notifications.checked)
         .length;
     }
-  },
-  components: { NotificationItem }
+  }
 };
 </script>
 
